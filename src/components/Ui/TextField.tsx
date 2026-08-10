@@ -1,5 +1,5 @@
 import React from "react";
-import { Eye , EyeOff } from 'lucide-react';
+import { Eye, EyeOff } from "lucide-react";
 
 type TextFieldProps = React.InputHTMLAttributes<HTMLInputElement> & {
   label?: string;
@@ -25,14 +25,13 @@ function TextField({
           {isRequired && <span className="text-error">*</span>}
         </label>
       )}
-      
 
       <input
         type={type}
         name={name}
         id={name}
         dir={dir}
-        className={`textField__input ${
+        className={`w-full py-3 px-4 rounded-xl text-secondary-900 border border-secondary-200 bg-secondary-100 hover:border-primary-500 focus:border-primary-500 focus:bg-secondary-0 transition-all duration-300 ease-out focus:shadow-lg focus:shadow-primary-200 dark:focus:shadow-secondary-200 ${
           dir === "ltr" ? "text-left" : "text-right"
         } ${className ?? ""}`}
         value={value}
