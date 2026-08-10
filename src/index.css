@@ -1,7 +1,6 @@
 @import "tailwindcss";
 @custom-variant dark (&:where([data-theme=dark], [data-theme=dark] *));
 
-
 @font-face {
   font-family: "Yekan";
   src: url("../src/assets/fonts/IRANYekanX-Regular.ttf") format("truetype");
@@ -10,7 +9,7 @@
 }
 
 * {
-  font-family: "Yekan" , sans-serif;
+  font-family: "Yekan", sans-serif;
 }
 
 .spinner {
@@ -91,7 +90,7 @@
   }
 }
 
-@layer components {
+/* @layer components {
   .textField__input {
     @apply w-full py-3 px-4 rounded-xl text-secondary-900 border border-secondary-200 bg-secondary-100 hover:border-primary-500 focus:border-primary-500 focus:bg-secondary-0 transition-all duration-300 ease-out focus:shadow-lg focus:shadow-primary-200 dark:focus:shadow-secondary-200;
   }
@@ -125,7 +124,7 @@
   .badge--danger {
     @apply bg-red-500 text-white;
   }
-}
+} */
 
 html,
 body {
