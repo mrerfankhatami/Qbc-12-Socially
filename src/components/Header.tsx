@@ -1,6 +1,13 @@
-import { Bell, House, LogOut, Sun, UsersRound } from "lucide-react";
+import { Bell, House, LogOut, Menu, Moon, Sun, UsersRound } from "lucide-react";
+import { useState } from "react";
 
 export default function Header() {
+  const [isDark, setIsDark] = useState(false);
+
+  const themeHandler = () => {
+    setIsDark(!isDark);
+  };
+
   return (
     <div className="w-full h-16 border-b bg-[#FFFFFF] border-[#E5E5E5] dark:border-[#262626] dark:bg-[#0A0A0A]">
       <div className="flex justify-around items-center w-full h-full mx-auto">
@@ -8,11 +15,18 @@ export default function Header() {
           Socially
         </p>
 
-        <nav className="mib-w-150 flex items-center gap-10">
-          <div className="w-9 h-9 flex items-center justify-center cursor-pointer hover:bg-[#eeeeee] border border-[#E5E5E5] dark:border-[#262626] rounded-md shadow shadow-[#0000001A] dark:hover:bg-[#262626]">
-            <Sun size={16} className="dark:text-[#FAFAFA]" />
+        <nav className="mib-w-150 flex items-center gap-2 md:gap-10">
+          <div
+            onClick={themeHandler}
+            className="w-9 h-9 flex items-center justify-center cursor-pointer hover:bg-[#eeeeee] border border-[#E5E5E5] dark:border-[#262626] rounded-md shadow shadow-[#0000001A] dark:hover:bg-[#262626]"
+          >
+            {isDark === false ? (
+              <Sun size={16} className="dark:text-[#FAFAFA]" />
+            ) : (
+              <Moon className="dark:text-[#FAFAFA]" size={16} />
+            )}
           </div>
-          <div className="flex items-center justify-around gap-10 h-9">
+          <div className=" items-center justify-around gap-10 h-9 hidden md:flex">
             <div className="h-9 flex items-center justify-between gap-2 cursor-pointer hover:bg-[#eeeeee] rounded-md px-3 dark:bg-[#0A0A0A] dark:hover:bg-[#262626]">
               <House size={16} className="dark:text-[#FAFAFA]" />
               <p className="text-[14px] text-[#171717] dark:text-[#FAFAFA]">
@@ -38,7 +52,11 @@ export default function Header() {
             </div>
           </div>
 
-          <div className="w-9 h-9 flex items-center justify-center cursor-pointer hover:bg-[#eeeeee] rounded-md dark:hover:bg-[#262626] ">
+          <div className="md:hidden w-9 h-9 flex items-center justify-center cursor-pointer hover:bg-[#eeeeee] border border-[#E5E5E5] dark:border-[#262626] rounded-md shadow shadow-[#0000001A] dark:hover:bg-[#262626] ">
+            <Menu size={16} className="dark:text-[#FAFAFA]" />
+          </div>
+
+          <div className="w-9 h-9 items-center justify-center cursor-pointer hover:bg-[#eeeeee] rounded-md dark:hover:bg-[#262626] hidden md:flex">
             <LogOut size={16} className="dark:text-[#FAFAFA]" />
           </div>
         </nav>
