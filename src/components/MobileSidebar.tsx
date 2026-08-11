@@ -23,8 +23,8 @@ export default function MobileSidebar() {
           />
         </div>
 
-        <div className=" w-full flex flex-col items-center justify-center bg-white">
-          <div className=" w-full flex flex-col items-center justify-around gap-10 h-9 bg-black">
+        <div className=" w-full flex flex-col items-center justify-center bg-white dark:bg-transparent">
+          <div className=" w-full flex flex-col items-center justify-around gap-10 h-9 bg-transparent dark:bg-transparent">
             <div className="w-3/4 h-9 flex items-center justify-center gap-2 cursor-pointer hover:bg-[#eeeeee] rounded-md px-3 py-2  dark:bg-[#3f3f3f] dark:hover:bg-[#262626]">
               <House size={16} className="dark:text-[#FAFAFA]" />
               <p className="text-[14px] text-[#171717] dark:text-[#FAFAFA]">
