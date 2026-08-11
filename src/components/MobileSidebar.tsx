@@ -1,8 +1,8 @@
 import { Bell, House, LogOut, UsersRound, X } from "lucide-react";
 import { useState } from "react";
 
-export default function MobileSidebar({ isOpenProp }: boolean) {
-  const [isOpen, setIsOpen] = useState(isOpenProp);
+export default function MobileSidebar() {
+  const [isOpen, setIsOpen] = useState(true);
 
   const handleToggleSidebar = () => {
     setIsOpen(!isOpen);
@@ -11,7 +11,7 @@ export default function MobileSidebar({ isOpenProp }: boolean) {
   return (
     <>
       <div
-        className={`h-screen z-10 fixed top-0 bottom-0 right-0 w-2xs bg-white p-5 duration-200 ease-in  ${isOpen ? "translate-x-full" : "translate-x-0"} `}
+        className={`h-screen z-10 fixed top-0 bottom-0 right-0 w-2xs bg-white p-5 duration-200 ease-in  ${isOpen ? "translate-x-0" : "translate-x-full"} `}
       >
         <div className="flex items-center justify-between mb-5">
           <p className="font-semibold text-[16px]">Menu</p>
