@@ -1,9 +1,12 @@
 import Header from "./components/Header";
+import MobileSidebar from "./components/MobileSidebar";
 
 export default function App() {
   return (
     <>
-      <Header></Header>
+      <Header>
+        <MobileSidebar />
+      </Header>
     </>
   );
 }

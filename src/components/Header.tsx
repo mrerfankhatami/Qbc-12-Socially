@@ -1,7 +1,7 @@
 import { Bell, House, LogOut, Menu, Moon, Sun, UsersRound } from "lucide-react";
 import { useState } from "react";
 
-export default function Header() {
+export default function Header({ children }: { children: React.ReactNode }) {
   const [isDark, setIsDark] = useState(false);
   const [isLoggesIn, setIsLoggedIn] = useState(true);
 
