@@ -1,7 +1,6 @@
+import { useState } from "react";
+
 export default function MobileSidebar() {
-  return (
-    <div>
-      
-    </div>
-  )
+  const { isOpen, setIsOpen } = useState(false);
+  return <div></div>;
 }

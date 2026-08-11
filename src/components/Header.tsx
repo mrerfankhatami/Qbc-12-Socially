@@ -3,7 +3,7 @@ import { useState } from "react";
 
 export default function Header() {
   const [isDark, setIsDark] = useState(false);
-  const [isLoggesIn, setIsLoggedIn] = useState(false);
+  const [isLoggesIn, setIsLoggedIn] = useState(true);
 
   const themeHandler = () => {
     setIsDark(!isDark);
@@ -57,7 +57,7 @@ export default function Header() {
               </div>
             </div>
           ) : (
-            <div className="flex items-center justify-between gap-4">
+            <div className="hidden md:flex items-center justify-between gap-4">
               <div className=" h-9 flex items-center justify-between gap-2 cursor-pointer hover:bg-[#17171780] rounded-md px-3 dark:bg-[#0A0A0A] dark:hover:bg-[#262626]">
                 <House size={16} className="dark:text-[#FAFAFA]" />
                 <p className="text-[14px] text-[#171717] dark:text-[#FAFAFA]">
@@ -65,7 +65,7 @@ export default function Header() {
                 </p>
               </div>
 
-              <div className="h-9 bg-[#0A0A0A] text-white flex items-center justify-between gap-2 cursor-pointer rounded-md px-12  hover:bg-[#17171780]">
+              <div className="h-9 bg-[#0A0A0A] text-white flex items-center justify-between gap-2 cursor-pointer rounded-md px-6  hover:bg-[#17171780]">
                 <p className="text-[14px] text-white dark:text-[#FAFAFA]">
                   Sign In
                 </p>
