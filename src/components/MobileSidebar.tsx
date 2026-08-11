@@ -11,10 +11,10 @@ export default function MobileSidebar() {
   return (
     <>
       <div
-        className={`h-screen z-10 fixed top-0 bottom-0 right-0 w-2xs bg-white p-5 duration-200 ease-in  ${isOpen ? "translate-x-0" : "translate-x-full"} `}
+        className={`h-screen z-10 fixed top-0 bottom-0 right-0 w-2xs bg-white dark:bg-black p-5 duration-200 ease-in  ${isOpen ? "translate-x-0" : "translate-x-full"} `}
       >
         <div className="flex items-center justify-between mb-5">
-          <p className="font-semibold text-[16px]">Menu</p>
+          <p className="font-semibold text-[16px] dark:text-white">Menu</p>
 
           <X
             size={16}
@@ -24,21 +24,21 @@ export default function MobileSidebar() {
         </div>
 
         <div className=" w-full flex flex-col items-center justify-center bg-white">
-          <div className=" w-full flex flex-col items-center justify-around gap-10 h-9">
-            <div className="w-3/4 h-9 flex items-center justify-center gap-2 cursor-pointer hover:bg-[#eeeeee] rounded-md px-3 py-2  dark:bg-[#0A0A0A] dark:hover:bg-[#262626]">
+          <div className=" w-full flex flex-col items-center justify-around gap-10 h-9 bg-black">
+            <div className="w-3/4 h-9 flex items-center justify-center gap-2 cursor-pointer hover:bg-[#eeeeee] rounded-md px-3 py-2  dark:bg-[#3f3f3f] dark:hover:bg-[#262626]">
               <House size={16} className="dark:text-[#FAFAFA]" />
               <p className="text-[14px] text-[#171717] dark:text-[#FAFAFA]">
                 Home
               </p>
             </div>
-            <div className="w-3/4 h-9 flex items-center justify-center gap-2 cursor-pointer hover:bg-[#eeeeee] rounded-md px-3 py-2  dark:bg-[#0A0A0A] dark:hover:bg-[#262626]">
+            <div className="w-3/4 h-9 flex items-center justify-center gap-2 cursor-pointer hover:bg-[#eeeeee] rounded-md px-3 py-2  dark:bg-[#3f3f3f] dark:hover:bg-[#262626]">
               <Bell size={16} className="dark:text-[#FAFAFA]" />
               <p className="text-[14px] text-[#171717] dark:text-[#FAFAFA]">
                 Notification
               </p>
             </div>
 
-            <div className="w-3/4 h-9 flex items-center justify-center gap-2 cursor-pointer hover:bg-[#eeeeee] rounded-md px-3 py-2 dark:bg-[#0A0A0A] dark:hover:bg-[#262626]">
+            <div className="w-3/4 h-9 flex items-center justify-center gap-2 cursor-pointer hover:bg-[#eeeeee] rounded-md px-3 py-2 dark:bg-[#3f3f3f] dark:hover:bg-[#262626]">
               <UsersRound
                 size={16}
                 strokeWidth={1.75}
