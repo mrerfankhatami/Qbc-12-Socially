@@ -1,31 +1,39 @@
 import Button from "../Ui/Button";
 import { useState } from "react";
-
+import ProfilePosts from "./ProfilePosts";
+import ProfileLikes from "./ProfileLikes";
 
 const PostAndLikeButton = () => {
-
-    const [activeTab, setActiveTab] = useState<"posts" | "likes">("posts");
+  const [activeTab, setActiveTab] = useState<"posts" | "likes">("posts");
 
   return (
-    <div className="w-[calc(100%-2rem)] max-w-250 mt-8 mx-auto bg-[#f5f5f5] dark:bg-[#0A0A0A] dark:border dark:border-white rounded-2xl p-1.5 flex">
-    <Button
-      onClick={() => setActiveTab("posts")}
-      className={`w-1/2 rounded-2xl p-1.5 dark:text-white ${
-        activeTab === "posts" ? "bg-white dark:bg-[#0A0A0A] transition-all dark:border-white dark:border dark:transition-none" : "bg-transparent"
-      }`}
-    >
-      Posts
-    </Button>
+    <div className="flex flex-col">
+      <div className="w-[calc(100%-2rem)] max-w-250 mt-8 mx-auto bg-[#f5f5f5] dark:bg-[#0A0A0A] dark:border dark:border-[#262626] rounded-2xl p-1.5 flex">
+        <Button
+          onClick={() => setActiveTab("posts")}
+          className={`w-1/2 rounded-2xl p-1.5 dark:text-white ${
+            activeTab === "posts"
+              ? "bg-white dark:bg-[#2f2f2f] transition-all dark:transition-none"
+              : "bg-transparent"
+          }`}
+        >
+          Posts
+        </Button>
 
-    <Button
-      onClick={() => setActiveTab("likes")}
-      className={`w-1/2 rounded-2xl p-1.5  dark:text-white ${
-        activeTab === "likes" ? "bg-white dark:bg-[#0A0A0A] transition-all dark:border-white dark:border dark:transition-none" : "bg-transparent"
-      }`}
-    >
-      Likes
-    </Button>
-  </div>
+        <Button
+          onClick={() => setActiveTab("likes")}
+          className={`w-1/2 rounded-2xl p-1.5  dark:text-white ${
+            activeTab === "likes"
+              ? "bg-white dark:bg-[#2f2f2f] transition-all dark:transition-none"
+              : "bg-transparent"
+          }`}
+        >
+          Likes
+        </Button>
+      </div>
+      {activeTab === "posts" && <ProfilePosts />}
+      {activeTab === "likes" && <ProfileLikes />}
+    </div>
   );
 };
 

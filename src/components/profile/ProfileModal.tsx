@@ -8,7 +8,7 @@ const ProfileModal = ({ setIsModalOpen }) => {
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/30 backdrop-blur-sm">
-      <div className="w-137.5 rounded-lg dark:bg-[#0A0A0A] bg-white p-6">
+      <div className="w-137.5 rounded-lg dark:bg-[#0A0A0A] bg-white p-6 dark:border dark:border-[#262626]">
         <div className="bg-white dark:bg-[#0A0A0A] flex flex-col w-full p-3 rounded-2xl">
           <div className="flex justify-end">
             <X
