@@ -1,5 +1,5 @@
 @import "tailwindcss";
-@custom-variant dark (&:where([data-theme=dark], [data-theme=dark] *));
+/* @custom-variant dark (&:where([data-theme=dark], [data-theme=dark] *)); */
 
 @font-face {
   font-family: "Yekan";
@@ -141,8 +141,6 @@ body {
   scroll-behavior: smooth;
   /* border: none; */
   outline: none;
-  padding: 0;
-  margin: 0;
 }
 
 button {
