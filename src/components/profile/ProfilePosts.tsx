@@ -18,7 +18,7 @@ export default function ProfilePosts() {
 
   return (
     <div className="flex flex-col">
-      <div className="w-[calc(100%-2rem)] max-w-250 mt-4 mx-auto bg-[#0A0A0A] dark:bg-[#FAFAFA] rounded-lg p-3 dark:bg-[#f5f5f5]">
+      <div className="w-[calc(100%-2rem)] max-w-250 mt-4 mx-auto bg-[#0A0A0A] dark:bg-[#FAFAFA] rounded-lg p-3">
         <h2 className="text-white text-lg dark:text-black">There is no post</h2>
         <p className="text-white text-[14px] dark:text-black">
           This user not posted enything
@@ -37,16 +37,24 @@ export default function ProfilePosts() {
         <div className="flex gap-11">
           <div className="flex px-1 gap-2">
             <Heart
-             onClick={handleLikeClick}
+              onClick={handleLikeClick}
               width="16px"
               height="16px"
               className={`transition-colors duration-300 cursor-pointer ${
-isLike ? "fill-red-600 text-red-600 dark:fill-red-600" : "text-[#737373] dark:text-white"
+                isLike
+                  ? "fill-red-600 text-red-600 dark:fill-red-600"
+                  : "text-[#737373] dark:text-white"
               }`}
             />
-            <p className={`text-sm transition-colors duration-300 ${
-                isLike ? "text-red-600 dark:text-red-600" : "text-[#737373] dark:text-white"
-              }`}>1</p>
+            <p
+              className={`text-sm transition-colors duration-300 ${
+                isLike
+                  ? "text-red-600 dark:text-red-600"
+                  : "text-[#737373] dark:text-white"
+              }`}
+            >
+              1
+            </p>
           </div>
           <div className="flex gap-2">
             <MessageCircle
@@ -54,18 +62,23 @@ isLike ? "fill-red-600 text-red-600 dark:fill-red-600" : "text-[#737373] dark:te
               width="16px"
               height="16px"
               className={`transition-colors duration-300 cursor-pointer ${
-                isOpenComment ? "fill-blue-500 text-blue-500 dark:fill-blue-500" : "text-[#737373] dark:text-white"
+                isOpenComment
+                  ? "fill-blue-500 text-blue-500 dark:fill-blue-500"
+                  : "text-[#737373] dark:text-white"
               }`}
             />
             <p
               className={`text-sm transition-colors duration-300 ${
-                isOpenComment ? "text-blue-500 dark:text-blue-500" : "text-[#737373] dark:text-white"
+                isOpenComment
+                  ? "text-blue-500 dark:text-blue-500"
+                  : "text-[#737373] dark:text-white"
               }`}
             >
               1
             </p>
           </div>
         </div>
+        
         {isOpenComment && (
           <div>
             <hr />

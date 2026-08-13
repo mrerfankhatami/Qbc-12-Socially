@@ -3,7 +3,7 @@ export type UserProfile = {
   name?: string;
   email?: string;
   emailVerified?: boolean;
-  image?: string | null;
+  image?: string ;
   bio?: string | null;
   location?: string | null;
   website?: string | null;
