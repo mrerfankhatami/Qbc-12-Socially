@@ -1,3 +1,4 @@
+import avatar from "../../assets/avatar.png";
 import { Heart, MessageCircle } from "lucide-react";
 import { useState } from "react";
 
@@ -18,7 +19,7 @@ export default function Post() {
         <div className="flex items-center gap-5">
           <img
             className="w-10 rounded-full"
-            src=".../assets/profile.jpg/"
+            src={avatar}
             alt="Profile Picture"
           />
           <div>
