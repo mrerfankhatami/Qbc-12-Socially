@@ -4,8 +4,8 @@ import SendPost from "./components/home/SendPost";
 export default function App() {
   return (
     <>
-      <AllPosts></AllPosts>
       <SendPost></SendPost>
+      <AllPosts></AllPosts>
     </>
   );
 }
