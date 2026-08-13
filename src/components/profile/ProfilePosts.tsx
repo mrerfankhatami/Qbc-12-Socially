@@ -41,7 +41,7 @@ export default function ProfilePosts() {
               width="16px"
               height="16px"
               className={`transition-colors duration-300 cursor-pointer ${
-isLike ? "text-red-600 dark:text-red-600" : "text-[#737373] dark:text-white"
+isLike ? "fill-red-600 text-red-600 dark:fill-red-600" : "text-[#737373] dark:text-white"
               }`}
             />
             <p className={`text-sm transition-colors duration-300 ${
@@ -54,7 +54,7 @@ isLike ? "text-red-600 dark:text-red-600" : "text-[#737373] dark:text-white"
               width="16px"
               height="16px"
               className={`transition-colors duration-300 cursor-pointer ${
-                isOpenComment ? "text-blue-500 p-0 dark:text-blue-500" : "text-[#737373] dark:text-white"
+                isOpenComment ? "fill-blue-500 text-blue-500 dark:fill-blue-500" : "text-[#737373] dark:text-white"
               }`}
             />
             <p

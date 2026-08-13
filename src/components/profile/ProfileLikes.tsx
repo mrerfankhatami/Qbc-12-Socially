@@ -41,11 +41,11 @@ export default function ProfileLikes() {
               width="16px"
               height="16px"
               className={`transition-colors duration-300 cursor-pointer ${
-                isLike ? "text-red-600 p-0 dark:text-red-600" : "text-[#737373] dark:text-white"
+                isLike ? "fill-red-600 text-red-600 dark:fill-red-600" : "text-[#737373] dark:text-white"
               }`}
             />
             <p className={`text-sm transition-colors duration-300 ${
-                isLike ? "text-red-600 p-0 dark:text-red-600" : "text-[#737373] dark:text-white "}`}>1</p>
+                isLike ? "text-red-600  dark:text-red-600" : "text-[#737373] dark:text-white "}`}>1</p>
           </div>
           <div className="flex gap-2">
             <MessageCircle
@@ -53,7 +53,7 @@ export default function ProfileLikes() {
               width="16px"
               height="16px"
               className={`transition-colors duration-300 cursor-pointer ${
-                isOpenComment ? "text-blue-500 dark:text-blue-500 p-0" : "text-[#737373] dark:text-white"
+                isOpenComment ? "fill-blue-500 text-blue-500 dark:fill-blue-500 p-0" : "text-[#737373] dark:text-white"
               }`}
             />
             <p
