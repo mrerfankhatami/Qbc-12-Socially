@@ -15,5 +15,3 @@ export const getAllPostRequest = async () => {
   const res = await api.get("/posts");  
   return res.data;
 };
-
-
