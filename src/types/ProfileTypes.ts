@@ -1,0 +1,20 @@
+export type UserProfile = {
+  id?: string;
+  name?: string;
+  email?: string;
+  emailVerified?: boolean;
+  image?: string ;
+  bio?: string | null;
+  location?: string | null;
+  website?: string | null;
+  createdAt?: string;
+  updatedAt?: string;
+  _count?: {
+    followers: number;
+    followings: number;
+    posts: number;
+  };
+  followers?: {
+    followerId: string;
+  }[];
+}
