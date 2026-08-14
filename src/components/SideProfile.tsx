@@ -1,4 +1,7 @@
 import React from 'react';
+import Avatar from './Ui/Avatar';
+import avatar from "../assets/avatar.png";
+
 
 interface UserProfile {
   name: string;
@@ -28,22 +31,14 @@ export const SideProfile: React.FC<SideProfileProps> = ({
     website: 'No website',
     joinedDate: '17 minutes ago',
   },
-  onEditProfile,
 }) => {
   return (
     <div className="bg-white dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-2xl p-6 shadow-sm flex flex-col items-center text-center">
-      {/* آواتار کاربر */}
-      <div className="w-16 h-16 rounded-full bg-gradient-to-tr from-blue-600 to-indigo-500 flex items-center justify-center text-white overflow-hidden mb-4 shrink-0 shadow-sm">
-        {user.avatarUrl ? (
-          <img src={user.avatarUrl} alt={user.name} className="w-full h-full object-cover" />
-        ) : (
-          <svg className="w-10 h-10 text-white" fill="currentColor" viewBox="0 0 24 24">
-            <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z" />
-          </svg>
-        )}
+
+      <div className="mb-4 ">
+        <Avatar src={avatar} height={60} width={60}/>
       </div>
 
-      {/* نام و نام کاربری */}
       <h3 className="text-base font-bold text-zinc-900 dark:text-white mb-0.5">
         {user.name}
       </h3>
@@ -51,8 +46,7 @@ export const SideProfile: React.FC<SideProfileProps> = ({
         {user.username}
       </span>
 
-      {/* آمار (Following, Followers, Posts) */}
-      <div className="w-full grid grid-cols-3 gap-2 mb-6 text-center">
+      <div className="w-full flex justify-between items-center  gap-2 mb-6 text-center border-t border-zinc-100 dark:border-zinc-900 pt-4">
         <div className="flex flex-col">
           <span className="text-sm font-bold text-zinc-900 dark:text-white">
             {user.followingsCount}
@@ -69,26 +63,9 @@ export const SideProfile: React.FC<SideProfileProps> = ({
             Followers
           </span>
         </div>
-        <div className="flex flex-col">
-          <span className="text-sm font-bold text-zinc-900 dark:text-white">
-            {user.postsCount}
-          </span>
-          <span className="text-xs text-zinc-500 dark:text-zinc-400">
-            Posts
-          </span>
-        </div>
       </div>
 
-      {/* دکمه ویرایش پروفایل */}
-      <button
-        type="button"
-        onClick={onEditProfile}
-        className="w-full py-2.5 px-4 bg-zinc-900 dark:bg-white text-white dark:text-zinc-900 font-medium rounded-xl hover:opacity-90 transition-all cursor-pointer mb-6 text-sm"
-      >
-        Edit Profile
-      </button>
 
-      {/* اطلاعات تکمیلی (موقعیت، وب‌سایت، زمان عضویت) */}
       <div className="w-full flex flex-col gap-2.5 text-xs text-zinc-600 dark:text-zinc-400 border-t border-zinc-100 dark:border-zinc-900 pt-4">
         <div className="flex items-center gap-2">
           <svg className="w-4 h-4 shrink-0" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
@@ -105,12 +82,6 @@ export const SideProfile: React.FC<SideProfileProps> = ({
           <span className="truncate">{user.website || 'No website'}</span>
         </div>
 
-        <div className="flex items-center gap-2">
-          <svg className="w-4 h-4 shrink-0" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-          </svg>
-          <span>{user.joinedDate}</span>
-        </div>
       </div>
     </div>
   );
