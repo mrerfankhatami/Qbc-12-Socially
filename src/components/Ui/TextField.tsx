@@ -31,7 +31,7 @@ function TextField({
         name={name}
         id={name}
         dir={dir}
-        className={`w-full py-3 px-4 rounded-xl text-secondary-900 border border-secondary-200 bg-secondary-100 hover:border-primary-500 focus:border-primary-500 focus:bg-secondary-0 transition-all duration-300 ease-out focus:shadow-lg focus:shadow-primary-200 dark:focus:shadow-secondary-200 ${
+        className={`w-full py-3 px-4 rounded-lg text-secondary-900 border border-secondary-200 bg-secondary-100 hover:border-primary-500 focus:border-primary-500 focus:bg-secondary-0 transition-all duration-300 ease-out focus:shadow-lg focus:shadow-primary-200 dark:focus:shadow-secondary-200 ${
           dir === "ltr" ? "text-left" : "text-right"
         } ${className ?? ""}`}
         value={value}

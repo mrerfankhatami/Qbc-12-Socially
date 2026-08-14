@@ -39,31 +39,9 @@ export default function PostInput() {
         <button
           type="submit"
           disabled={!text.trim()}
-          className="
-  flex
-  h-10.5
-  min-w-25.5
-  items-center
-  justify-center
-  gap-2
-  rounded-[7px]
-  bg-[#262626]
-  text-base
-  text-white
-  shadow-[0_1px_2px_rgba(0,0,0,0.1)]
-  transition-colors
-  hover:bg-[#171717]
-
-  disabled:cursor-not-allowed
-  disabled:bg-[#737373]
-  disabled:text-[#404040]
-
-  dark:bg-white
-  dark:text-black
-  dark:hover:bg-[#E5E5E5]
-  dark:disabled:bg-[#737373]
-  dark:disabled:text-[#404040]
-"
+          className=" flex h-10.5 min-w-25.5 items-center justify-center gap-2 rounded-[7px] bg-[#262626] text-base  text-white shadow-[0_1px_2px_rgba(0,0,0,0.1)] transition-colors hover:bg-[#171717]
+                        disabled:cursor-not-allowed disabled:bg-[#737373] disabled:text-[#404040] dark:bg-white  dark:text-black  dark:hover:bg-[#E5E5E5]  
+                        dark:disabled:bg-[#737373]  dark:disabled:text-[#404040]"
         >
           <Send size={19} strokeWidth={1.8} />
           <span>Post</span>
