@@ -2,11 +2,11 @@ import React from 'react';
 
 export const SideSignIn: React.FC = () => {
   return (
-    <div className="bg-white dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-2xl p-6 shadow-sm flex flex-col items-center text-center transition-colors duration-300">
+    <div className="bg-white dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-2xl p-6 shadow-sm flex flex-col items-center text-center transition-colors duration-300 w-full">
       <h3 className="text-xl font-bold text-zinc-900 dark:text-white mb-3">
         Welcome Back!
       </h3>
-      <p className="text-sm text-zinc-600 dark:text-zinc-400 mb-6 leading-relaxed max-w-[220px]">
+      <p className="text-sm text-zinc-600 dark:text-zinc-400 mb-6 leading-relaxed max-w-55">
         Login to access your profile and connect with others.
       </p>
       

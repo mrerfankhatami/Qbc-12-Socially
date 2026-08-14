@@ -8,7 +8,7 @@ const PostAndLikeButton = () => {
 
   return (
     <div className="flex flex-col">
-      <div className="w-[calc(100%-2rem)] max-w-250 mt-8 mx-auto bg-[#f5f5f5] dark:bg-[#0A0A0A] dark:border dark:border-[#262626] rounded-2xl p-1.5 flex">
+      <div className="w-[calc(100%-2rem)] max-w-250 mt-8 bg-[#f5f5f5] dark:bg-[#0A0A0A] dark:border dark:border-[#262626] rounded-2xl p-1.5 flex">
         <Button
           onClick={() => setActiveTab("posts")}
           className={`w-1/2 rounded-2xl p-1.5 dark:text-white ${
