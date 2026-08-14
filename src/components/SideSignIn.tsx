@@ -6,12 +6,11 @@ export const SideSignIn: React.FC = () => {
       <h3 className="text-xl font-bold text-zinc-900 dark:text-white mb-3">
         Welcome Back!
       </h3>
-      <p className="text-sm text-zinc-600 dark:text-zinc-400 mb-6 leading-relaxed max-w-[220px]">
+      <p className="text-sm text-zinc-600 dark:text-zinc-400 mb-6 leading-relaxed max-w-55">
         Login to access your profile and connect with others.
       </p>
       
       <div className="w-full flex flex-col gap-3">
-        {/* دکمه اصلی - Log In */}
         <button
           type="button"
           className="w-full py-2.5 px-4 rounded-xl font-medium cursor-pointer transition-all duration-300 ease-in-out
@@ -23,7 +22,6 @@ export const SideSignIn: React.FC = () => {
           Log In
         </button>
         
-        {/* دکمه ثانویه - Sign Up (بهینه‌شده برای هاور تأثیرگذار) */}
         <button
           type="button"
           className="w-full py-2.5 px-4 rounded-xl font-medium cursor-pointer transition-all duration-300 ease-in-out
