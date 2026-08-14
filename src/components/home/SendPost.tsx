@@ -17,7 +17,7 @@ export default function PostInput() {
   return (
     <form
       onSubmit={handleSubmit}
-      className="mx-auto my-6 min-h-60 w-3/5 min-w-50 max-w-150 rounded-2xl border border-[#E3E3E3]  p-6 shadow-[0_2px_5px_rgba(0,0,0,0.08)] dark:border-[#3A3A3A] dark:bg-[#0A0A0A] dark:shadow-[0_2px_5px_rgba(0,0,0,0.25)]"
+      className="mx-auto my-6 min-h-60  min-w-50 max-w-150 rounded-2xl border border-[#E3E3E3]  p-6 shadow-[0_2px_5px_rgba(0,0,0,0.08)] dark:border-[#3A3A3A] dark:bg-[#0A0A0A] dark:shadow-[0_2px_5px_rgba(0,0,0,0.25)]"
     >
       <div className="flex items-start gap-4.5">
         <div className="relative flex size-12.5 shrink-0 items-center justify-center overflow-hidden rounded-full">

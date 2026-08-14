@@ -1,6 +1,7 @@
 import avatar from "../../assets/avatar.png";
 import { Heart, MessageCircle } from "lucide-react";
 import { useState } from "react";
+import Comment from "./Comment";
 
 export default function Post() {
   const [isCommentOpen, setIsCommentOpen] = useState(false);
@@ -92,6 +93,8 @@ export default function Post() {
             </p>
           </div>
         </div>
+
+        {isCommentOpen && <Comment />}
       </div>
     </>
   );
