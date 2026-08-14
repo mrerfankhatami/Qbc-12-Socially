@@ -16,7 +16,7 @@ export default function Post() {
   };
   return (
     <>
-      <div className="w-9/10 px-4 max-w-[600px] mx-auto min-h-40 p-6 rounded-2xl border border-[#E5E5E5] shadow-sm dark:border-[#262626] dark:bg-[#0A0A0A]">
+      <div className="px-4 min-h-40 p-6 rounded-2xl border border-[#E5E5E5] shadow-sm dark:border-[#262626] dark:bg-[#0A0A0A]">
         {" "}
         <div className="flex items-center gap-5">
           <img
@@ -38,7 +38,7 @@ export default function Post() {
             </div>
           </div>
         </div>
-        <p className="dark:text-[#FAFAFA]">
+        <p className="dark:text-[#FAFAFA] mt-5">
           Lorem ipsum dolor sit amet, consectetur adipisicing elit. Unde,
           eligendi!
         </p>

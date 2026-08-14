@@ -34,58 +34,19 @@ export default function Comment() {
             onChange={(e) => setText(e.target.value)}
             placeholder="Write a comment..."
             rows={4}
-            className="
-            shadow-[0_1px_3px_rgba(0,0,0,0.08)]
-              w-full
-              resize-none
-              rounded-lg
-              border
-              border-[#E5E5E5]
-              bg-transparent
-              p-3
-              text-sm
-              leading-5
-              text-[#171717]
-              outline-none
-              placeholder:text-[#737373]
-              focus:border-[#3B82F6]
-              dark:border-[#404040]
-              dark:text-[#FAFAFA]
-              dark:placeholder:text-[#A3A3A3]
-              dark:focus:border-[#3B82F6]
-            "
+            className="shadow-[0_1px_3px_rgba(0,0,0,0.08)] w-full resize-none rounded-lg border border-[#E5E5E5] bg-transparent p-3 
+                        text-sm leading-5 text-[#171717] outline-none placeholder:text-[#737373] focus:border-[#3B82F6] 
+                        dark:border-[#404040] dark:text-[#FAFAFA] dark:placeholder:text-[#A3A3A3] dark:focus:border-[#3B82F6]"
           />
 
           <div className="mt-3 flex justify-end">
             <button
               type="submit"
               disabled={!text.trim()}
-              className="
-  flex
-  h-9
-  min-w-25
-  items-center
-  justify-center
-  gap-2
-  rounded-md
-  bg-[#262626]
-  px-4
-  text-sm
-  text-white
-  transition
-  hover:bg-[#171717]
-
-  disabled:cursor-not-allowed
-  disabled:bg-[#737373]
-  disabled:text-[#404040]
-
-  dark:bg-white
-  dark:text-black
-  dark:hover:bg-[#E5E5E5]
-
-  dark:disabled:bg-[#737373]
-  dark:disabled:text-[#404040]
-"
+              className=" flex h-9 min-w-25 items-center justify-center gap-2 rounded-md bg-[#262626] px-4 text-sm text-white transition 
+                        hover:bg-[#171717] disabled:cursor-not-allowed disabled:bg-[#737373] disabled:text-[#404040]
+                        dark:bg-white dark:text-black dark:hover:bg-[#E5E5E5] dark:disabled:bg-[#737373] 
+                        dark:disabled:text-[#404040]"
             >
               <Send size={15} strokeWidth={1.8} />
               <span>Comment</span>

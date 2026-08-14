@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Send } from "lucide-react";
 import avatar from "../../assets/avatar.png";
 
-export default function PostInput() {
+export default function SendPost() {
   const [text, setText] = useState("");
 
   const handleSubmit = (e: React.SubmitEvent<HTMLFormElement>) => {
@@ -17,7 +17,7 @@ export default function PostInput() {
   return (
     <form
       onSubmit={handleSubmit}
-      className="w-9/10 max-w-150 mx-auto my-6 min-h-60 rounded-2xl border border-[#E3E3E3] p-6 shadow-[0_2px_5px_rgba(0,0,0,0.08)] dark:border-[#3A3A3A] dark:bg-[#0A0A0A] dark:shadow-[0_2px_5px_rgba(0,0,0,0.25)]"
+      className=" my-6 rounded-2xl border border-[#E3E3E3] p-6 shadow-[0_2px_5px_rgba(0,0,0,0.08)] dark:border-[#3A3A3A] dark:bg-[#0A0A0A] dark:shadow-[0_2px_5px_rgba(0,0,0,0.25)]"
     >
       <div className="flex items-start gap-4.5">
         <div className="relative flex size-12.5 shrink-0 items-center justify-center overflow-hidden rounded-full">
@@ -29,11 +29,11 @@ export default function PostInput() {
           onChange={(e) => setText(e.target.value)}
           placeholder="What's on your mind?"
           rows={1}
-          className="mt-2 field-sizing-content min-h-12.5 w-full resize-none border-0 bg-transparent px-0 py-1 text-base leading-6 text-[#222] outline-none placeholder:text-[#858585] focus:ring-0 dark:text-white dark:placeholder:text-[#999]"
+          className="mt-2 field-sizing-content w-full resize-none border-0 bg-transparent px-0 py-1 text-base leading-6 text-[#222] outline-none placeholder:text-[#858585] focus:ring-0 dark:text-white dark:placeholder:text-[#999]"
         />
       </div>
 
-      <div className="mt-15.5 h-px w-full bg-[#DEDEDE] dark:bg-[#3A3A3A]" />
+      <div className="mt-6 h-px w-full bg-[#DEDEDE] dark:bg-[#3A3A3A]" />
 
       <div className="mt-5 flex justify-end">
         <button
