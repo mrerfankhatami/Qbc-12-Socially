@@ -4,7 +4,7 @@ import MobileSidebar from "./MobileSidebar";
 
 export default function Header() {
   const [isDark, setIsDark] = useState(false);
-  const [isLoggesIn, setIsLoggedIn] = useState(true);
+  const [isLoggesIn] = useState(true);
 
   const [isOpen, setIsOpen] = useState(true);
 
@@ -82,12 +82,11 @@ export default function Header() {
               </div>
             )}
 
-            <div className="md:hidden w-9 h-9 flex items-center justify-center cursor-pointer hover:bg-[#eeeeee] border border-[#E5E5E5] dark:border-[#262626] rounded-md shadow shadow-[#0000001A] dark:hover:bg-[#262626] ">
-              <Menu
-                size={16}
-                className="dark:text-[#FAFAFA]"
-                onClick={handleToggleSidebar}
-              />
+            <div
+              onClick={handleToggleSidebar}
+              className="md:hidden w-9 h-9 flex items-center justify-center cursor-pointer hover:bg-[#eeeeee] border border-[#E5E5E5] dark:border-[#262626] rounded-md shadow shadow-[#0000001A] dark:hover:bg-[#262626] "
+            >
+              <Menu size={16} className="dark:text-[#FAFAFA]" />
             </div>
           </nav>
         </div>
