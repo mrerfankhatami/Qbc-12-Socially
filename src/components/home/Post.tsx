@@ -16,7 +16,8 @@ export default function Post() {
   };
   return (
     <>
-      <div className="min-w-50 max-w-150 mx-auto min-h-40 p-6 rounded-2xl border border-[#E5E5E5] shadow-sm drop-shadow-[#0000001A] dark:border-[#262626] dark:bg-[#0A0A0A]">
+      <div className="w-9/10 px-4 max-w-[600px] mx-auto min-h-40 p-6 rounded-2xl border border-[#E5E5E5] shadow-sm dark:border-[#262626] dark:bg-[#0A0A0A]">
+        {" "}
         <div className="flex items-center gap-5">
           <img
             className="w-10 rounded-full"
@@ -31,7 +32,7 @@ export default function Post() {
               <p className="text-[#737373] dark:text-[#A3A3A3] text-[14px] font-light">
                 @f.e.h.farshad
               </p>
-              <p className="text-[#737373] dark:text-[#A3A3A3] text-[14px] font-light">
+              <p className="text-[#737373] dark:text-[#A3A3A3] text-[14px] font-light hidden md:block">
                 . 8 days ago
               </p>
             </div>
@@ -41,7 +42,6 @@ export default function Post() {
           Lorem ipsum dolor sit amet, consectetur adipisicing elit. Unde,
           eligendi!
         </p>
-
         <div className="flex items-center justify-start gap-8 mt-6">
           <div
             onClick={toggleLike}
@@ -93,7 +93,6 @@ export default function Post() {
             </p>
           </div>
         </div>
-
         {isCommentOpen && <Comment />}
       </div>
     </>

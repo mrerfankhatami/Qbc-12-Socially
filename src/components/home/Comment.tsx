@@ -20,7 +20,6 @@ export default function Comment() {
       className="mt-6 pt-4 border-t  border-[#E5E5E5] dark:border-[#262626] "
     >
       <div className="flex items-start gap-4">
-        {/* Avatar */}
         <div className="flex size-10 shrink-0 items-center justify-center overflow-hidden rounded-full">
           <img
             src={avatar}
@@ -29,7 +28,6 @@ export default function Comment() {
           />
         </div>
 
-        {/* Comment area */}
         <div className="flex-1">
           <textarea
             value={text}
@@ -58,37 +56,36 @@ export default function Comment() {
             "
           />
 
-          {/* Button */}
           <div className="mt-3 flex justify-end">
             <button
               type="submit"
               disabled={!text.trim()}
               className="
-    flex
-    h-9
-    min-w-25
-    items-center
-    justify-center
-    gap-2
-    rounded-md
-    bg-black
-    px-4
-    text-sm
-    text-white
-    transition
-    hover:bg-[#262626]
+  flex
+  h-9
+  min-w-25
+  items-center
+  justify-center
+  gap-2
+  rounded-md
+  bg-[#262626]
+  px-4
+  text-sm
+  text-white
+  transition
+  hover:bg-[#171717]
 
-    disabled:cursor-not-allowed
-    disabled:bg-[#616161]
-    disabled:text-[#737373]
+  disabled:cursor-not-allowed
+  disabled:bg-[#737373]
+  disabled:text-[#404040]
 
-    dark:bg-white
-    dark:text-black
-    dark:hover:bg-[#E5E5E5]
+  dark:bg-white
+  dark:text-black
+  dark:hover:bg-[#E5E5E5]
 
-    dark:disabled:bg-[#404040]
-    dark:disabled:text-[#A3A3A3]
-  "
+  dark:disabled:bg-[#737373]
+  dark:disabled:text-[#404040]
+"
             >
               <Send size={15} strokeWidth={1.8} />
               <span>Comment</span>
