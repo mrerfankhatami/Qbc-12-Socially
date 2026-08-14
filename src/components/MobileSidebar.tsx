@@ -1,8 +1,13 @@
 import { Bell, House, LogOut, UsersRound, X } from "lucide-react";
 import { useState } from "react";
 
-export default function MobileSidebar() {
-  const [isOpen, setIsOpen] = useState(true);
+interface sidebarProps {
+  isOpen: boolean;
+  setIsOpen: (isOpen: boolean) => void;
+}
+
+export default function MobileSidebar(props: sidebarProps) {
+  const { isOpen, setIsOpen } = props;
 
   const handleToggleSidebar = () => {
     setIsOpen(!isOpen);
