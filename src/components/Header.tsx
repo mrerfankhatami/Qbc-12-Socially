@@ -1,12 +1,13 @@
 import { Bell, House, LogOut, Menu, Moon, Sun, UsersRound } from "lucide-react";
 import { useState } from "react";
 import MobileSidebar from "./MobileSidebar";
+import { NavLink } from "react-router";
 
 export default function Header() {
   const [isDark, setIsDark] = useState(false);
   const [isLoggesIn] = useState(true);
 
-  const [isOpen, setIsOpen] = useState(true);
+  const [isOpen, setIsOpen] = useState(false);
 
   const handleToggleSidebar = () => {
     setIsOpen(!isOpen);
@@ -20,7 +21,7 @@ export default function Header() {
     <>
       <MobileSidebar isOpen={isOpen} setIsOpen={setIsOpen}></MobileSidebar>
       <div className="w-full h-16 border-b bg-[#FFFFFF] border-[#E5E5E5] dark:border-[#262626] dark:bg-[#0A0A0A]">
-        <div className="flex justify-around items-center w-full h-full mx-auto">
+        <div className="flex justify-between w-[80%] mx-auto items-center h-full">
           <p className="text-[#171717] text-[20px] font-bold dark:text-[#FAFAFA] ">
             Socially
           </p>
@@ -40,15 +41,15 @@ export default function Header() {
               <div className=" items-center justify-around gap-10 h-9 hidden md:flex">
                 <div className="h-9 flex items-center justify-between gap-2 cursor-pointer hover:bg-[#eeeeee] rounded-md px-3 dark:bg-[#0A0A0A] dark:hover:bg-[#262626]">
                   <House size={16} className="dark:text-[#FAFAFA]" />
-                  <p className="text-[14px] text-[#171717] dark:text-[#FAFAFA]">
+                  <NavLink to={"/"} className="text-[14px] text-[#171717] dark:text-[#FAFAFA]">
                     Home
-                  </p>
+                  </NavLink>
                 </div>
                 <div className=" h-9 flex items-center justify-between gap-2 cursor-pointer hover:bg-[#eeeeee] rounded-md px-3 dark:bg-[#0A0A0A] dark:hover:bg-[#262626]">
                   <Bell size={16} className="dark:text-[#FAFAFA]" />
-                  <p className="text-[14px] text-[#171717] dark:text-[#FAFAFA]">
+                  <NavLink to={"/notifications"} className="text-[14px] text-[#171717] dark:text-[#FAFAFA]">
                     Notification
-                  </p>
+                  </NavLink>
                 </div>
 
                 <div className="h-9 flex items-center justify-between gap-2 cursor-pointer hover:bg-[#eeeeee] rounded-md px-3 dark:bg-[#0A0A0A] dark:hover:bg-[#262626]">
@@ -57,9 +58,9 @@ export default function Header() {
                     strokeWidth={1.75}
                     className="dark:text-[#FAFAFA]"
                   />
-                  <p className="text-[14px] text-[#171717] dark:text-[#FAFAFA]">
+                  <NavLink to={"/profile/1"} className="text-[14px] text-[#171717] dark:text-[#FAFAFA]">
                     Profile
-                  </p>
+                  </NavLink>
                 </div>
                 <div className="w-9 h-9 items-center justify-center cursor-pointer hover:bg-[#eeeeee] rounded-md dark:hover:bg-[#262626] hidden md:flex">
                   <LogOut size={16} className="dark:text-[#FAFAFA]" />

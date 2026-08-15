@@ -21,9 +21,9 @@ const ProfileCardDetails = ({
     }
 
   return (
-    <div className="mx-auto flex flex-col items-center dark:bg-[#0A0A0A] bg-white border border-[#E5E5E5] dark:border-[#262626] shadow-[0px_1px_2px_-1px_#0000001A] max-w-137.5 w-full gap-4 rounded-xl p-6">
+    <div className="flex flex-col items-center dark:bg-[#0A0A0A] bg-white border border-[#E5E5E5] dark:border-[#262626] shadow-[0px_1px_2px_-1px_#0000001A] max-w-137.5 w-full gap-4 rounded-xl p-6">
       <img src={image} alt="avatar" className="w-24 h-24 rounded-[9999px]" />
-      <h1 className="pt-2 text-2xl dark:text-white">{name}</h1>
+      <h1 className="pt-2 text-2xl dark:text-white text-justify">{name}</h1>
       <h3 className="text-[#737373]">{email}</h3>
       <h3 className="text-[#737373]">{bio}</h3>
       <div className="max-w-125.5 w-full h-21 flex items-center justify-between">

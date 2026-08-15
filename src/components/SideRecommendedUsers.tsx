@@ -30,7 +30,7 @@ export const SideRecommendedUsers: React.FC = () => {
   };
 
   return (
-    <div className="bg-white dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-2xl p-6 shadow-sm flex flex-col">
+    <div className="bg-white dark:bg-[#0A0A0A] border border-zinc-200 dark:border-zinc-800 rounded-2xl p-6 shadow-sm flex flex-col">
       <h3 className="text-lg font-bold text-zinc-900 dark:text-white mb-4">
         Recommended users
       </h3>
