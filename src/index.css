@@ -8,10 +8,6 @@
   font-style: normal;
 }
 
-* {
-  font-family: "Yekan", sans-serif;
-}
-
 .spinner {
   margin: 3.2rem auto 1.6rem;
   width: 60px;
@@ -90,7 +86,7 @@
 
 html,
 body {
-  font-family: "Vazir";
+  font-family: "Yekan";
   min-height: 100vh;
   user-select: none;
   background-color: rgb(var(--background-app-rgb));
