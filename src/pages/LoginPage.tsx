@@ -12,7 +12,7 @@ export default function LoginPage() {
                 <p className="text-[#737373] dark:text-[#A3A3A3]">Login to your Socially account</p>
               </div>
               <div className="flex flex-col gap-6 font-800 ">
-                <TextField 
+              <TextField 
                 label="Email"
                 name="email"
                 type="email"

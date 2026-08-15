@@ -33,7 +33,7 @@ export const SideProfile: React.FC<SideProfileProps> = ({
   },
 }) => {
   return (
-    <div className="bg-white dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-2xl p-6 shadow-sm flex flex-col items-center text-center">
+    <div className="bg-white dark:bg-[#0A0A0A] border border-zinc-200 dark:border-zinc-800 rounded-2xl p-6 shadow-sm flex flex-col items-center text-center w-full max-w-84">
 
       <div className="mb-4 ">
         <Avatar src={avatar} height={60} width={60}/>

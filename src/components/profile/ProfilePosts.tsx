@@ -18,13 +18,13 @@ export default function ProfilePosts() {
 
   return (
     <div className="flex flex-col">
-      <div className="w-[calc(100%-2rem)] max-w-250 mt-4 mx-auto bg-[#0A0A0A] dark:bg-[#FAFAFA] rounded-lg p-3">
+      <div className="w-[calc(100%-2rem)] max-w-250 mt-4 bg-[#0A0A0A] dark:bg-[#FAFAFA] rounded-lg p-3">
         <h2 className="text-white text-lg dark:text-black">There is no post</h2>
         <p className="text-white text-[14px] dark:text-black">
           This user not posted enything
         </p>
       </div>
-      <div className="border-2 flex flex-col gap-4 border-[#E5E5E5] dark:bg-[#0A0A0A] dark:border-[#262626] rounded-xl w-[calc(100%-2rem)] max-w-250 mt-4 p-6 mx-auto">
+      <div className="border-2 flex flex-col gap-4 border-[#E5E5E5] dark:bg-[#0A0A0A] dark:border-[#262626] rounded-xl w-[calc(100%-2rem)] max-w-250 mt-4 p-6">
         <div className="flex gap-3 items-center">
           <Avatar src={avatar} width={24} height={24} />
           <p className="dark:text-white">Pedram</p>
