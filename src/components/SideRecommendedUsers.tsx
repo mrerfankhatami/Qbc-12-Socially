@@ -30,7 +30,7 @@ export const SideRecommendedUsers: React.FC = () => {
   };
 
   return (
-    <div className="bg-white dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-2xl p-6 shadow-sm flex flex-col">
+    <div className="bg-white dark:bg-[#0A0A0A] border border-zinc-200 dark:border-zinc-800 rounded-2xl p-6 shadow-sm flex flex-col">
       <h3 className="text-lg font-bold text-zinc-900 dark:text-white mb-4">
         Recommended users
       </h3>
@@ -40,7 +40,7 @@ export const SideRecommendedUsers: React.FC = () => {
           <div key={user.id} className="flex items-center justify-between">
             
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-full bg-gradient-to-tr from-blue-600 to-indigo-500 flex items-center justify-center text-white overflow-hidden shrink-0">
+              <div className="w-10 h-10 rounded-full bg-linear-to-tr from-blue-600 to-indigo-500 flex items-center justify-center text-white overflow-hidden shrink-0">
                 {user.avatarUrl ? (
                   <img src={user.avatarUrl} alt={user.name} className="w-full h-full object-cover" />
                 ) : (
@@ -59,7 +59,6 @@ export const SideRecommendedUsers: React.FC = () => {
               </div>
             </div>
 
-            {/* دکمه فالو داینامیک */}
             <button
               type="button"
               onClick={() => handleFollowToggle(user.id)}

@@ -1,8 +1,9 @@
 import React from 'react';
+import { NavLink } from 'react-router';
 
 export const SideSignIn: React.FC = () => {
   return (
-    <div className="bg-white dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-2xl p-6 shadow-sm flex flex-col items-center text-center transition-colors duration-300 w-full">
+    <div className="bg-white dark:bg-[#0A0A0A] border border-zinc-200 dark:border-zinc-800 rounded-2xl p-6 shadow-sm flex flex-col items-center text-center transition-colors duration-300 w-full">
       <h3 className="text-xl font-bold text-zinc-900 dark:text-white mb-3">
         Welcome Back!
       </h3>
@@ -11,8 +12,8 @@ export const SideSignIn: React.FC = () => {
       </p>
       
       <div className="w-full flex flex-col gap-3">
-        {/* دکمه اصلی - Log In */}
-        <button
+        <NavLink
+          to={"/login"}
           type="button"
           className="w-full py-2.5 px-4 rounded-xl font-medium cursor-pointer transition-all duration-300 ease-in-out
             bg-zinc-900 text-white border border-transparent
@@ -21,10 +22,10 @@ export const SideSignIn: React.FC = () => {
             dark:hover:bg-zinc-200 dark:hover:shadow-lg dark:hover:shadow-zinc-900/50"
         >
           Log In
-        </button>
+        </NavLink>
         
-        {/* دکمه ثانویه - Sign Up (بهینه‌شده برای هاور تأثیرگذار) */}
-        <button
+        <NavLink
+          to={"/register"}
           type="button"
           className="w-full py-2.5 px-4 rounded-xl font-medium cursor-pointer transition-all duration-300 ease-in-out
             /* استایل روز */
@@ -35,7 +36,7 @@ export const SideSignIn: React.FC = () => {
             dark:hover:bg-zinc-800 dark:hover:border-zinc-600 dark:hover:text-white dark:hover:shadow-md dark:hover:-translate-y-0.5"
         >
           Sign Up
-        </button>
+        </NavLink>
       </div>
     </div>
   );
