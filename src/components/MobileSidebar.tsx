@@ -1,5 +1,4 @@
 import { Bell, House, LogOut, UsersRound, X } from "lucide-react";
-import { useState } from "react";
 import { NavLink } from "react-router";
 
 interface sidebarProps {
@@ -31,32 +30,36 @@ export default function MobileSidebar(props: sidebarProps) {
 
         <div className=" w-full flex flex-col items-center justify-center bg-white dark:bg-transparent">
           <div className=" w-full flex flex-col items-center justify-around gap-10 h-9 bg-transparent dark:bg-transparent">
-            <div className="w-3/4 h-9 flex items-center justify-center gap-2 cursor-pointer hover:bg-[#eeeeee] rounded-md px-3 py-2  dark:bg-[#3f3f3f] dark:hover:bg-[#262626]">
-              <House size={16} className="dark:text-[#FAFAFA]" />
-              <NavLink to={"/"} className="text-[14px] text-[#171717] dark:text-[#FAFAFA]">
-                Home
-              </NavLink>
-            </div>
-            <div className="w-3/4 h-9 flex items-center justify-center gap-2 cursor-pointer hover:bg-[#eeeeee] rounded-md px-3 py-2  dark:bg-[#3f3f3f] dark:hover:bg-[#262626]">
-              <Bell size={16} className="dark:text-[#FAFAFA]" />
-              <NavLink to={"/notifications"} className="text-[14px] text-[#171717] dark:text-[#FAFAFA]">
-                Notification
-              </NavLink>
-            </div>
 
-            <div className="w-3/4 h-9 flex items-center justify-center gap-2 cursor-pointer hover:bg-[#eeeeee] rounded-md px-3 py-2 dark:bg-[#3f3f3f] dark:hover:bg-[#262626]">
+            <NavLink to={"/"} className="w-3/4 h-9 flex items-center justify-center gap-2 cursor-pointer hover:bg-[#eeeeee] rounded-md px-3 py-2  dark:bg-[#3f3f3f] dark:hover:bg-[#262626]">
+              <House size={16} className="dark:text-[#FAFAFA]" />
+              <p  className="text-[14px] text-[#171717] dark:text-[#FAFAFA]">
+                Home
+              </p>
+            </NavLink>
+
+            <NavLink to={"/notifications"} className="w-3/4 h-9 flex items-center justify-center gap-2 cursor-pointer hover:bg-[#eeeeee] rounded-md px-3 py-2  dark:bg-[#3f3f3f] dark:hover:bg-[#262626]">
+              <Bell size={16} className="dark:text-[#FAFAFA]" />
+              <p  className="text-[14px] text-[#171717] dark:text-[#FAFAFA]">
+                Notification
+              </p>
+            </NavLink>
+
+            <NavLink to={"/profile/1"} className="w-3/4 h-9 flex items-center justify-center gap-2 cursor-pointer hover:bg-[#eeeeee] rounded-md px-3 py-2 dark:bg-[#3f3f3f] dark:hover:bg-[#262626]">
               <UsersRound
                 size={16}
                 strokeWidth={1.75}
                 className="dark:text-[#FAFAFA]"
               />
-              <NavLink to={"/profile/1"} className="text-[14px] text-[#171717] dark:text-[#FAFAFA]">
+              <p className="text-[14px] text-[#171717] dark:text-[#FAFAFA]">
                 Profile
-              </NavLink>
-            </div>
+              </p>
+            </NavLink>
+
             <div className="w-9 h-9 items-center justify-center cursor-pointer hover:bg-[#eeeeee] rounded-md py-2  dark:hover:bg-[#262626] flex">
               <LogOut size={16} className="dark:text-[#FAFAFA]" />
             </div>
+
           </div>
         </div>
       </div>

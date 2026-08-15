@@ -20,7 +20,8 @@ export default function Header() {
   return (
     <>
       <MobileSidebar isOpen={isOpen} setIsOpen={setIsOpen}></MobileSidebar>
-      <div className="w-full h-16 border-b bg-[#FFFFFF] border-[#E5E5E5] dark:border-[#262626] dark:bg-[#0A0A0A]">
+
+      <div className="sticky top-0 z-50 w-full h-16 border-b border-[#E5E5E5]/60 bg-white/70 backdrop-blur-xl dark:border-[#262626]/60 dark:bg-black/60">
         <div className="flex justify-between w-[80%] mx-auto items-center h-full">
           <p className="text-[#171717] text-[20px] font-bold dark:text-[#FAFAFA] ">
             Socially
@@ -39,47 +40,64 @@ export default function Header() {
             </div>
             {isLoggesIn ? (
               <div className=" items-center justify-around gap-10 h-9 hidden md:flex">
-                <div className="h-9 flex items-center justify-between gap-2 cursor-pointer hover:bg-[#eeeeee] rounded-md px-3 dark:bg-[#0A0A0A] dark:hover:bg-[#262626]">
+                <NavLink
+                  to={"/"}
+                  className="h-9 flex items-center justify-between gap-2 cursor-pointer hover:bg-[#eeeeee] rounded-md px-3 dark:bg-[#0A0A0A] dark:hover:bg-[#262626]"
+                >
                   <House size={16} className="dark:text-[#FAFAFA]" />
-                  <NavLink to={"/"} className="text-[14px] text-[#171717] dark:text-[#FAFAFA]">
+                  <p className="text-[14px] text-[#171717] dark:text-[#FAFAFA]">
                     Home
-                  </NavLink>
-                </div>
-                <div className=" h-9 flex items-center justify-between gap-2 cursor-pointer hover:bg-[#eeeeee] rounded-md px-3 dark:bg-[#0A0A0A] dark:hover:bg-[#262626]">
-                  <Bell size={16} className="dark:text-[#FAFAFA]" />
-                  <NavLink to={"/notifications"} className="text-[14px] text-[#171717] dark:text-[#FAFAFA]">
-                    Notification
-                  </NavLink>
-                </div>
+                  </p>
+                </NavLink>
 
-                <div className="h-9 flex items-center justify-between gap-2 cursor-pointer hover:bg-[#eeeeee] rounded-md px-3 dark:bg-[#0A0A0A] dark:hover:bg-[#262626]">
+                <NavLink
+                  to={"/notifications"}
+                  className=" h-9 flex items-center justify-between gap-2 cursor-pointer hover:bg-[#eeeeee] rounded-md px-3 dark:bg-[#0A0A0A] dark:hover:bg-[#262626]"
+                >
+                  <Bell size={16} className="dark:text-[#FAFAFA]" />
+                  <p className="text-[14px] text-[#171717] dark:text-[#FAFAFA]">
+                    Notification
+                  </p>
+                </NavLink>
+
+                <NavLink
+                  to={`/profile/${"morez"}`}
+                  className="h-9 flex items-center justify-between gap-2 cursor-pointer hover:bg-[#eeeeee] rounded-md px-3 dark:bg-[#0A0A0A] dark:hover:bg-[#262626]"
+                >
                   <UsersRound
                     size={16}
                     strokeWidth={1.75}
                     className="dark:text-[#FAFAFA]"
                   />
-                  <NavLink to={"/profile/1"} className="text-[14px] text-[#171717] dark:text-[#FAFAFA]">
+                  <p className="text-[14px] text-[#171717] dark:text-[#FAFAFA]">
                     Profile
-                  </NavLink>
-                </div>
+                  </p>
+                </NavLink>
+
                 <div className="w-9 h-9 items-center justify-center cursor-pointer hover:bg-[#eeeeee] rounded-md dark:hover:bg-[#262626] hidden md:flex">
                   <LogOut size={16} className="dark:text-[#FAFAFA]" />
                 </div>
               </div>
             ) : (
               <div className="hidden md:flex items-center justify-between gap-4">
-                <div className=" h-9 flex items-center justify-between gap-2 cursor-pointer hover:bg-[#17171780] rounded-md px-3 dark:bg-[#0A0A0A] dark:hover:bg-[#262626]">
+                <NavLink
+                  to={"/"}
+                  className=" h-9 flex items-center justify-between gap-2 cursor-pointer hover:bg-[#17171780] rounded-md px-3 dark:bg-[#0A0A0A] dark:hover:bg-[#262626]"
+                >
                   <House size={16} className="dark:text-[#FAFAFA]" />
                   <p className="text-[14px] text-[#171717] dark:text-[#FAFAFA]">
                     Home
                   </p>
-                </div>
+                </NavLink>
 
-                <div className="h-9 bg-[#0A0A0A] text-white flex items-center justify-between gap-2 cursor-pointer rounded-md px-6  hover:bg-[#17171780]">
+                <NavLink
+                  to={"/login"}
+                  className="h-9 bg-[#0A0A0A] text-white flex items-center justify-between gap-2 cursor-pointer rounded-md px-6  hover:bg-[#17171780]"
+                >
                   <p className="text-[14px] text-white dark:text-[#FAFAFA]">
                     Sign In
                   </p>
-                </div>
+                </NavLink>
               </div>
             )}
 
