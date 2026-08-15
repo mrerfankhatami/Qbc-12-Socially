@@ -5,7 +5,7 @@ import SideRecommendedUsers from "../components/SideRecommendedUsers";
 import SideProfile from "../components/SideProfile";
 
 export default function RootLayout() {
-  const isAuthenticated = true;
+  const isAuthenticated = false;
 
   const location = useLocation();
 

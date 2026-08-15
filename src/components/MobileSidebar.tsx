@@ -16,7 +16,7 @@ export default function MobileSidebar(props: sidebarProps) {
   return (
     <>
       <div
-        className={`h-screen md:hidden fixed top-0 bottom-0 right-0 w-2xs bg-white dark:bg-[#0A0A0A] p-5 duration-200 ease-in  ${isOpen ? "translate-x-0" : "translate-x-full"} `}
+        className={`h-screen md:hidden z-100 fixed top-0 bottom-0 right-0 w-2xs bg-white dark:bg-[#0A0A0A] p-5 duration-200 ease-in  ${isOpen ? "translate-x-0" : "translate-x-full"} `}
       >
         <div className="flex items-center justify-between mb-5">
           <p className="font-semibold text-[16px] dark:text-white">Menu</p>
