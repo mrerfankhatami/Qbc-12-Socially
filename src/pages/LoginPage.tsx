@@ -4,27 +4,29 @@ import Button from "../components/Ui/Button";
 import { useLoginMutation } from "../hooks/useLoginMutation";
 import { useAuthStore } from "../store/authStore";
 import { useNavigate } from "react-router";
+import toast from "react-hot-toast";
 
 export default function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const { mutate, isPending, isError } = useLoginMutation();
+  const { mutate : loginMutation , isPending, isError } = useLoginMutation();
   const login = useAuthStore((state) => state.login);
   const navigate = useNavigate();
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-
-    mutate(
+    loginMutation(
       { email, password },
       {
         onSuccess: (data) => {
           login(data.token);
           navigate("/");
+          toast.success("Login successfully ...")
         },
         onError: (error) => {
           console.error("Login failed:", error);
+          toast.error("please try again ...")
         },
       },
     );
