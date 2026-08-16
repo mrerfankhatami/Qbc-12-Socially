@@ -3,9 +3,12 @@ import Header from "../components/Header";
 import SideSignIn from "../components/SideSignIn";
 import SideRecommendedUsers from "../components/SideRecommendedUsers";
 import SideProfile from "../components/SideProfile";
+import { useAuthStore } from "../store/authStore";
 
 export default function RootLayout() {
-  const isAuthenticated = false;
+   const isAuthenticated = useAuthStore(
+    (state) => state.isAuthenticated
+  );
 
   const location = useLocation();
 

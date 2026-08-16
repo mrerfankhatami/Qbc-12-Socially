@@ -19,7 +19,7 @@ export type UserProfile = {
   }[];
 }
 
-export type PostProfile = {
+export type Post = {
   id: string;
   authorId: string;
   content: string;
