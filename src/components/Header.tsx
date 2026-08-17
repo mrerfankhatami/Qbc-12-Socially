@@ -1,14 +1,20 @@
 import { Bell, House, LogOut, Menu, Moon, Sun, UsersRound } from "lucide-react";
 import { useState } from "react";
 import MobileSidebar from "./MobileSidebar";
-import { NavLink } from "react-router";
+import { NavLink, useNavigate } from "react-router";
 import { useAuthStore } from "../store/authStore";
 import toast from "react-hot-toast";
 import { useQueryClient } from "@tanstack/react-query";
+import { logoutRequest } from "../services/authServices";
 
 export default function Header() {
   const [isDark, setIsDark] = useState(false);
   const [isLoggesIn] = useState(true);
+
+  const {logout : logoutStore} = useAuthStore()
+
+  const navigate = useNavigate()
+  const queryClient = useQueryClient();
 
   const [isOpen, setIsOpen] = useState(false);
 
@@ -20,24 +26,21 @@ export default function Header() {
     setIsDark(!isDark);
   };
 
-  const queryClient = useQueryClient();
 
-  const {logout : logoutStore} = useAuthStore()
 
   const handleLogout = async () => {
 
     try {
-      // await logoutRequest()
+      await logoutRequest()
       logoutStore()
       queryClient.removeQueries({queryKey:["session"]})
+      navigate("login")
       toast.success("Logout successfully")
 
-    } catch (error) {
-      console.log(error);
-      
+    } catch (err) {
+      toast.error("logout failed...")
+      console.log(err)
     }
-
-
   }
 
   return (
