@@ -1,6 +1,6 @@
 import api from "./axiosConfig";
 
-interface GetUserInformationData {
+export interface GetUserInformationData {
     username: string
 }
 
