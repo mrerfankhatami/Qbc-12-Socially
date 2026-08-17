@@ -5,7 +5,7 @@ export interface GetUserInformationData {
 }
 
 export const getUserByUserName = async (data: GetUserInformationData) => {
-    const response = await api.get(`/api/users/${data.username}/profile`);
+    const response = await api.get(`/users/${data.username}/profile`);
 
     return response.data;
 };

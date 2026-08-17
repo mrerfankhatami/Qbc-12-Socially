@@ -5,7 +5,7 @@ interface UserId {
 }
 
 export const updateUserById = async (data: UserId) => {
-  const response = await api.put(`/api/users/${data.id}`);
+  const response = await api.put(`/users/${data.id}`);
 
   return response.data;
 };

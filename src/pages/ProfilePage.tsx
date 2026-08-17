@@ -1,11 +1,35 @@
+import { useParams } from "react-router";
 import PostAndLikeButton from "../components/profile/PostAndLikeButton";
 import ProfileCardDetails from "../components/profile/ProfileCardDetails";
+import { useGetUserByUserName } from "../hooks/useGetUserByUserName";
+import { splitUsername } from "../utils/splitUsername";
 
 export default function ProfilePage() {
+
+  const { username } = useParams();
+
+  const { data, isLoading, isError } = useGetUserByUserName({
+    username: username
+  });
+
+   if (isLoading) {
+    return <div>Loading...</div>;
+  }
+
+  if (isError) {
+    return <div>Failed to load profile</div>;
+  }
+
   return (
     <>
       <div className="flex w-[calc(100%-2rem)] max-w-250 justify-center">
-        <ProfileCardDetails />
+        <ProfileCardDetails 
+          name={data.name}
+          email={splitUsername(data.email)}
+          bio={data.bio}
+          image={data.image}
+          location={data.location}
+          website={data.website} />
       </div>
       <PostAndLikeButton />
     </>

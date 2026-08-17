@@ -5,7 +5,7 @@ export interface GetUsersPostsData {
 }
 
 export const getUsersPostsById = async (data: GetUsersPostsData) => {
-    const response = await api.get(`/api/users/${data.id}/posts`);
+    const response = await api.get(`/users/${data.id}/posts`);
 
     return response.data;
 };

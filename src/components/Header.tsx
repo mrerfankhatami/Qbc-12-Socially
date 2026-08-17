@@ -1,7 +1,7 @@
 import { Bell, House, LogOut, Menu, Moon, Sun, UsersRound } from "lucide-react";
 import { useState } from "react";
 import MobileSidebar from "./MobileSidebar";
-import { NavLink } from "react-router";
+import { NavLink, useParams } from "react-router";
 
 export default function Header() {
   const [isDark, setIsDark] = useState(false);
