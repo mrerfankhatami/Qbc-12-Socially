@@ -2,6 +2,9 @@ import { Bell, House, LogOut, Menu, Moon, Sun, UsersRound } from "lucide-react";
 import { useState } from "react";
 import MobileSidebar from "./MobileSidebar";
 import { NavLink } from "react-router";
+import { useAuthStore } from "../store/authStore";
+import toast from "react-hot-toast";
+import { useQueryClient } from "@tanstack/react-query";
 
 export default function Header() {
   const [isDark, setIsDark] = useState(false);
@@ -16,6 +19,26 @@ export default function Header() {
   const themeHandler = () => {
     setIsDark(!isDark);
   };
+
+  const queryClient = useQueryClient();
+
+  const {logout : logoutStore} = useAuthStore()
+
+  const handleLogout = async () => {
+
+    try {
+      // await logoutRequest()
+      logoutStore()
+      queryClient.removeQueries({queryKey:["session"]})
+      toast.success("Logout successfully")
+
+    } catch (error) {
+      console.log(error);
+      
+    }
+
+
+  }
 
   return (
     <>
@@ -74,7 +97,7 @@ export default function Header() {
                   </p>
                 </NavLink>
 
-                <div className="w-9 h-9 items-center justify-center cursor-pointer hover:bg-[#eeeeee] rounded-md dark:hover:bg-[#262626] hidden md:flex">
+                <div onClick={handleLogout} className="w-9 h-9 items-center justify-center cursor-pointer hover:bg-[#eeeeee] rounded-md dark:hover:bg-[#262626] hidden md:flex">
                   <LogOut size={16} className="dark:text-[#FAFAFA]" />
                 </div>
               </div>
