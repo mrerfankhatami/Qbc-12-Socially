@@ -45,7 +45,7 @@ export default function RootLayout() {
       <div className="flex mx-auto w-[80%] md:w-[80%] mt-24 md:gap-5">
         <aside className={`${ !isAuthenticated ? "hidden md:block" : "hidden" } w-full max-w-84`}><SideSignIn /></aside>
         <aside className={`${ isAuthenticated ? "hidden md:block" : "hidden" } w-full max-w-84`}><SideProfile /></aside>
-        <main className="mx-auto w-[80%]">
+        <main className="mx-auto md:w-[80%] w-full">
           <Outlet />
         </main>
         <aside className={`${ isAuthenticated && isHomePage ? "hidden lg:block" : "hidden" } w-full max-w-84`}><SideRecommendedUsers /></aside>
