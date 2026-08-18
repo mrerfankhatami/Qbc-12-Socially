@@ -4,9 +4,9 @@ export type UserProfile = {
   email?: string;
   emailVerified?: boolean;
   image?: string ;
-  bio?: string | null;
-  location?: string | null;
-  website?: string | null;
+  bio?: string ;
+  location?: string ;
+  website?: string ;
   createdAt?: string;
   updatedAt?: string;
   _count?: {

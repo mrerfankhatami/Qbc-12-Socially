@@ -6,5 +6,6 @@ export const useGetUserByUserName = ({ username }: GetUserInformationData) => {
   return useQuery({
     queryKey: ["get-by-userName", username],
     queryFn: () => getUserByUserName({ username }),
+    enabled: !!username,
   });
 };

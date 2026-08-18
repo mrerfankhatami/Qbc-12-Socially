@@ -6,11 +6,9 @@ import { splitUsername } from "../utils/splitUsername";
 
 export default function ProfilePage() {
 
-  const { username } = useParams();
+  const { username } = useParams<{ username: string }>();
 
-  const { data, isLoading, isError } = useGetUserByUserName({
-    username: username
-  });
+  const { data, isLoading, isError } = useGetUserByUserName({username: username ?? ""});
 
    if (isLoading) {
     return <div>Loading...</div>;

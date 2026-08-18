@@ -4,13 +4,21 @@ import Button from "../Ui/Button";
 import { useUpdateUserProfile } from "../../hooks/useUpdateUserProfile";
 import { useAuthStore } from "../../store/authStore";
 
-const ProfileModal = ({ setIsModalOpen }) => {
+type ProfileModalProp = {
+  setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  prevName: string;
+  prevBio: string;
+  prevLocation: string;
+  prevWebsite: string;
+};
+
+const ProfileModal = ({ setIsModalOpen , prevName , prevBio , prevLocation , prevWebsite }: ProfileModalProp) => {
   const { user } = useAuthStore();
 
-  const [name, setName] = useState("");
-  const [bio, setBio] = useState("");
-  const [location, setLocation] = useState("");
-  const [website, setWebsite] = useState("");
+  const [name, setName] = useState(prevName);
+  const [bio, setBio] = useState(prevBio);
+  const [location, setLocation] = useState(prevLocation);
+  const [website, setWebsite] = useState(prevWebsite);
 
   const { mutate, isPending } = useUpdateUserProfile();
 
