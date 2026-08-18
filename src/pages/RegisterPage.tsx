@@ -1,31 +1,41 @@
 import { useState, type ChangeEvent } from "react";
 import TextField from "../components/Ui/TextField";
 import Button from "../components/Ui/Button";
-import { useRegisterMutation } from '../hooks/useRegisterMutation';
+import { useRegisterMutation } from "../hooks/useRegisterMutation";
 import { Link, useNavigate } from "react-router";
 import toast from "react-hot-toast";
+import axios from "axios";
 
 export default function RegisterPage() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const { mutate : registerMutation , isPending, isError } = useRegisterMutation();
+  const {
+    mutate: registerMutation,
+    isPending,
+    isError,
+  } = useRegisterMutation();
   const navigate = useNavigate();
-
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    registerMutation ({ name, email, password}, {
-      onSuccess: () => {
-        toast.success ("Account created successfully!");
-        navigate("/login");
+    registerMutation(
+      { name, email, password },
+      {
+        onSuccess: () => {
+          toast.success("Account created successfully!");
+          navigate("/");
+        },
+        onError: (error) => {
+          if (axios.isAxiosError(error)) {
+            toast.error(error.response?.data?.error ?? "Registration failed");
+          } else {
+            toast.error("Something went wrong");
+          }
+        },
       },
-      onError: (error) =>  {
-        console.error("Registration failed:", error);
-        toast.error("Please try again ...");
-      },
-    });
+    );
   };
 
   return (
@@ -55,7 +65,9 @@ export default function RegisterPage() {
                 placeholder="Enter your name"
                 dir="ltr"
                 value={name}
-                onChange={(e: ChangeEvent<HTMLInputElement>) => setName(e.target.value)}
+                onChange={(e: ChangeEvent<HTMLInputElement>) =>
+                  setName(e.target.value)
+                }
                 className="h-9 dark:bg-[#222222] border shadow-sm border-[#E5E5E5] dark:border-[#424141] font-medium mt-2 focus-visible:outline-none focus-visible:border-neutral-500 dark:focus-visible:border-neutral-600 focus-visible:ring-[3px] focus-visible:ring-neutral-500/20 dark:focus-visible:ring-neutral-600/20"
               />
             </div>
@@ -68,7 +80,9 @@ export default function RegisterPage() {
                 placeholder="m@example.com"
                 dir="ltr"
                 value={email}
-                onChange={(e: ChangeEvent<HTMLInputElement>) => setEmail(e.target.value)}
+                onChange={(e: ChangeEvent<HTMLInputElement>) =>
+                  setEmail(e.target.value)
+                }
                 className="h-9 dark:bg-[#222222] border shadow-sm border-[#E5E5E5] dark:border-[#424141] font-medium mt-2 focus-visible:outline-none focus-visible:border-neutral-500 dark:focus-visible:border-neutral-600 focus-visible:ring-[3px] focus-visible:ring-neutral-500/20 dark:focus-visible:ring-neutral-600/20"
               />
             </div>
@@ -93,7 +107,7 @@ export default function RegisterPage() {
               disabled={isPending}
               className={`w-full mt-4 bg-neutral-900 hover:bg-neutral-800 text-white dark:bg-neutral-100 dark:text-neutral-900 dark:hover:bg-neutral-200 py-2.5 rounded-lg font-medium transition-colors`}
             >
-                {isPending ? "Creating Account..." : "Create Account"}
+              {isPending ? "Creating Account..." : "Create Account"}
             </Button>
           </form>
 
@@ -103,7 +117,7 @@ export default function RegisterPage() {
               to="/login"
               className="underline font-medium text-neutral-900 dark:text-neutral-100 hover:opacity-80 transition-opacity"
             >
-            {"  "}Sign in
+              {"  "}Sign in
             </Link>
           </div>
         </div>

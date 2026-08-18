@@ -4,31 +4,37 @@ import Button from "../components/Ui/Button";
 import { useLoginMutation } from "../hooks/useLoginMutation";
 import { Link, useNavigate } from "react-router";
 import toast from "react-hot-toast";
+import axios from "axios";
 
 export default function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const { mutate : loginMutation , isPending, isError } = useLoginMutation();
+  const { mutate: loginMutation, isPending, isError } = useLoginMutation();
   const navigate = useNavigate();
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    loginMutation({ email, password }, {
+    loginMutation(
+      { email, password },
+      {
         onSuccess: () => {
           navigate("/");
-          toast.success("Login successfully ...")
+          toast.success("Login successfully ...");
         },
         onError: (error) => {
-          console.error("Login failed:", error);
-          toast.error("please try again ...")
+          if (axios.isAxiosError(error)) {
+            toast.error(error.response?.data?.error ?? "Registration failed");
+          } else {
+            toast.error("Something went wrong");
+          }
         },
       },
     );
   };
 
   return (
-    <div className="min-h-svh flex flex-col items-center justify-center bg-secondary-50 dark:bg-[#262626] px-4 sm:px-6 lg:px-8 py-8">
+    <div className="min-h-svh flex flex-col items-center justify-center bg-secondary-50 dark:text-white dark:bg-[#0a0a0a] px-4 sm:px-6 lg:px-8 py-8">
       <div className="flex flex-col gap-6 w-full max-w-sm md:max-w-4xl">
         <div
           id="card"
@@ -36,7 +42,7 @@ export default function LoginPage() {
         >
           <form
             onSubmit={handleSubmit}
-            className="p-6 md:p-8 bg-white dark:bg-[#171717]"
+            className="p-6 md:p-8 bg-white dark:bg-[#0a0a0a]"
           >
             <div className="flex flex-col gap-6 dark:text-[rgb(var(--color-secondary-0))]">
               <div className="flex flex-col gap-2 items-center text-center">
@@ -60,7 +66,9 @@ export default function LoginPage() {
                   placeholder="m@example.com"
                   dir="ltr"
                   value={email}
-                  onChange={(e: ChangeEvent<HTMLInputElement>) => setEmail(e.target.value)}
+                  onChange={(e: ChangeEvent<HTMLInputElement>) =>
+                    setEmail(e.target.value)
+                  }
                   className="h-9 dark:bg-[#222222] border shadow-sm border-[#E5E5E5] dark:border-[#424141] font-medium mt-2 focus-visible:outline-none focus-visible:border-neutral-500 dark:focus-visible:border-neutral-600 focus-visible:ring-[3px] focus-visible:ring-neutral-500/20 dark:focus-visible:ring-neutral-600/20"
                 />
                 <TextField
