@@ -2,7 +2,7 @@ import { useState, type ChangeEvent } from "react";
 import TextField from "../components/Ui/TextField";
 import Button from "../components/Ui/Button";
 import { useRegisterMutation } from '../hooks/useRegisterMutation';
-import { useNavigate } from "react-router";
+import { Link, useNavigate } from "react-router";
 import toast from "react-hot-toast";
 
 export default function RegisterPage() {
@@ -99,12 +99,12 @@ export default function RegisterPage() {
 
           <div className="text-center mt-6 text-sm text-neutral-500 dark:text-neutral-400">
             Already have an account?
-            <a
-              href="/login"
+            <Link
+              to="/login"
               className="underline font-medium text-neutral-900 dark:text-neutral-100 hover:opacity-80 transition-opacity"
             >
             {"  "}Sign in
-            </a>
+            </Link>
           </div>
         </div>
 
