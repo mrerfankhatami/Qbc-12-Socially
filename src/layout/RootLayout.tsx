@@ -1,19 +1,44 @@
-import { Outlet, useLocation } from "react-router";
+import { Outlet, useLocation, useNavigate } from "react-router";
 import Header from "../components/Header";
 import SideSignIn from "../components/SideSignIn";
 import SideRecommendedUsers from "../components/SideRecommendedUsers";
 import SideProfile from "../components/SideProfile";
+import { useSession } from "../hooks/UseSession";
+import { useEffect } from "react";
 import { useAuthStore } from "../store/authStore";
 
 export default function RootLayout() {
-   const isAuthenticated = useAuthStore(
-    (state) => state.isAuthenticated
-  );
 
   const location = useLocation();
+  const navigate = useNavigate();
 
+  const { isLoading, isError } = useSession();
+  const { isAuthenticated } = useAuthStore()
+
+  
+  
   const isHomePage = location.pathname === "/";
 
+  useEffect(() => {
+    if (isError) {
+      navigate("/login", { replace: true });
+    }
+  }, [isError, navigate]);
+
+
+  if (isLoading) {
+    return (
+      <div className="flex items-center justify-center min-h-screen bg-secondary-50 dark:bg-[#262626]">
+        <div className="text-center">
+          <div className="spinner"></div>
+          <p className="text-lg font-medium text-gray-700 dark:text-gray-300">
+            در حال بارگزاری...
+          </p>
+        </div>
+      </div>
+    );
+  }
+  
   return (
     <div className="flex flex-col min-h-screen bg-white dark:bg-[#0A0A0A]">
       <header className="sticky top-0 z-10"><Header /></header>

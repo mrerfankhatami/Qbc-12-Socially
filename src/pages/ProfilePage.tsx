@@ -24,12 +24,16 @@ export default function ProfilePage() {
     <>
       <div className="flex w-[calc(100%-2rem)] max-w-250 justify-center">
         <ProfileCardDetails 
-          name={data.name}
-          email={splitUsername(data.email)}
-          bio={data.bio}
-          image={data.image}
-          location={data.location}
-          website={data.website} />
+          name={data?.data.name}
+          email={splitUsername(data?.data.email)}
+          bio={data?.data.bio}
+          location={!data?.data.location ? "No locatin" : data?.data.location}
+          website={!data?.data.website ? "No website" : data?.data.website} 
+          createdAt={data?.data.createdAt}
+          updatedAt={data?.data.updatedAt}
+          _count={data?.data._count}
+          followers={data?.data.followers}
+          />
       </div>
       <PostAndLikeButton />
     </>

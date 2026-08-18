@@ -6,8 +6,5 @@ export const useGetUserByUserName = ({ username }: GetUserInformationData) => {
   return useQuery({
     queryKey: ["get-by-userName", username],
     queryFn: () => getUserByUserName({ username }),
-    retry: false,
-    refetchOnWindowFocus: false,
-    staleTime: 1000 * 60 * 5,
   });
 };

@@ -4,7 +4,7 @@ import { NavLink } from "react-router";
 interface sidebarProps {
   isOpen: boolean;
   setIsOpen: (isOpen: boolean) => void;
-} 
+}
 
 export default function MobileSidebar(props: sidebarProps) {
   const { isOpen, setIsOpen } = props;
@@ -30,36 +30,46 @@ export default function MobileSidebar(props: sidebarProps) {
 
         <div className=" w-full flex flex-col items-center justify-center bg-white dark:bg-transparent">
           <div className=" w-full flex flex-col items-center justify-around gap-10 h-9 bg-transparent dark:bg-transparent">
-
-            <NavLink to={"/"} className="w-3/4 h-9 flex items-center justify-center gap-2 cursor-pointer hover:bg-[#eeeeee] rounded-md px-3 py-2  dark:bg-[#3f3f3f] dark:hover:bg-[#262626]">
-              <House size={16} className="dark:text-[#FAFAFA]" />
-              <p  className="text-[14px] text-[#171717] dark:text-[#FAFAFA]">
+            <NavLink
+              to={"/"}
+              className="w-3/4 h-9 flex items-center justify-center gap-2 cursor-pointer hover:bg-[#eeeeee] rounded-md px-3 py-2  dark:bg-[#3f3f3f] dark:hover:bg-[#262626]"
+            >
+              <p className="text-[14px] text-[#171717] dark:text-[#FAFAFA]">
                 Home
               </p>
+              <House size={16} className="dark:text-[#FAFAFA]" />
             </NavLink>
 
-            <NavLink to={"/notifications"} className="w-3/4 h-9 flex items-center justify-center gap-2 cursor-pointer hover:bg-[#eeeeee] rounded-md px-3 py-2  dark:bg-[#3f3f3f] dark:hover:bg-[#262626]">
-              <Bell size={16} className="dark:text-[#FAFAFA]" />
-              <p  className="text-[14px] text-[#171717] dark:text-[#FAFAFA]">
+            <NavLink
+              to={"/notifications"}
+              className="w-3/4 h-9 flex items-center justify-center gap-2 cursor-pointer hover:bg-[#eeeeee] rounded-md px-3 py-2  dark:bg-[#3f3f3f] dark:hover:bg-[#262626]"
+            >
+              <p className="text-[14px] text-[#171717] dark:text-[#FAFAFA]">
                 Notification
               </p>
+              <Bell size={16} className="dark:text-[#FAFAFA]" />
             </NavLink>
 
-            <NavLink to={"/profile/1"} className="w-3/4 h-9 flex items-center justify-center gap-2 cursor-pointer hover:bg-[#eeeeee] rounded-md px-3 py-2 dark:bg-[#3f3f3f] dark:hover:bg-[#262626]">
+            <NavLink
+              to={"/profile/1"}
+              className="w-3/4 h-9 flex items-center justify-center gap-2 cursor-pointer hover:bg-[#eeeeee] rounded-md px-3 py-2 dark:bg-[#3f3f3f] dark:hover:bg-[#262626]"
+            >
+              <p className="text-[14px] text-[#171717] dark:text-[#FAFAFA]">
+                Profile
+              </p>
               <UsersRound
                 size={16}
                 strokeWidth={1.75}
                 className="dark:text-[#FAFAFA]"
               />
-              <p className="text-[14px] text-[#171717] dark:text-[#FAFAFA]">
-                Profile
-              </p>
             </NavLink>
 
-            <div className="w-9 h-9 items-center justify-center cursor-pointer hover:bg-[#eeeeee] rounded-md py-2  dark:hover:bg-[#262626] flex">
+            <div className="w-full h-9 items-center justify-center gap-2 cursor-pointer hover:bg-[#eeeeee] rounded-md py-2  dark:hover:bg-[#262626] flex">
+              <p className="text-[14px] text-[#171717] dark:text-[#FAFAFA]">
+                Logout
+              </p>
               <LogOut size={16} className="dark:text-[#FAFAFA]" />
             </div>
-
           </div>
         </div>
       </div>

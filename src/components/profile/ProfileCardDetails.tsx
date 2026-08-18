@@ -4,6 +4,7 @@ import Button from "../Ui/Button";
 import type { UserProfile } from "../../types/ProfileTypes";
 import { useState } from "react";
 import ProfileModal from "./ProfileModal";
+import { getTimeAgo } from "../../utils/getTimeAgo";
 
 const ProfileCardDetails = ({
   name = "Seyed Ali Mousavi",
@@ -12,6 +13,12 @@ const ProfileCardDetails = ({
   image = avatar,
   location = "No location",
   website = "No website",
+  _count = {
+    followers: 0,
+    followings: 0,
+    posts: 0
+  },
+  createdAt = "",
 }: UserProfile) => {
 
     const [isOpenModal, setIsModalOpen] = useState<boolean>(false);
@@ -28,15 +35,15 @@ const ProfileCardDetails = ({
       <h3 className="text-[#737373]">{bio}</h3>
       <div className="max-w-125.5 w-full h-21 flex items-center justify-between">
         <div className="w-16 h-11 flex flex-col items-center">
-          <p className="dark:text-white">1</p>
+          <p className="dark:text-white">{ _count.followings }</p>
           <p className="text-[#737373]">Following</p>
         </div>
         <div className="w-16 h-11 flex flex-col items-center">
-          <p className="dark:text-white">0</p>
+          <p className="dark:text-white">{ _count.followers }</p>
           <p className="text-[#737373]">Followers</p>
         </div>
         <div className="w-16 h-11 flex flex-col items-center">
-          <p className="dark:text-white">1</p>
+          <p className="dark:text-white">{ _count.posts }</p>
           <p className="text-[#737373]">Posts</p>
         </div>
       </div>
@@ -58,7 +65,7 @@ const ProfileCardDetails = ({
         </div>
         <div className="flex gap-2">
           <Calendar className="text-[#737373]" />
-          <p className="text-[#737373]">about 21 hours ago</p>
+          <p className="text-[#737373]">{ getTimeAgo(createdAt) }</p>
         </div>
       </div>
 

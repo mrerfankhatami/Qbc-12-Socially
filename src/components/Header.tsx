@@ -1,13 +1,25 @@
 import { Bell, House, LogOut, Menu, Moon, Sun, UsersRound } from "lucide-react";
 import { useState } from "react";
 import MobileSidebar from "./MobileSidebar";
-import { NavLink, useParams } from "react-router";
+import { NavLink, useNavigate } from "react-router";
+import { useAuthStore } from "../store/authStore";
+import toast from "react-hot-toast";
+import { useQueryClient } from "@tanstack/react-query";
+import { logoutRequest } from "../services/authServices";
+import { splitUsername } from "../utils/splitUsername";
 
 export default function Header() {
   const [isDark, setIsDark] = useState(false);
   const [isLoggesIn] = useState(true);
 
+  const {logout : logoutStore} = useAuthStore()
+
+  const navigate = useNavigate()
+  const queryClient = useQueryClient();
+
   const [isOpen, setIsOpen] = useState(false);
+
+  const { user } = useAuthStore();
 
   const handleToggleSidebar = () => {
     setIsOpen(!isOpen);
@@ -16,6 +28,23 @@ export default function Header() {
   const themeHandler = () => {
     setIsDark(!isDark);
   };
+
+
+
+  const handleLogout = async () => {
+
+    try {
+      await logoutRequest()
+      logoutStore()
+      queryClient.removeQueries({queryKey:["session"]})
+      navigate("login")
+      toast.success("Logout successfully")
+
+    } catch (err) {
+      toast.error("logout failed...")
+      console.log(err)
+    }
+  }
 
   return (
     <>
@@ -61,7 +90,7 @@ export default function Header() {
                 </NavLink>
 
                 <NavLink
-                  to={`/profile/${"morez"}`}
+                  to={`/profile/${splitUsername(user?.email)}`}
                   className="h-9 flex items-center justify-between gap-2 cursor-pointer hover:bg-[#eeeeee] rounded-md px-3 dark:bg-[#0A0A0A] dark:hover:bg-[#262626]"
                 >
                   <UsersRound
@@ -74,7 +103,7 @@ export default function Header() {
                   </p>
                 </NavLink>
 
-                <div className="w-9 h-9 items-center justify-center cursor-pointer hover:bg-[#eeeeee] rounded-md dark:hover:bg-[#262626] hidden md:flex">
+                <div onClick={handleLogout} className="w-9 h-9 items-center justify-center cursor-pointer hover:bg-[#eeeeee] rounded-md dark:hover:bg-[#262626] hidden md:flex">
                   <LogOut size={16} className="dark:text-[#FAFAFA]" />
                 </div>
               </div>
