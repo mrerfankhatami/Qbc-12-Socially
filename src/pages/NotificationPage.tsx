@@ -1,17 +1,24 @@
-import { useState } from "react";
 import NotificationCard from "../components/notification/NotificationCard";
-import { notifications } from "../constant/NotificationData";
+import { useGetAllNotifications } from "../hooks/useGetAllNotification";
+import { useMarkNotificationsAsRead } from "../hooks/useMarkNotificationsAsRead";
+import type { NotificationTypes } from "../types/NotificationTypes";
+
 
 export default function NotificationPage() {
 
-  const [notificationList] = useState(notifications);
+  const {data: notifications = []} = useGetAllNotifications();
 
-  const unreadCount = notificationList.filter(
-    (notification) => !notification.read,
+  const {mutate: readAllNotification} = useMarkNotificationsAsRead();
+
+  const unreadCount = notifications.filter(
+    (notification:NotificationTypes) => !notification.read,
   ).length;
 
   const handleReadAllNotification = () => {
-    // code
+
+    const ids = notifications.map((notification:NotificationTypes) => notification.id)
+
+    readAllNotification({ids})
   }
 
   return (
@@ -29,6 +36,7 @@ export default function NotificationPage() {
           <button
             className="text-sm font-bold text-gray-900 transition-colors hover:text-blue-500 dark:text-white dark:hover:text-blue-400"
             onClick={() => handleReadAllNotification()}
+            disabled={unreadCount === 0}
           >
             Mark all as read
           </button>
@@ -36,7 +44,7 @@ export default function NotificationPage() {
       </div>
 
       <ul className="flex max-h-102 flex-col gap-3 overflow-y-auto px-5 pb-5 sm:px-6 [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-track]:bg-transparent [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-gray-300 dark:[&::-webkit-scrollbar-thumb]:bg-gray-600 m-0 list-none p-0">
-        {notificationList.map((notification) => (
+        {notifications.map((notification:NotificationTypes) => (
           <NotificationCard key={notification.id} {...notification} />
         ))}
       </ul>

@@ -12,5 +12,5 @@ export const markNotificationsAsRead = async (payload : MarkNotificationsAsReadP
 
 export const getAllNotifications = async () => {
   const res = await api.get("/notifications");  
-  return res.data;
+  return res.data.data;
 };
