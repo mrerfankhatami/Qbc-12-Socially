@@ -2,7 +2,7 @@ import { useState, type ChangeEvent } from "react";
 import TextField from "../components/Ui/TextField";
 import Button from "../components/Ui/Button";
 import { useLoginMutation } from "../hooks/useLoginMutation";
-import { useNavigate } from "react-router";
+import { Link, useNavigate } from "react-router";
 import toast from "react-hot-toast";
 
 export default function LoginPage() {
@@ -87,12 +87,12 @@ export default function LoginPage() {
 
               <p className="items-center text-center text-[#737373] dark:text-[#A3A3A3] text-sm">
                 Don't have an account?{" "}
-                <a
-                  href="#"
+                <Link
+                  to="/register"
                   className="underline underline-offset-4 dark:hover:text-white"
                 >
                   Sign up
-                </a>
+                </Link>
               </p>
             </div>
           </form>
