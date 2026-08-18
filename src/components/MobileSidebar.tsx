@@ -5,11 +5,6 @@ import { useQueryClient } from "@tanstack/react-query";
 import toast from "react-hot-toast";
 import { useAuthStore } from "../store/authStore";
 
-const navigate = useNavigate();
-const queryClient = useQueryClient();
-
-const { logout: logoutStore } = useAuthStore();
-
 interface sidebarProps {
   isOpen: boolean;
   setIsOpen: (isOpen: boolean) => void;
@@ -21,6 +16,11 @@ export default function MobileSidebar(props: sidebarProps) {
   const handleToggleSidebar = () => {
     setIsOpen(!isOpen);
   };
+
+  const navigate = useNavigate();
+  const queryClient = useQueryClient();
+
+  const { logout: logoutStore } = useAuthStore();
 
   const handleLogout = async () => {
     try {
