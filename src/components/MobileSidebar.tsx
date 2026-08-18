@@ -1,5 +1,9 @@
 import { Bell, House, LogOut, UsersRound, X } from "lucide-react";
-import { NavLink } from "react-router";
+import { logoutRequest } from "../services/authServices";
+import { NavLink, useNavigate } from "react-router";
+import { useQueryClient } from "@tanstack/react-query";
+import toast from "react-hot-toast";
+import { useAuthStore } from "../store/authStore";
 
 interface sidebarProps {
   isOpen: boolean;
@@ -11,6 +15,24 @@ export default function MobileSidebar(props: sidebarProps) {
 
   const handleToggleSidebar = () => {
     setIsOpen(!isOpen);
+  };
+
+  const navigate = useNavigate();
+  const queryClient = useQueryClient();
+
+  const { logout: logoutStore } = useAuthStore();
+
+  const handleLogout = async () => {
+    try {
+      await logoutRequest();
+      logoutStore();
+      queryClient.removeQueries({ queryKey: ["session"] });
+      navigate("/login");
+      toast.success("Logout successfully");
+    } catch (err) {
+      toast.error("logout failed...");
+      console.log(err);
+    }
   };
 
   return (
@@ -64,7 +86,10 @@ export default function MobileSidebar(props: sidebarProps) {
               />
             </NavLink>
 
-            <div className="w-full h-9 items-center justify-center gap-2 cursor-pointer hover:bg-[#eeeeee] rounded-md py-2  dark:hover:bg-[#262626] flex">
+            <div
+              onClick={handleLogout}
+              className="w-full h-9 items-center justify-center gap-2 cursor-pointer hover:bg-[#eeeeee] rounded-md py-2  dark:hover:bg-[#262626] flex"
+            >
               <p className="text-[14px] text-[#171717] dark:text-[#FAFAFA]">
                 Logout
               </p>
