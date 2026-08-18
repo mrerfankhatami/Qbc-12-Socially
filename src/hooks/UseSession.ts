@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useAuthStore } from "../store/authStore";
-import { getSession } from "./../services/SessionServices";
 import { useQuery } from "@tanstack/react-query";
+import { getSession } from "../services/SessionServices";
 
 export const useSession = () => {
 
