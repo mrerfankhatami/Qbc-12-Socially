@@ -1,10 +1,13 @@
 import { useQuery } from "@tanstack/react-query";
 import { getAllNotifications } from "../services/notificationServices";
+import { useAuthStore } from "../store/authStore";
 
 export const useGetAllNotifications = () => {
 
+  const {user} = useAuthStore()
+
   const query = useQuery({
-    queryKey: ["allNotifications"],
+    queryKey: ["allNotifications" , user?.id],
     queryFn: getAllNotifications,
     retry: false,
     refetchOnWindowFocus: false,
