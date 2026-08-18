@@ -27,7 +27,7 @@ export default function MobileSidebar(props: sidebarProps) {
       await logoutRequest();
       logoutStore();
       queryClient.removeQueries({ queryKey: ["session"] });
-      navigate("login");
+      navigate("/login");
       toast.success("Logout successfully");
     } catch (err) {
       toast.error("logout failed...");
