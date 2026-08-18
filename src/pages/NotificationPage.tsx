@@ -5,7 +5,7 @@ import { useMarkNotificationsAsRead } from "../hooks/usemarkNotificationsAsRead"
 import type { NotificationTypes } from "../types/NotificationTypes";
 
 export default function NotificationPage() {
-  const { data: notifications = [], isLoading: isLoadingNotifications } =
+  const { data: notifications = [], isLoading: isLoadingNotifications, isError} =
     useGetAllNotifications();
 
   const { mutate: readAllNotification, isPending: isMarkingAsRead } =
@@ -60,17 +60,20 @@ export default function NotificationPage() {
       </div>
 
       <ul className="flex max-h-102 flex-col gap-3 overflow-y-auto px-5 pb-5 sm:px-6 [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-track]:bg-transparent [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-gray-300 dark:[&::-webkit-scrollbar-thumb]:bg-gray-600 m-0 list-none p-0">
-        {!isLoadingNotifications && notifications.length === 0 && (
-          <li className="flex h-40 items-center justify-center text-gray-500">
-            No notifications yet
-          </li>
-        )}
         {isLoadingNotifications ? (
           <li className="flex h-40 items-center justify-center">
             <LoaderCircle className="h-6 w-6 animate-spin text-gray-400" />
           </li>
+        ) : isError ? (
+          <li className="flex h-40 items-center justify-center text-red-500">
+            Failed to load notifications
+          </li>
+        ) : notifications.length === 0 ? (
+          <li className="flex h-40 items-center justify-center text-gray-500">
+            No notifications yet
+          </li>
         ) : (
-          notifications.map((notification: NotificationTypes) => (
+          notifications.map((notification:NotificationTypes) => (
             <NotificationCard key={notification.id} {...notification} />
           ))
         )}
