@@ -6,6 +6,7 @@ import { useAuthStore } from "../store/authStore";
 import toast from "react-hot-toast";
 import { useQueryClient } from "@tanstack/react-query";
 import { logoutRequest } from "../services/authServices";
+import { splitUsername } from "../utils/splitUsername";
 
 export default function Header() {
   const [isDark, setIsDark] = useState(false);
@@ -17,6 +18,8 @@ export default function Header() {
   const queryClient = useQueryClient();
 
   const [isOpen, setIsOpen] = useState(false);
+
+  const { user } = useAuthStore();
 
   const handleToggleSidebar = () => {
     setIsOpen(!isOpen);
@@ -87,7 +90,7 @@ export default function Header() {
                 </NavLink>
 
                 <NavLink
-                  to={`/profile/${"morez"}`}
+                  to={`/profile/${splitUsername(user?.email)}`}
                   className="h-9 flex items-center justify-between gap-2 cursor-pointer hover:bg-[#eeeeee] rounded-md px-3 dark:bg-[#0A0A0A] dark:hover:bg-[#262626]"
                 >
                   <UsersRound
