@@ -3,18 +3,17 @@ import { markNotificationsAsRead } from "../services/notificationServices";
 import toast from "react-hot-toast";
 import { useAuthStore } from "../store/authStore";
 
-export const useMarkNotificationsAsRead = () => {
+export const useMarkOneNotificationAsRead = () => {
   const queryClient = useQueryClient();
-
   const {user} = useAuthStore()
 
   const query = useMutation({
     mutationFn: markNotificationsAsRead,
 
-    onSuccess: (res) => {
+    onSuccess: () => {
 
       queryClient.invalidateQueries({ queryKey: ["allNotifications" , user?.id] });
-      toast.success(res.message);
+      toast.success("This notification as read");
     },
     onError: (res) => {
       toast.error(res.message || "Something went wrong");
