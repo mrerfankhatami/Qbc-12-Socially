@@ -2,15 +2,29 @@ import type { NotificationTypes } from "../../types/NotificationTypes";
 import avatar from "../../assets/avatar.png";
 import NotificationContent from "./NotificationContent";
 import { getTimeAgo } from "../../utils/getTimeAgo";
+import { useMarkOneNotificationAsRead } from "../../hooks/useMarkOneNotificationAsRead";
 
 const NotificationCard = (notification: NotificationTypes) => {
   const cardTheme = notification.read
     ? "border-gray-200 bg-white hover:bg-gray-50 dark:border-[#2F2F2F] dark:bg-[#161616] dark:hover:bg-[#1C1C1C]"
-    : "border-transparent bg-[#F5F5F5] hover:bg-[#EEEEEE] dark:bg-[#252525] dark:hover:bg-[#2B2B2B]";
+    : "border-transparent bg-[#F5F5F5] hover:bg-[#EEEEEE] dark:bg-[#252525] dark:hover:bg-[#2B2B2B] cursor-pointer";
+
+  const { mutate: readOneNotification, isPending: isReading } =
+    useMarkOneNotificationAsRead();
+
+  const pendingTheme = isReading ? "opacity-60" : "";
+
+  const handleReadOneNotification = () => {
+    if (notification.read || isReading) {
+      return;
+    }
+    readOneNotification({ ids: [notification.id] });
+  };
 
   return (
     <li
-      className={`relative flex gap-3 rounded-xl border p-4 transition-colors ${cardTheme}`}
+      className={`relative flex gap-3 rounded-xl border p-4 transition-colors ${cardTheme} ${pendingTheme}`}
+      onClick={handleReadOneNotification}
     >
       <img
         src={avatar}

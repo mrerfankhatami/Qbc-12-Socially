@@ -18,7 +18,7 @@ export interface NotificationTypes {
   post: {
     content: string;
   } | null;
-  coment: {
+  comment: {
     content: string;
   } | null;
 }

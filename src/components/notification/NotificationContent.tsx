@@ -46,7 +46,7 @@ const NotificationContent = ( notification: NotificationTypes) => {
 
           <div className="rounded-lg bg-white px-3 py-2 dark:bg-[#161616]">
             <p className="text-sm leading-6 text-gray-600 dark:text-gray-300">
-              {notification.coment?.content}
+              {notification.comment?.content}
             </p>
           </div>
 
