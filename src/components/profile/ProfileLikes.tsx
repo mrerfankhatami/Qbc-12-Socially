@@ -39,7 +39,7 @@ export default function ProfileLikes() {
   return (
     <div className="flex flex-col">
       {likes.length === 0 ? (
-        <div className="w-[calc(100%-2rem)] max-w-250 mt-4 dark:bg-[#0A0A0A] dark:border-[#262626] rounded-lg p-3">
+        <div className="w-[calc(100%-2rem)] max-w-250 mt-4 dark:bg-[#FAFAFA] dark:border-[#262626] rounded-lg p-3">
           <h2 className="text-white text-lg dark:text-black">
             There is no post
           </h2>
