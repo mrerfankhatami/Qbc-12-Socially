@@ -13,7 +13,7 @@ export const useMarkOneNotificationAsRead = () => {
     onSuccess: () => {
 
       queryClient.invalidateQueries({ queryKey: ["allNotifications" , user?.id] });
-      toast.success("This notification as read");
+      toast.success("This notification marked as read");
     },
     onError: (res) => {
       toast.error(res.message || "Something went wrong");
