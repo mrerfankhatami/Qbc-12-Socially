@@ -10,9 +10,9 @@ export const useGetAllNotifications = () => {
     queryKey: ["allNotifications" , user?.id],
     queryFn: getAllNotifications,
     retry: false,
-    refetchOnWindowFocus: true,
+    refetchOnWindowFocus: "always",
     staleTime: 1000 * 60 * 5,
-    refetchOnMount: true,
+    refetchOnMount: "always",
   });
 
   return query;
