@@ -2,99 +2,111 @@ import avatar from "../../assets/avatar.png";
 import { Heart, MessageCircle } from "lucide-react";
 import { useState } from "react";
 import Comment from "./Comment";
+import type { PostType } from "../../types/AllPostsTypes";
 
-export default function Post() {
+type PostProps = {
+  post: PostType;
+};
+
+export default function Post({ post }: PostProps) {
   const [isCommentOpen, setIsCommentOpen] = useState(false);
   const [isLiked, setIsLiked] = useState(false);
 
   const toggleComment = () => {
-    setIsCommentOpen(!isCommentOpen);
+    setIsCommentOpen((prev) => !prev);
   };
 
   const toggleLike = () => {
-    setIsLiked(!isLiked);
+    setIsLiked((prev) => !prev);
   };
-  return (  
-    <>
-      <div className="px-4 md:min-w-100 min-h-40 p-6 rounded-2xl border border-[#E5E5E5] shadow-sm dark:border-[#262626] dark:bg-[#0A0A0A]">
-        {" "}
-        <div className="flex items-center gap-5">
-          <img
-            className="w-10 rounded-full"
-            src={avatar}
-            alt="Profile Picture"
-          />
-          <div>
-            <div className="flex justify-start items-center gap-5">
-              <p className="font-bold text-[#171717] dark:text-[#FAFAFA]">
-                Farshad Hosseini
-              </p>
-              <p className="text-[#737373] dark:text-[#A3A3A3] text-[14px] font-light">
-                @f.e.h.farshad
-              </p>
-              <p className="text-[#737373] dark:text-[#A3A3A3] text-[14px] font-light hidden md:block">
-                . 8 days ago
-              </p>
-            </div>
-          </div>
-        </div>
-        <p className="dark:text-[#FAFAFA] mt-5">
-          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Unde,
-          eligendi!
-        </p>
-        <div className="flex items-center justify-start gap-8 mt-6">
-          <div
-            onClick={toggleLike}
-            className="flex items-center justify-between gap-2"
-          >
-            <Heart
-              size={16}
-              className={
-                isLiked
-                  ? "text-[#EF4444] dark:text-[#EF4444]"
-                  : "text-[#171717] dark:text-[#FAFAFA]"
-              }
-              fill={isLiked ? "#EF4444" : "none"}
-            />
 
-            <p
-              className={
-                isLiked
-                  ? "text-[#EF4444] dark:text-[#EF4444]"
-                  : "text-[#171717] dark:text-[#FAFAFA]"
-              }
-            >
-              3
+  return (
+    <div className="my-5 px-4 md:min-w-100 min-h-40 p-6 rounded-2xl border border-[#E5E5E5] shadow-sm dark:border-[#262626] dark:bg-[#0A0A0A]">
+      {/* Author */}
+      <div className="flex items-center gap-5">
+        <img
+          className="w-10 h-10 rounded-full object-cover"
+          src={post.author.image || avatar}
+          alt={`${post.author.name}'s profile`}
+        />
+
+        <div>
+          <div className="flex justify-start items-center gap-5">
+            <p className="font-bold text-[#171717] dark:text-[#FAFAFA]">
+              {post.author.name}
             </p>
-          </div>
 
-          <div
-            onClick={toggleComment}
-            className="flex items-center justify-between gap-2"
-          >
-            <MessageCircle
-              size={16}
-              className={
-                isCommentOpen
-                  ? "text-[#3B82F6] dark:text-[#3B82F6]"
-                  : "text-[#171717] dark:text-[#FAFAFA]"
-              }
-              fill={isCommentOpen ? "#3B82F6" : "none"}
-            />
+            <p className="text-[#737373] dark:text-[#A3A3A3] text-[14px] font-light">
+              @{post.author.name.toLowerCase().replace(/\s+/g, "")}
+            </p>
 
-            <p
-              className={
-                isCommentOpen
-                  ? "text-[#3B82F6] dark:text-[#3B82F6]"
-                  : "text-[#171717] dark:text-[#FAFAFA]"
-              }
-            >
-              1
+            <p className="text-[#737373] dark:text-[#A3A3A3] text-[14px] font-light hidden md:block">
+              . {new Date(post.createdAt).toLocaleDateString()}
             </p>
           </div>
         </div>
-        {isCommentOpen && <Comment />}
       </div>
-    </>
+
+      {/* Content */}
+      <p className="dark:text-[#FAFAFA] mt-5 whitespace-pre-line">
+        {post.content}
+      </p>
+
+      {/* Actions */}
+      <div className="flex items-center justify-start gap-8 mt-6">
+        {/* Like */}
+        <button
+          type="button"
+          onClick={toggleLike}
+          className="flex items-center justify-between gap-2 cursor-pointer"
+        >
+          <Heart
+            size={16}
+            className={
+              isLiked ? "text-[#EF4444]" : "text-[#171717] dark:text-[#FAFAFA]"
+            }
+            fill={isLiked ? "#EF4444" : "none"}
+          />
+
+          <p
+            className={
+              isLiked ? "text-[#EF4444]" : "text-[#171717] dark:text-[#FAFAFA]"
+            }
+          >
+            {post._count.likes + (isLiked ? 1 : 0)}
+          </p>
+        </button>
+
+        {/* Comments */}
+        <button
+          type="button"
+          onClick={toggleComment}
+          className="flex items-center justify-between gap-2 cursor-pointer"
+        >
+          <MessageCircle
+            size={16}
+            className={
+              isCommentOpen
+                ? "text-[#3B82F6]"
+                : "text-[#171717] dark:text-[#FAFAFA]"
+            }
+            fill={isCommentOpen ? "#3B82F6" : "none"}
+          />
+
+          <p
+            className={
+              isCommentOpen
+                ? "text-[#3B82F6]"
+                : "text-[#171717] dark:text-[#FAFAFA]"
+            }
+          >
+            {post._count.comments}
+          </p>
+        </button>
+      </div>
+
+      {/* Comments */}
+      {isCommentOpen && <Comment />}
+    </div>
   );
 }
