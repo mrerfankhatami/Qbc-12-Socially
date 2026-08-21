@@ -14,5 +14,5 @@ export const useGetAllNotifications = () => {
     refetchOnMount: "always",
   });
 
-  return query.data;
+  return query;
 };
