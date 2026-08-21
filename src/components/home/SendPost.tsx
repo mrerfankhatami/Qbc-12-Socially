@@ -1,9 +1,13 @@
 import React, { useState } from "react";
 import { Send } from "lucide-react";
 import avatar from "../../assets/avatar.png";
+import { useAddNewPostMutation } from "../../hooks/useAddNewPostMutation";
 
 export default function SendPost() {
   const [text, setText] = useState("");
+
+  const { mutate } = useAddNewPostMutation();
+
 
   const handleSubmit = (e: React.SubmitEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -12,6 +16,9 @@ export default function SendPost() {
 
     console.log(text);
     setText("");
+    mutate({
+      content: text.trim()
+    });
   };
 
   return (
