@@ -3,11 +3,10 @@ import { getAllNotifications } from "../services/notificationServices";
 import { useAuthStore } from "../store/authStore";
 
 export const useGetAllNotifications = () => {
-
-  const {user} = useAuthStore()
+  const { user } = useAuthStore();
 
   const query = useQuery({
-    queryKey: ["allNotifications" , user?.id],
+    queryKey: ["allNotifications", user?.id],
     queryFn: getAllNotifications,
     retry: false,
     refetchOnWindowFocus: "always",
@@ -15,5 +14,5 @@ export const useGetAllNotifications = () => {
     refetchOnMount: "always",
   });
 
-  return query;
+  return query.data;
 };

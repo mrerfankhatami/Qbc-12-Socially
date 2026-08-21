@@ -1,11 +1,18 @@
-import Post from "./Post";
 import SendPost from "./SendPost";
+import { useGetAllPosts } from "../../hooks/useGetAllPosts";
+import type { PostType } from "../../types/AllPostsTypes";
+import Post from "./Post";
 
 export default function AllPosts() {
+  const posts = useGetAllPosts();
+
   return (
-    <div className="">
+    <div>
       <SendPost />
-      <Post /> 
+
+      {posts.data.map((post: PostType) => (
+        <Post key={post.id} post={post} />
+      ))}
     </div>
   );
 }
