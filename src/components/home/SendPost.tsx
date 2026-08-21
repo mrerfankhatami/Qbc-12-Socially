@@ -6,7 +6,7 @@ import { useAddNewPostMutation } from "../../hooks/useAddNewPostMutation";
 export default function SendPost() {
   const [text, setText] = useState("");
 
-  const { mutate } = useAddNewPostMutation();
+  const { mutate: addNewPostMutation } = useAddNewPostMutation();
 
 
   const handleSubmit = (e: React.SubmitEvent<HTMLFormElement>) => {
@@ -14,11 +14,11 @@ export default function SendPost() {
 
     if (!text.trim()) return;
 
-    console.log(text);
-    setText("");
-    mutate({
+    addNewPostMutation({
       content: text.trim()
     });
+
+    setText("");
   };
 
   return (
