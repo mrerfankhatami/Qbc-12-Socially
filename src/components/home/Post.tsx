@@ -21,7 +21,7 @@ export default function Post({ post }: PostProps) {
   };
 
   return (
-    <div className="px-4 md:min-w-100 min-h-40 p-6 rounded-2xl border border-[#E5E5E5] shadow-sm dark:border-[#262626] dark:bg-[#0A0A0A]">
+    <div className="my-5 px-4 md:min-w-100 min-h-40 p-6 rounded-2xl border border-[#E5E5E5] shadow-sm dark:border-[#262626] dark:bg-[#0A0A0A]">
       {/* Author */}
       <div className="flex items-center gap-5">
         <img
