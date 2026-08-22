@@ -9,7 +9,9 @@ import { logoutRequest } from "../services/authServices";
 import { splitUsername } from "../utils/splitUsername";
 
 export default function Header() {
-  const [isDark, setIsDark] = useState(false);
+  const [isDark, setIsDark] = useState(() =>
+    document.documentElement.classList.contains("dark-mode")
+  );
   const [isLoggesIn] = useState(true);
 
   const {logout : logoutStore} = useAuthStore()
@@ -26,6 +28,11 @@ export default function Header() {
   };
 
   const themeHandler = () => {
+    const root = document.documentElement;
+    const nextTheme = isDark ? "light-mode" : "dark-mode";
+    root.classList.remove("dark-mode", "light-mode");
+    root.classList.add(nextTheme);
+    localStorage.setItem("theme", nextTheme);
     setIsDark(!isDark);
   };
 

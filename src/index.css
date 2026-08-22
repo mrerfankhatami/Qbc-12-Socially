@@ -1,5 +1,5 @@
 @import "tailwindcss";
-/* @custom-variant dark (&:where([data-theme=dark], [data-theme=dark] *)); */
+@custom-variant dark (&:where(.dark-mode, .dark-mode *))
 
 @font-face {
   font-family: "Yekan";
