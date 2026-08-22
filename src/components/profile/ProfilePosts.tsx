@@ -37,8 +37,6 @@ export default function ProfilePosts() {
   function handleConfirmDelete() {
     if (!selectedPostId) return;
 
-    console.log(selectedPostId);
-
     deletePost(selectedPostId, {
       onSuccess: () => {
         setIsDeleteModalOpen(false);

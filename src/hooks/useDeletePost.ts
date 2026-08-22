@@ -9,7 +9,7 @@ export function useDeletePost() {
 
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: ["usersPosts"],
+        queryKey: ["get-users-posts"],
       });
     },
   });

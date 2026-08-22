@@ -1,12 +1,11 @@
 import api from "./axiosConfig";
 
 export interface GetUserInformationData {
-    username: string
+  username: string | undefined;
 }
 
 export const getUserByUserName = async (data: GetUserInformationData) => {
-    const response = await api.get(`/users/${data.username}/profile`);
+  const response = await api.get(`/users/${data.username}/profile`);
 
-    return response.data;
+  return response.data;
 };
-
