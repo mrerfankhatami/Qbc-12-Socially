@@ -6,11 +6,13 @@ import { Toaster } from 'react-hot-toast'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 
 const queryClient = new QueryClient();
-const savedTheme = localStorage.getItem("theme");
-const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
-const initialTheme = savedTheme || (prefersDark ? "dark-mode" : "light-mode");
-document.documentElement.classList.add(initialTheme);
 
+const savedTheme = localStorage.getItem('theme');
+if (savedTheme === 'dark') {
+  document.documentElement.classList.add('dark-mode');
+} else {
+  document.documentElement.classList.add('light-mode');
+}
 
 createRoot(document.getElementById('root')!).render(  
   <>
