@@ -106,7 +106,7 @@ export default function Post({ post }: PostProps) {
       </div>
 
       {/* Comments */}
-      {isCommentOpen && <Comment />}
+      {isCommentOpen && <Comment post={ post }/>}
     </div>
   );
 }
