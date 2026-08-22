@@ -3,71 +3,32 @@ import Avatar from './Ui/Avatar';
 import avatar from "../assets/avatar.png";
 
 import { useAuthStore } from "../store/authStore";
-import { useGetUserById } from "../hooks/useGetUserById";
 import { useGetUserByUserName } from "../hooks/useGetUserByUserName";
 import { splitUsername } from "../utils/splitUsername";
-
-
-
-// interface UserProfile {
-//   name: string;
-//   username: string;
-//   followingsCount: number;
-//   followersCount: number;
-//   postsCount: number;
-//   location?: string;
-//   website?: string;
-//   joinedDate: string;
-//   avatarUrl?: string;
-// }
-
-// interface SideProfileProps {
-//   user?: UserProfile;
-//   onEditProfile?: () => void;
-// }
-
-// export const SideProfile: React.FC<SideProfileProps> = ({
-//   user = {
-//     name: 'salar',
-//     username: 'salargasemi40',
-//     followingsCount: 4,
-//     followersCount: 0,
-//     postsCount: 0,
-//     location: 'No location',
-//     website: 'No website',
-//     joinedDate: '17 minutes ago',
-//   },
-// }) => {
 
 
 export const SideProfile: React.FC = () => {
   const { user } = useAuthStore();
 
-  const {
-    data: dataById,
-    isLoading: isLoadingById,
-    isError: isErrorById,
-  } = useGetUserById({ id: user?.id ?? "" });
 
-  const usernameFallback = isErrorById ? splitUsername(user?.email ?? "") : "";
+  const usernameFallback = splitUsername(user?.email ?? "");
 
   const {
     data: dataByUsername,
     isLoading: isLoadingByUsername,
   } = useGetUserByUserName({ username: usernameFallback });
 
-  const profile = dataById?.data ?? dataByUsername?.data;
-  const isLoading = isLoadingById || (isErrorById && isLoadingByUsername);
+  const profile =  dataByUsername?.data;
+  const isLoading =  isLoadingByUsername;
 
   if (isLoading || !profile) {
     return (
       <div className="bg-white dark:bg-[#0A0A0A] border border-zinc-200 dark:border-zinc-800 rounded-2xl p-6 shadow-sm w-full max-w-84 text-center text-xs text-zinc-500">
+       <span className='spinner-mini'></span>
         در حال بارگذاری
       </div>
     );
   }
-
-
 
   return (
     <div className="bg-white dark:bg-[#0A0A0A] border border-zinc-200 dark:border-zinc-800 rounded-2xl p-6 shadow-sm flex flex-col items-center text-center w-full max-w-84">
