@@ -1,17 +1,17 @@
 import { Trash2, X } from "lucide-react";
 import Button from "../Ui/Button";
 
-interface DeleteConfirmModalProps {
+interface DeleteModalProps {
   isOpen: boolean;
   onClose: () => void;
   onConfirm: () => void;
 }
 
-export default function DeleteConfirmModal({
+export default function DeleteModal({
   isOpen,
   onClose,
   onConfirm,
-}: DeleteConfirmModalProps) {
+}: DeleteModalProps) {
   if (!isOpen) return null;
 
   return (
@@ -23,7 +23,6 @@ export default function DeleteConfirmModal({
         className="relative w-full max-w-md rounded-xl bg-white p-6 shadow-xl dark:bg-[#0A0A0A]"
         onClick={(e) => e.stopPropagation()}
       >
-        {/* Close button */}
         <button
           type="button"
           onClick={onClose}
@@ -33,12 +32,10 @@ export default function DeleteConfirmModal({
           <X width={20} height={20} />
         </button>
 
-        {/* Delete icon */}
         <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-red-100 dark:bg-red-950">
           <Trash2 width={22} height={22} className="text-red-600" />
         </div>
 
-        {/* Content */}
         <h2 className="text-lg font-semibold text-black dark:text-white">
           Delete post?
         </h2>
@@ -48,7 +45,6 @@ export default function DeleteConfirmModal({
           undone.
         </p>
 
-        {/* Buttons */}
         <div className="mt-6 flex justify-end gap-3">
           <Button
             type="button"

@@ -7,13 +7,15 @@ import { useAuthStore } from "../../store/authStore";
 import { useGetUsersPosts } from "../../hooks/useGetUsersPosts";
 import { splitUsername } from "../../utils/splitUsername";
 import { getTimeAgo } from "../../utils/getTimeAgo";
-import ProfileModal from "./ProfileModal";
+import DeleteModal from "./DeleteModal";
+import { useDeletePost } from "../../hooks/useDeletePost";
 
 export default function ProfilePosts() {
   const [isOpenComment, setIsOpenComment] = useState<boolean>(false);
   const [isLike, setIsLike] = useState<boolean>(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [selectedPostId, setSelectedPostId] = useState<string | null>(null);
+  const { mutate: deletePost, isPending: isDeleting } = useDeletePost();
 
   const { user } = useAuthStore();
 
@@ -35,10 +37,17 @@ export default function ProfilePosts() {
   function handleConfirmDelete() {
     if (!selectedPostId) return;
 
-    console.log("Deleting post:", selectedPostId);
+    console.log(selectedPostId);
 
-    setIsDeleteModalOpen(false);
-    setSelectedPostId(null);
+    deletePost(selectedPostId, {
+      onSuccess: () => {
+        setIsDeleteModalOpen(false);
+        setSelectedPostId(null);
+      },
+      onError: (error) => {
+        console.error("Failed to delete post:", error);
+      },
+    });
   }
 
   function handleCloseDeleteModal() {
@@ -185,7 +194,7 @@ export default function ProfilePosts() {
           </div>
         ))
       )}
-      <ProfileModal
+      <DeleteModal
         isOpen={isDeleteModalOpen}
         onClose={handleCloseDeleteModal}
         onConfirm={handleConfirmDelete}
