@@ -2,54 +2,91 @@ import React from 'react';
 import Avatar from './Ui/Avatar';
 import avatar from "../assets/avatar.png";
 
+import { useAuthStore } from "../store/authStore";
+import { useGetUserById } from "../hooks/useGetUserById";
+import { useGetUserByUserName } from "../hooks/useGetUserByUserName";
+import { splitUsername } from "../utils/splitUsername";
 
-interface UserProfile {
-  name: string;
-  username: string;
-  followingsCount: number;
-  followersCount: number;
-  postsCount: number;
-  location?: string;
-  website?: string;
-  joinedDate: string;
-  avatarUrl?: string;
-}
 
-interface SideProfileProps {
-  user?: UserProfile;
-  onEditProfile?: () => void;
-}
 
-export const SideProfile: React.FC<SideProfileProps> = ({
-  user = {
-    name: 'salar',
-    username: 'salargasemi40',
-    followingsCount: 4,
-    followersCount: 0,
-    postsCount: 0,
-    location: 'No location',
-    website: 'No website',
-    joinedDate: '17 minutes ago',
-  },
-}) => {
+// interface UserProfile {
+//   name: string;
+//   username: string;
+//   followingsCount: number;
+//   followersCount: number;
+//   postsCount: number;
+//   location?: string;
+//   website?: string;
+//   joinedDate: string;
+//   avatarUrl?: string;
+// }
+
+// interface SideProfileProps {
+//   user?: UserProfile;
+//   onEditProfile?: () => void;
+// }
+
+// export const SideProfile: React.FC<SideProfileProps> = ({
+//   user = {
+//     name: 'salar',
+//     username: 'salargasemi40',
+//     followingsCount: 4,
+//     followersCount: 0,
+//     postsCount: 0,
+//     location: 'No location',
+//     website: 'No website',
+//     joinedDate: '17 minutes ago',
+//   },
+// }) => {
+
+
+export const SideProfile: React.FC = () => {
+  const { user } = useAuthStore();
+
+  const {
+    data: dataById,
+    isLoading: isLoadingById,
+    isError: isErrorById,
+  } = useGetUserById({ id: user?.id ?? "" });
+
+  const usernameFallback = isErrorById ? splitUsername(user?.email ?? "") : "";
+
+  const {
+    data: dataByUsername,
+    isLoading: isLoadingByUsername,
+  } = useGetUserByUserName({ username: usernameFallback });
+
+  const profile = dataById?.data ?? dataByUsername?.data;
+  const isLoading = isLoadingById || (isErrorById && isLoadingByUsername);
+
+  if (isLoading || !profile) {
+    return (
+      <div className="bg-white dark:bg-[#0A0A0A] border border-zinc-200 dark:border-zinc-800 rounded-2xl p-6 shadow-sm w-full max-w-84 text-center text-xs text-zinc-500">
+        در حال بارگذاری
+      </div>
+    );
+  }
+
+
+
   return (
     <div className="bg-white dark:bg-[#0A0A0A] border border-zinc-200 dark:border-zinc-800 rounded-2xl p-6 shadow-sm flex flex-col items-center text-center w-full max-w-84">
 
       <div className="mb-4 ">
-        <Avatar src={avatar} height={60} width={60}/>
+        <Avatar src={profile.image || avatar} height={60} width={60}/>
       </div>
 
       <h3 className="text-base font-bold text-zinc-900 dark:text-white mb-0.5">
-        {user.name}
+        {profile.name}
       </h3>
       <span className="text-xs text-zinc-500 dark:text-zinc-400 mb-6">
-        {user.username}
+        {splitUsername(profile.email ?? "")}
       </span>
 
       <div className="w-full flex justify-between items-center  gap-2 mb-6 text-center border-t border-zinc-100 dark:border-zinc-900 pt-4">
         <div className="flex flex-col">
           <span className="text-sm font-bold text-zinc-900 dark:text-white">
-            {user.followingsCount}
+            {profile._count?.followings ?? 0}
           </span>
           <span className="text-xs text-zinc-500 dark:text-zinc-400">
             Followings
@@ -57,7 +94,7 @@ export const SideProfile: React.FC<SideProfileProps> = ({
         </div>
         <div className="flex flex-col">
           <span className="text-sm font-bold text-zinc-900 dark:text-white">
-            {user.followersCount}
+            {profile._count?.followers ?? 0}
           </span>
           <span className="text-xs text-zinc-500 dark:text-zinc-400">
             Followers
@@ -72,14 +109,14 @@ export const SideProfile: React.FC<SideProfileProps> = ({
             <path strokeLinecap="round" strokeLinejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
             <path strokeLinecap="round" strokeLinejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
           </svg>
-          <span>{user.location || 'No location'}</span>
+          <span>{profile.location || 'No location'}</span>
         </div>
 
         <div className="flex items-center gap-2">
           <svg className="w-4 h-4 shrink-0" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1" />
           </svg>
-          <span className="truncate">{user.website || 'No website'}</span>
+          <span className="truncate">{profile.website || 'No website'}</span>
         </div>
 
       </div>
