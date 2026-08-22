@@ -3,6 +3,8 @@ import { Heart, MessageCircle } from "lucide-react";
 import { useState } from "react";
 import Comment from "./Comment";
 import type { PostType } from "../../types/AllPostsTypes";
+import { useToggleLikedPostsMutation } from "../../hooks/useToggleLikedPostsMutation";
+import { useAuthStore } from "../../store/authStore";
 
 type PostProps = {
   post: PostType;
@@ -10,14 +12,23 @@ type PostProps = {
 
 export default function Post({ post }: PostProps) {
   const [isCommentOpen, setIsCommentOpen] = useState(false);
-  const [isLiked, setIsLiked] = useState(false);
+
+  const { user } = useAuthStore();
+
+  let isLiked = post.likes.some((like) => like.userId === user?.id);
+
+  const { mutate: toggleLikedPostMutation } = useToggleLikedPostsMutation();
 
   const toggleComment = () => {
     setIsCommentOpen((prev) => !prev);
   };
 
   const toggleLike = () => {
-    setIsLiked((prev) => !prev);
+    toggleLikedPostMutation({
+      id: post.id,
+    });
+    
+    isLiked = !isLiked;
   };
 
   return (
@@ -73,7 +84,7 @@ export default function Post({ post }: PostProps) {
               isLiked ? "text-[#EF4444]" : "text-[#171717] dark:text-[#FAFAFA]"
             }
           >
-            {post._count.likes + (isLiked ? 1 : 0)}
+            {post._count.likes}
           </p>
         </button>
 
@@ -106,7 +117,7 @@ export default function Post({ post }: PostProps) {
       </div>
 
       {/* Comments */}
-      {isCommentOpen && <Comment post={ post }/>}
+      {isCommentOpen && <Comment post={post} />}
     </div>
   );
 }

@@ -31,37 +31,37 @@ export default function Comment({ post }: CommentProps) {
       onSubmit={handleSubmit}
       className="mt-6 pt-4 border-t  border-[#E5E5E5] dark:border-[#262626] "
     >
-     {post.comments?.map((comment) => (
-  <div key={comment.id} className="flex flex-col mb-7">
-    <div className="flex items-center gap-5">
-      <img
-        className="w-10 h-10 rounded-full object-cover"
-        src={comment.author.image || avatar}
-        alt={`${comment.author.name}'s profile`}
-      />
+      {post.comments?.map((comment) => (
+        <div key={comment.id} className="flex flex-col mb-7">
+          <div className="flex items-center gap-5">
+            <img
+              className="w-10 h-10 rounded-full object-cover"
+              src={comment.author.image || avatar}
+              alt={`${comment.author.name}'s profile`}
+            />
 
-      <div>
-        <div className="flex justify-start items-center gap-5">
-          <p className="font-bold text-[#171717] dark:text-[#FAFAFA]">
-            {comment.author.name}
-          </p>
+            <div>
+              <div className="flex justify-start items-center gap-5">
+                <p className="font-bold text-[#171717] dark:text-[#FAFAFA]">
+                  {comment.author.name}
+                </p>
 
-          <p className="text-[#737373] dark:text-[#A3A3A3] text-[14px] font-light">
-            @{comment.author.name.toLowerCase().replace(/\s+/g, "")}
-          </p>
+                <p className="text-[#737373] dark:text-[#A3A3A3] text-[14px] font-light">
+                  @{comment.author.name.toLowerCase().replace(/\s+/g, "")}
+                </p>
 
-          <p className="text-[#737373] dark:text-[#A3A3A3] text-[14px] font-light hidden md:block">
-            . {new Date(comment.createdAt).toLocaleDateString()}
-          </p>
+                <p className="text-[#737373] dark:text-[#A3A3A3] text-[14px] font-light hidden md:block">
+                  . {new Date(comment.createdAt).toLocaleDateString()}
+                </p>
+              </div>
+
+              <p className="mt-2 text-[#171717] dark:text-[#FAFAFA]">
+                {comment.content}
+              </p>
+            </div>
+          </div>
         </div>
-
-        <p className="mt-2 text-[#171717] dark:text-[#FAFAFA]">
-          {comment.content}
-        </p>
-      </div>
-    </div>
-  </div>
-  ))}
+      ))}
 
       <div className="flex items-start gap-4">
         <div className="flex size-10 shrink-0 items-center justify-center overflow-hidden rounded-full">
