@@ -3,19 +3,23 @@ import avatar from "../../assets/avatar.png";
 import { Heart, MessageCircle, Send } from "lucide-react";
 import { useState } from "react";
 import Button from "../Ui/Button";
-import { useAuthStore } from "../../store/authStore";
 import { useGetUsersPosts } from "../../hooks/useGetUsersPosts";
 import { splitUsername } from "../../utils/splitUsername";
 import { getTimeAgo } from "../../utils/getTimeAgo";
 
-export default function ProfilePosts() {
+type ProfilePostsProps = {
+  profileId : string
+}
+
+
+export default function ProfilePosts({profileId} : ProfilePostsProps) {
+
   const [isOpenComment, setIsOpenComment] = useState<boolean>(false);
   const [isLike, setIsLike] = useState<boolean>(false);
 
-  const { user } = useAuthStore();
 
   const { data, isLoading, isError } = useGetUsersPosts({
-    id: user?.id,
+    id: profileId,
   });
 
   const posts = data?.data ?? [];
