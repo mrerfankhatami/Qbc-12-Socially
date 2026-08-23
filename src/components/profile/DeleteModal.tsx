@@ -5,22 +5,24 @@ interface DeleteModalProps {
   isOpen: boolean;
   onClose: () => void;
   onConfirm: () => void;
+  isDeleting : boolean
 }
 
 export default function DeleteModal({
   isOpen,
   onClose,
   onConfirm,
+  isDeleting
 }: DeleteModalProps) {
   if (!isOpen) return null;
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 px-4"
+      className="fixed inset-0 z-50 flex items-center justify-center bg-black/90 px-4"
       onClick={onClose}
     >
       <div
-        className="relative w-full max-w-md rounded-xl bg-white p-6 shadow-xl dark:bg-[#0A0A0A]"
+        className="relative w-full max-w-md rounded-xl bg-white p-6 shadow-xl dark:bg-[#0a0a0a] dark:border border-gray-700"
         onClick={(e) => e.stopPropagation()}
       >
         <button
@@ -59,7 +61,7 @@ export default function DeleteModal({
             onClick={onConfirm}
             className="rounded-lg bg-red-600 px-4 py-2 text-sm text-white transition-colors hover:bg-red-700"
           >
-            Delete
+            {isDeleting ? <p className="spinner-mini"></p> : "Delete"}
           </Button>
         </div>
       </div>
