@@ -3,8 +3,11 @@ import { Heart, MessageCircle } from "lucide-react";
 import { useState } from "react";
 import Comment from "./Comment";
 import type { PostType } from "../../types/AllPostsTypes";
+import { useToggleLikedPostsMutation } from "../../hooks/useToggleLikedPostsMutation";
+import { useAuthStore } from "../../store/authStore";
 import { Link } from "react-router";
 import { splitUsername } from "../../utils/splitUsername";
+
 
 type PostProps = {
   post: PostType;
@@ -12,14 +15,22 @@ type PostProps = {
 
 export default function Post({ post }: PostProps) {
   const [isCommentOpen, setIsCommentOpen] = useState(false);
-  const [isLiked, setIsLiked] = useState(false);
+
+  const { user } = useAuthStore();
+
+  const isLiked = post.likes.some((like) => like.userId === user?.id);
+
+  const { mutate: toggleLikedPostMutation, isPending: isPendingToggleLike } =
+    useToggleLikedPostsMutation();
 
   const toggleComment = () => {
     setIsCommentOpen((prev) => !prev);
   };
 
-  const toggleLike = () => {
-    setIsLiked((prev) => !prev);
+  const toggleLikeHandler = () => {
+    toggleLikedPostMutation({
+      id: post.id,
+    });
   };
 
   return (
@@ -34,7 +45,10 @@ export default function Post({ post }: PostProps) {
 
         <div>
           <div className="flex justify-start items-center gap-5">
-            <Link to={`/profile/${splitUsername(post.author.email)}`} className="font-bold text-[#171717] dark:text-[#FAFAFA]">
+            <Link
+              to={`/profile/${splitUsername(post.author.email)}`}
+              className="font-bold text-[#171717] dark:text-[#FAFAFA]"
+            >
               {post.author.name}
             </Link>
 
@@ -59,24 +73,34 @@ export default function Post({ post }: PostProps) {
         {/* Like */}
         <button
           type="button"
-          onClick={toggleLike}
+          onClick={toggleLikeHandler}
           className="flex items-center justify-between gap-2 cursor-pointer"
         >
-          <Heart
-            size={16}
-            className={
-              isLiked ? "text-[#EF4444]" : "text-[#171717] dark:text-[#FAFAFA]"
-            }
-            fill={isLiked ? "#EF4444" : "none"}
-          />
+          {isPendingToggleLike ? (
+            <span className="spinner-mini"></span>
+          ) : (
+            <>
+              <Heart
+                size={16}
+                className={
+                  isLiked
+                    ? "text-[#EF4444]"
+                    : "text-[#171717] dark:text-[#FAFAFA]"
+                }
+                fill={isLiked ? "#EF4444" : "none"}
+              />
 
-          <p
-            className={
-              isLiked ? "text-[#EF4444]" : "text-[#171717] dark:text-[#FAFAFA]"
-            }
-          >
-            {post._count.likes + (isLiked ? 1 : 0)}
-          </p>
+              <p
+                className={
+                  isLiked
+                    ? "text-[#EF4444]"
+                    : "text-[#171717] dark:text-[#FAFAFA]"
+                }
+              >
+                {post._count.likes}
+              </p>
+            </>
+          )}
         </button>
 
         {/* Comments */}
@@ -108,7 +132,7 @@ export default function Post({ post }: PostProps) {
       </div>
 
       {/* Comments */}
-      {isCommentOpen && <Comment />}
+      {isCommentOpen && <Comment post={post} />}
     </div>
   );
 }

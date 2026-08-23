@@ -1,6 +1,6 @@
 import api from "./axiosConfig";
 
-type createPostPayloadType = {
+export type createPostPayloadType = {
     content : string
 }
 
