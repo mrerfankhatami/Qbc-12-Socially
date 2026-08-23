@@ -6,6 +6,7 @@ import Button from "../Ui/Button";
 import { useGetUsersPosts } from "../../hooks/useGetUsersPosts";
 import { splitUsername } from "../../utils/splitUsername";
 import { getTimeAgo } from "../../utils/getTimeAgo";
+import type { Post } from "../../types/ProfileTypes";
 
 type ProfilePostsProps = {
   profileId : string
@@ -53,7 +54,7 @@ export default function ProfilePosts({profileId} : ProfilePostsProps) {
           </p>
         </div>
       ) : (
-        posts.map((post) => (
+        posts.map((post : Post) => (
           <div
             key={post.id}
             className="border-2 flex flex-col gap-4 border-[#E5E5E5] dark:bg-[#0A0A0A] dark:border-[#262626] rounded-xl w-[calc(100%-2rem)] max-w-250 mt-4 p-6"
