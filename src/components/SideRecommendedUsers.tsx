@@ -4,8 +4,8 @@ import avatar from "../assets/avatar.png";
 import { useGetRecommendedUsers } from "../hooks/useGetRecommendedUsers";
 import { useToggleFollowUser } from "../hooks/useToggleFollowUser";
 import type { RecommendedUserTypes } from "../types/RecommendedUserTypes";
-import { Link } from "react-router-dom";
 import { splitUsername } from "../utils/splitUsername";
+import { Link } from "react-router";
 
 export const SideRecommendedUsers: React.FC = () => {
   const [followingUserId, setFollowingUserId] = useState<string | null>(null);
