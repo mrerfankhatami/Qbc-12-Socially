@@ -8,6 +8,7 @@ import { useAuthStore } from "../../store/authStore";
 import { Link } from "react-router";
 import { splitUsername } from "../../utils/splitUsername";
 
+
 type PostProps = {
   post: PostType;
 };
@@ -19,7 +20,8 @@ export default function Post({ post }: PostProps) {
 
   const isLiked = post.likes.some((like) => like.userId === user?.id);
 
-  const { mutate: toggleLikedPostMutation } = useToggleLikedPostsMutation();
+  const { mutate: toggleLikedPostMutation, isPending: isPendingToggleLike } =
+    useToggleLikedPostsMutation();
 
   const toggleComment = () => {
     setIsCommentOpen((prev) => !prev);
@@ -43,7 +45,10 @@ export default function Post({ post }: PostProps) {
 
         <div>
           <div className="flex justify-start items-center gap-5">
-            <Link to={`/profile/${splitUsername(post.author.email)}`} className="font-bold text-[#171717] dark:text-[#FAFAFA]">
+            <Link
+              to={`/profile/${splitUsername(post.author.email)}`}
+              className="font-bold text-[#171717] dark:text-[#FAFAFA]"
+            >
               {post.author.name}
             </Link>
 
@@ -71,21 +76,31 @@ export default function Post({ post }: PostProps) {
           onClick={toggleLikeHandler}
           className="flex items-center justify-between gap-2 cursor-pointer"
         >
-          <Heart
-            size={16}
-            className={
-              isLiked ? "text-[#EF4444]" : "text-[#171717] dark:text-[#FAFAFA]"
-            }
-            fill={isLiked ? "#EF4444" : "none"}
-          />
+          {isPendingToggleLike ? (
+            <span className="spinner-mini"></span>
+          ) : (
+            <>
+              <Heart
+                size={16}
+                className={
+                  isLiked
+                    ? "text-[#EF4444]"
+                    : "text-[#171717] dark:text-[#FAFAFA]"
+                }
+                fill={isLiked ? "#EF4444" : "none"}
+              />
 
-          <p
-            className={
-              isLiked ? "text-[#EF4444]" : "text-[#171717] dark:text-[#FAFAFA]"
-            }
-          >
-            {post._count.likes}
-          </p>
+              <p
+                className={
+                  isLiked
+                    ? "text-[#EF4444]"
+                    : "text-[#171717] dark:text-[#FAFAFA]"
+                }
+              >
+                {post._count.likes}
+              </p>
+            </>
+          )}
         </button>
 
         {/* Comments */}
