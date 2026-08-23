@@ -3,7 +3,11 @@ import { useState } from "react";
 import ProfilePosts from "./ProfilePosts";
 import ProfileLikes from "./ProfileLikes";
 
-const PostAndLikeButton = () => {
+type PostAndLikeButtonProps = {
+  profileId : string
+}
+
+const PostAndLikeButton = ({profileId} : PostAndLikeButtonProps) => {
   const [activeTab, setActiveTab] = useState<"posts" | "likes">("posts");
 
   return (
@@ -31,8 +35,8 @@ const PostAndLikeButton = () => {
           Likes
         </Button>
       </div>
-      {activeTab === "posts" && <ProfilePosts />}
-      {activeTab === "likes" && <ProfileLikes />}
+      {activeTab === "posts" && <ProfilePosts profileId={profileId} />}
+      {activeTab === "likes" && <ProfileLikes profileId={profileId} />}
     </div>
   );
 };

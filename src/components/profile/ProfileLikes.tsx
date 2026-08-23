@@ -3,19 +3,23 @@ import avatar from "../../assets/avatar.png";
 import { Heart, MessageCircle, Send } from "lucide-react";
 import { useState } from "react";
 import Button from "../Ui/Button";
-import { useAuthStore } from "../../store/authStore";
 import { splitUsername } from "../../utils/splitUsername";
 import { getTimeAgo } from "../../utils/getTimeAgo";
 import { useGetUsersLikedPosts } from "../../hooks/useGetUsersLikedPosts";
+import type { LikedPost } from "../../types/ProfileTypes";
 
-export default function ProfileLikes() {
+type ProfileLikesProps = {
+  profileId : string
+}
+
+export default function ProfileLikes({profileId} : ProfileLikesProps) {
+
   const [isOpenComment, setIsOpenComment] = useState<boolean>(false);
   const [isLike, setIsLike] = useState<boolean>(false);
 
-  const { user } = useAuthStore();
 
   const { data, isLoading, isError } = useGetUsersLikedPosts({
-    id: user?.id,
+    id: profileId,
   });
 
   const likes = data?.data ?? [];
@@ -49,7 +53,7 @@ export default function ProfileLikes() {
           </p>
         </div>
       ) : (
-        likes.map((like) => (
+        likes.map((like : LikedPost) => (
           <div
             key={like.id}
             className="border-2 flex flex-col gap-4 border-[#E5E5E5] dark:bg-[#0A0A0A] dark:border-[#262626] rounded-xl w-[calc(100%-2rem)] max-w-250 mt-4 p-6"

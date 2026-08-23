@@ -33,7 +33,7 @@ export default function ProfilePage() {
           followers={data?.data.followers}
           />
       </div>
-      <PostAndLikeButton />
+      <PostAndLikeButton profileId={data.data.id}/>
     </>
   );
 }
