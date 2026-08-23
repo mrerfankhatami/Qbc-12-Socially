@@ -1,27 +1,63 @@
 import Avatar from "../Ui/Avatar";
 import avatar from "../../assets/avatar.png";
-import { Heart, MessageCircle, Send } from "lucide-react";
+import { Heart, MessageCircle, Send, Trash2 } from "lucide-react";
 import { useState } from "react";
 import Button from "../Ui/Button";
-import { useAuthStore } from "../../store/authStore";
 import { useGetUsersPosts } from "../../hooks/useGetUsersPosts";
 import { splitUsername } from "../../utils/splitUsername";
 import { getTimeAgo } from "../../utils/getTimeAgo";
+import DeleteModal from "./DeleteModal";
+import { useDeletePost } from "../../hooks/useDeletePost";
+import type { Post } from "../../types/ProfileTypes";
+import toast from "react-hot-toast";
 
-export default function ProfilePosts() {
+type ProfilePostsProps = {
+  profileId : string
+}
+
+
+export default function ProfilePosts({profileId} : ProfilePostsProps) {
+
   const [isOpenComment, setIsOpenComment] = useState<boolean>(false);
   const [isLike, setIsLike] = useState<boolean>(false);
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const [selectedPostId, setSelectedPostId] = useState<string | null>(null);
+  const { mutate: deletePost, isPending: isDeleting } = useDeletePost();
 
-  const { user } = useAuthStore();
 
   const { data, isLoading, isError } = useGetUsersPosts({
-    id: user?.id,
+    id: profileId,
   });
 
   const posts = data?.data ?? [];
 
   function handleCommentClick() {
     setIsOpenComment((prev) => !prev);
+  }
+
+  function handleDeletePost(postId: string) {
+    setSelectedPostId(postId);
+    setIsDeleteModalOpen(true);
+  }
+
+  function handleConfirmDelete() {
+    if (!selectedPostId) return;
+
+    deletePost(selectedPostId, {
+      onSuccess: () => {
+        toast.success("post deleted successfully")
+        setIsDeleteModalOpen(false);
+        setSelectedPostId(null);
+      },
+      onError: (error) => {
+        console.error("Failed to delete post:", error);
+      },
+    });
+  }
+
+  function handleCloseDeleteModal() {
+    setIsDeleteModalOpen(false);
+    setSelectedPostId(null);
   }
 
   function handleLikeClick() {
@@ -49,31 +85,38 @@ export default function ProfilePosts() {
           </p>
         </div>
       ) : (
-        posts.map((post) => (
+        posts.map((post : Post) => (
           <div
             key={post.id}
             className="border-2 flex flex-col gap-4 border-[#E5E5E5] dark:bg-[#0A0A0A] dark:border-[#262626] rounded-xl w-[calc(100%-2rem)] max-w-250 mt-4 p-6"
           >
-            <div className="flex gap-3 items-center">
-              <Avatar src={avatar} width={24} height={24} />
+            <div className="flex justify-between items-center">
+              <div className="flex gap-3 items-center">
+                <Avatar src={avatar} width={24} height={24} />
 
-              <p className="dark:text-white">
-                {post.author?.name}
-              </p>
+                <p className="dark:text-white">{post.author?.name}</p>
 
-              <p className="text-[#737373] text-sm">
-                @{splitUsername(post.author?.email)}
-              </p>
+                <p className="text-[#737373] text-sm">
+                  @{splitUsername(post.author?.email)}
+                </p>
 
-              <p className="text-[#737373] text-sm">
-                {getTimeAgo(post.createdAt)}
-              </p>
+                <p className="text-[#737373] text-sm">
+                  {getTimeAgo(post.createdAt)}
+                </p>
+              </div>
+
+              <div>
+                <Trash2
+                  onClick={() => handleDeletePost(post.id)}
+                  width={17}
+                  height={17}
+                  className="ml-auto cursor-pointer text-[#737373] transition-colors hover:text-red-600"
+                />
+              </div>
             </div>
 
             <div className="p-1 mt-3">
-              <p className="text-sm dark:text-white">
-                {post.content}
-              </p>
+              <p className="text-sm dark:text-white">{post.content}</p>
             </div>
 
             <div className="flex gap-11 mt-3">
@@ -91,9 +134,7 @@ export default function ProfilePosts() {
 
                 <p
                   className={`text-sm ${
-                    isLike
-                      ? "text-red-600"
-                      : "text-[#737373] dark:text-white"
+                    isLike ? "text-red-600" : "text-[#737373] dark:text-white"
                   }`}
                 >
                   1
@@ -129,8 +170,9 @@ export default function ProfilePosts() {
                 <hr />
 
                 <div className="mt-6 flex gap-2">
-                  <div className="shrink-0"><Avatar src={avatar} /></div>
-                  
+                  <div className="shrink-0">
+                    <Avatar src={avatar} />
+                  </div>
 
                   <textarea
                     name="comment"
@@ -157,6 +199,12 @@ export default function ProfilePosts() {
           </div>
         ))
       )}
+      <DeleteModal
+        isOpen={isDeleteModalOpen}
+        onClose={handleCloseDeleteModal}
+        onConfirm={handleConfirmDelete}
+        isDeleting={isDeleting}
+      />
     </div>
   );
 }
