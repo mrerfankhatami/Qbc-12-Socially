@@ -9,3 +9,13 @@ export const getUserByUserName = async (data: GetUserInformationData) => {
 
   return response.data;
 };
+
+export interface GetUserInformationByIdData {
+    id: string
+}
+
+export const getUserById = async (data: GetUserInformationByIdData) => {
+    const response = await api.get(`/users/${data.id}/profile`);
+    
+    return response.data;
+};

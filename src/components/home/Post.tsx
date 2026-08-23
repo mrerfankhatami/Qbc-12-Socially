@@ -3,6 +3,8 @@ import { Heart, MessageCircle } from "lucide-react";
 import { useState } from "react";
 import Comment from "./Comment";
 import type { PostType } from "../../types/AllPostsTypes";
+import { Link } from "react-router";
+import { splitUsername } from "../../utils/splitUsername";
 
 type PostProps = {
   post: PostType;
@@ -32,9 +34,9 @@ export default function Post({ post }: PostProps) {
 
         <div>
           <div className="flex justify-start items-center gap-5">
-            <p className="font-bold text-[#171717] dark:text-[#FAFAFA]">
+            <Link to={`/profile/${splitUsername(post.author.email)}`} className="font-bold text-[#171717] dark:text-[#FAFAFA]">
               {post.author.name}
-            </p>
+            </Link>
 
             <p className="text-[#737373] dark:text-[#A3A3A3] text-[14px] font-light">
               @{post.author.name.toLowerCase().replace(/\s+/g, "")}
