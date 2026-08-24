@@ -3,6 +3,10 @@ import { deletePost } from "../services/DeleteUsersPostService";
 import type { AxiosError } from "axios";
 import toast from "react-hot-toast";
 
+type ErrorResponse = {
+  message: string;
+};
+
 export function useDeletePost() {
   const queryClient = useQueryClient();
 
@@ -11,13 +15,17 @@ export function useDeletePost() {
 
     onSuccess: (res) => {
       queryClient.invalidateQueries({
+        queryKey: ["get-users-posts"],
+      });
+
+      queryClient.invalidateQueries({
         queryKey: ["allPosts"],
       });
       toast.success(res.message || "post deleted successfully");
     },
 
-    onError: (error: AxiosError) => {
-      toast.error(error.message || "Something went wrong");
+    onError: (error: AxiosError<ErrorResponse>) => {
+      toast.error(error.response?.data?.message || "Something went wrong");
     },
   });
 }
