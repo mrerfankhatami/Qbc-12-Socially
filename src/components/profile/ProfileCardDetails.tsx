@@ -8,6 +8,7 @@ import { getTimeAgo } from "../../utils/getTimeAgo";
 import { useGetUserByUserName } from "../../hooks/useGetUserByUserName";
 import { useSession } from "../../hooks/UseSession";
 import { useParams } from "react-router";
+import UserProfileFollowersModal from "./UserProfileFollowersModal";
 
 const ProfileCardDetails = ({
   name = "Seyed Ali Mousavi",
@@ -22,8 +23,11 @@ const ProfileCardDetails = ({
     posts: 0,
   },
   createdAt = "",
+  followers
 }: UserProfile) => {
   const [isOpenModal, setIsModalOpen] = useState<boolean>(false);
+  const [isFollowersModalOpen, setIsFollowersModalOpen] = useState(false);
+
 
   function handleClick() {
     setIsModalOpen(true);
@@ -50,7 +54,7 @@ const ProfileCardDetails = ({
           <p className="dark:text-white">{_count.followings}</p>
           <p className="text-[#737373]">Following</p>
         </div>
-        <div className="w-16 h-11 flex flex-col items-center">
+        <div onClick={() => setIsFollowersModalOpen(true)} className="w-16 h-11 flex flex-col items-center cursor-pointer">
           <p className="dark:text-white">{_count.followers}</p>
           <p className="text-[#737373]">Followers</p>
         </div>
@@ -103,6 +107,13 @@ const ProfileCardDetails = ({
           setIsModalOpen={setIsModalOpen}
         />
       )}
+
+      <UserProfileFollowersModal
+        isOpen={isFollowersModalOpen}
+        onClose={() => setIsFollowersModalOpen(false)}
+        followers={followers}
+      />
+      
     </div>
   );
 };
