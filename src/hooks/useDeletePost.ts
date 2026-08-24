@@ -1,5 +1,7 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { deletePost } from "../services/DeleteUsersPostService";
+import type { AxiosError } from "axios";
+import toast from "react-hot-toast";
 
 export function useDeletePost() {
   const queryClient = useQueryClient();
@@ -7,10 +9,15 @@ export function useDeletePost() {
   return useMutation({
     mutationFn: (postId: string) => deletePost(postId),
 
-    onSuccess: () => {
+    onSuccess: (res) => {
       queryClient.invalidateQueries({
-        queryKey: ["get-users-posts"],
+        queryKey: ["allPosts"],
       });
+      toast.success(res.message || "post deleted successfully");
+    },
+
+    onError: (error: AxiosError) => {
+      toast.error(error.message || "Something went wrong");
     },
   });
 }

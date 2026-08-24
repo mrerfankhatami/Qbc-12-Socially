@@ -9,12 +9,10 @@ import { getTimeAgo } from "../../utils/getTimeAgo";
 import DeleteModal from "./DeleteModal";
 import { useDeletePost } from "../../hooks/useDeletePost";
 import type { Post } from "../../types/ProfileTypes";
-import toast from "react-hot-toast";
 
 type ProfilePostsProps = {
   profileId : string
 }
-
 
 export default function ProfilePosts({profileId} : ProfilePostsProps) {
 
@@ -45,12 +43,8 @@ export default function ProfilePosts({profileId} : ProfilePostsProps) {
 
     deletePost(selectedPostId, {
       onSuccess: () => {
-        toast.success("post deleted successfully")
         setIsDeleteModalOpen(false);
         setSelectedPostId(null);
-      },
-      onError: (error) => {
-        console.error("Failed to delete post:", error);
       },
     });
   }
