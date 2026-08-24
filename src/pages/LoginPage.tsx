@@ -1,4 +1,4 @@
-import { useState, type ChangeEvent } from "react";
+import { useForm } from "react-hook-form";
 import TextField from "../components/Ui/TextField";
 import Button from "../components/Ui/Button";
 import { useLoginMutation } from "../hooks/useLoginMutation";
@@ -7,31 +7,39 @@ import toast from "react-hot-toast";
 import axios from "axios";
 import { LogIn } from "lucide-react";
 
-export default function LoginPage() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+type LoginFormInputs = {
+  email: string;
+  password: string;
+};
 
-  const { mutate: loginMutation, isPending, isError } = useLoginMutation();
+export default function LoginPage() {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<LoginFormInputs>({
+    mode: "onBlur", 
+  });
+
+  const { mutate: loginMutation, isPending } = useLoginMutation();
   const navigate = useNavigate();
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    loginMutation(
-      { email, password },
-      {
-        onSuccess: () => {
-          navigate("/");
-          toast.success("Login successfully ...");
-        },
-        onError: (error) => {
-          if (axios.isAxiosError(error)) {
-            toast.error(error.response?.data?.error ?? "Registration failed");
-          } else {
-            toast.error("Something went wrong");
-          }
-        },
+  const emailPattern = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
+
+  const onSubmit = (data: LoginFormInputs) => {
+    loginMutation(data, {
+      onSuccess: () => {
+        navigate("/");
+        toast.success("Login successfully ...");
       },
-    );
+      onError: (error) => {
+        if (axios.isAxiosError(error)) {
+          toast.error(error.response?.data?.error ?? "Login failed");
+        } else {
+          toast.error("Something went wrong");
+        }
+      },
+    });
   };
 
   return (
@@ -39,7 +47,7 @@ export default function LoginPage() {
       <div className="flex flex-col items-center w-full max-w-4xl gap-6">
         <div className="w-full grid grid-cols-1 md:grid-cols-2 rounded-xl border border-[#E5E5E5] dark:border-[#2e2e2e] shadow-sm overflow-hidden bg-secondary-0 dark:bg-[#262626]">
           <div className="p-6 md:p-8 bg-white dark:bg-[#0a0a0a] flex flex-col justify-center">
-            <form onSubmit={handleSubmit} className="flex flex-col gap-6">
+            <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-6">
               <div className="flex flex-col gap-2 items-center text-center">
                 <h1 className="text-2xl font-bold text-secondary-900 dark:text-white">
                   Welcome back
@@ -49,44 +57,44 @@ export default function LoginPage() {
                 </p>
               </div>
 
-              {isError && (
-                <p className="text-sm text-red-500 text-center font-medium">
-                  Invalid email or password.
-                </p>
-              )}
-
               <div className="flex flex-col gap-6">
                 <TextField
                   label="Email"
-                  name="email"
-                  type="email"
+                  type="email" 
                   placeholder="m@example.com"
                   dir="ltr"
-                  value={email}
-                  onChange={(e: ChangeEvent<HTMLInputElement>) =>
-                    setEmail(e.target.value)
-                  }
-                  className="h-9 dark:bg-[#222222] border shadow-sm border-[#E5E5E5] dark:border-[#424141]  font-medium mt-2 focus-visible:outline-none focus-visible:border-neutral-500 dark:focus-visible:border-neutral-600 focus-visible:ring-[3px] focus-visible:ring-neutral-500/20 dark:focus-visible:ring-neutral-600/20"
+                  isRequired
+                  error={errors.email?.message}
+                  {...register("email", {
+                    required: "Email is required",
+                    pattern: {
+                      value: emailPattern,
+                      message: "Invalid email address format",
+                    },
+                  })}
                 />
+
                 <TextField
                   label="Password"
-                  name="password"
                   type="password"
                   placeholder="*********"
                   dir="ltr"
-                  value={password}
-                  onChange={(e: ChangeEvent<HTMLInputElement>) =>
-                    setPassword(e.target.value)
-                  }
-                  className="h-9 dark:bg-[#222222] border shadow-sm border-[#E5E5E5] dark:border-[#424141] font-medium mt-2 focus-visible:outline-none focus-visible:border-neutral-500 dark:focus-visible:border-neutral-600 focus-visible:ring-[3px] focus-visible:ring-neutral-500/20 dark:focus-visible:ring-neutral-600/20"
+                  isRequired
+                  error={errors.password?.message}
+                  {...register("password", {
+                    required: "Password is required",
+                    minLength: {
+                      value: 6,
+                      message: "Password must be at least 6 characters",
+                    },
+                  })}
                 />
               </div>
 
               <Button
                 type="submit"
                 disabled={isPending}
-                className={`border p-2 rounded-lg bg-black text-white mt-3  md:mb-4 w-full
-                          dark:bg-white dark:text-black hover:bg-gray-900 dark:hover:bg-gray-200 disabled:bg-gray-800 disabled:cursor-not-allowed disabled:text-black`}
+                className="border p-2 rounded-lg bg-black text-white mt-3 md:mb-4 w-full dark:bg-white dark:text-black hover:bg-gray-900 dark:hover:bg-gray-200 disabled:bg-gray-800 disabled:cursor-not-allowed disabled:text-black disabled:dark:bg-gray-200 disabled:dark:text-gray-500"
               >
                 {isPending ? <p className="spinner-mini"></p> : "Login"}
               </Button>
@@ -120,17 +128,11 @@ export default function LoginPage() {
 
         <p className="text-center text-sm text-[#737373] dark:text-[#A3A3A3] px-6 leading-relaxed">
           By clicking continue, you agree to our{" "}
-          <a
-            href="#"
-            className="underline underline-offset-4 hover:text-secondary-900 dark:hover:text-white transition-colors"
-          >
+          <a href="#" className="underline underline-offset-4 hover:text-secondary-900 dark:hover:text-white transition-colors">
             Terms of Service
           </a>{" "}
           and{" "}
-          <a
-            href="#"
-            className="underline underline-offset-4 hover:text-secondary-900 dark:hover:text-white transition-colors"
-          >
+          <a href="#" className="underline underline-offset-4 hover:text-secondary-900 dark:hover:text-white transition-colors">
             Privacy Policy
           </a>
           .
