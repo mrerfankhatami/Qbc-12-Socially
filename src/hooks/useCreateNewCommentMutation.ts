@@ -27,6 +27,12 @@ export const useAddNewCommentMutation = () => {
       queryClient.invalidateQueries({
         queryKey: ["allPosts"],
       });
+      queryClient.invalidateQueries({
+        queryKey: ["get-users-posts"],
+      });
+      queryClient.invalidateQueries({
+        queryKey: ["get-users-liked-posts"],
+      });
     },
 
     onError: (error) => {
