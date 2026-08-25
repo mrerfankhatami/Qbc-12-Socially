@@ -16,7 +16,6 @@ export default function LoginPage() {
   const {
     register,
     handleSubmit,
-    setError,
     formState: { errors },
   } = useForm<LoginFormInputs>({
     mode: "onBlur", 
