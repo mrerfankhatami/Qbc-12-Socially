@@ -1,35 +1,74 @@
 import Avatar from "../Ui/Avatar";
 import avatar from "../../assets/avatar.png";
-import { Heart, MessageCircle, Send } from "lucide-react";
-import { useState } from "react";
 import Button from "../Ui/Button";
+import { Heart, LoaderCircle, MessageCircle, Send } from "lucide-react";
+import { useState } from "react";
 import { splitUsername } from "../../utils/splitUsername";
 import { getTimeAgo } from "../../utils/getTimeAgo";
 import { useGetUsersLikedPosts } from "../../hooks/useGetUsersLikedPosts";
+import { useAddNewCommentMutation } from "../../hooks/useCreateNewCommentMutation";
+import { useToggleLikedPostsMutation } from "../../hooks/useToggleLikedPostsMutation";
+import { useAuthStore } from "../../store/authStore";
 import type { LikedPost } from "../../types/ProfileTypes";
 
 type ProfileLikesProps = {
-  profileId : string
-}
+  profileId: string;
+};
 
-export default function ProfileLikes({profileId} : ProfileLikesProps) {
-
-  const [isOpenComment, setIsOpenComment] = useState<boolean>(false);
-  const [isLike, setIsLike] = useState<boolean>(false);
-
-
+export default function ProfileLikes({ profileId }: ProfileLikesProps) {
+  const [openCommentPostId, setOpenCommentPostId] = useState<string | null>(
+    null,
+  );
+  const [likingPostId, setLikingPostId] = useState<string | null>(null);
+  const [commentTexts, setCommentTexts] = useState<Record<string, string>>({});
   const { data, isLoading, isError } = useGetUsersLikedPosts({
     id: profileId,
   });
 
+  const { mutate: LikedPosts, isPending: isLikeingPosts } =
+    useToggleLikedPostsMutation();
+  const { mutate: addComment, isPending: isCommenting } =
+    useAddNewCommentMutation();
+  const { user } = useAuthStore();
+
   const likes = data?.data ?? [];
 
-  function handleCommentClick() {
-    setIsOpenComment((prev) => !prev);
+  function handleCommentClick(postId: string) {
+    setOpenCommentPostId((prev) => (prev === postId ? null : postId));
   }
 
-  function handleLikeClick() {
-    setIsLike((prev) => !prev);
+  function handleLikeClick(postId: string) {
+    setLikingPostId(postId);
+
+    LikedPosts(
+      { id: postId },
+      {
+        onSettled: () => {
+          setLikingPostId(null);
+        },
+      },
+    );
+  }
+
+  function handleAddComment(postId: string) {
+    const text = commentTexts[postId]?.trim();
+
+    if (!text) return;
+
+    addComment(
+      {
+        id: postId,
+        content: text,
+      },
+      {
+        onSuccess: () => {
+          setCommentTexts((prev) => ({
+            ...prev,
+            [postId]: "",
+          }));
+        },
+      },
+    );
   }
 
   if (isLoading) {
@@ -43,123 +82,194 @@ export default function ProfileLikes({profileId} : ProfileLikesProps) {
   return (
     <div className="flex flex-col">
       {likes.length === 0 ? (
-        <div className="w-[calc(100%-2rem)] max-w-250 mt-4 dark:bg-[#FAFAFA] dark:border-[#262626] rounded-lg p-3">
-          <h2 className="text-white text-lg dark:text-black">
+        <div className="mt-4 w-[calc(100%-2rem)] max-w-250 rounded-lg p-3 dark:border-[#262626] dark:bg-[#FAFAFA]">
+          <h2 className="text-lg text-white dark:text-black">
             There is no like
           </h2>
 
-          <p className="text-white text-[14px] dark:text-black">
+          <p className="text-[14px] text-white dark:text-black">
             This user hasn't liked anything
           </p>
         </div>
       ) : (
-        likes.map((like : LikedPost) => (
-          <div
-            key={like.id}
-            className="border-2 flex flex-col gap-4 border-[#E5E5E5] dark:bg-[#0A0A0A] dark:border-[#262626] rounded-xl w-[calc(100%-2rem)] max-w-250 mt-4 p-6"
-          >
-            <div className="flex gap-3 items-center">
-              <Avatar src={avatar} width={24} height={24} />
+        likes.map((like: LikedPost) => {
+          const post = like.post;
+          const isLiked = post.likes?.some((item) => item.userId === user?.id);
+          const isCommented = post.id === openCommentPostId;
 
-              <p className="dark:text-white">
-                {like.post.author?.name}
-              </p>
+          return (
+            <div
+              key={like.id}
+              className="mt-4 flex w-[calc(100%-2rem)] max-w-250 flex-col gap-4 rounded-xl border-2 border-[#E5E5E5] p-6 dark:border-[#262626] dark:bg-[#0A0A0A]"
+            >
+              <div className="flex items-center gap-3">
+                <Avatar src={avatar} width={24} height={24} />
 
-              <p className="text-[#737373] text-sm">
-                @{splitUsername(like.post.author?.email)}
-              </p>
+                <p className="dark:text-white">{post.author?.name}</p>
 
-              <p className="text-[#737373] text-sm">
-                {getTimeAgo(like.createdAt)}
-              </p>
-            </div>
+                <p className="text-sm text-[#737373]">
+                  @{splitUsername(post.author?.email)}
+                </p>
 
-            <div className="p-1 mt-3">
-              <p className="text-sm dark:text-white">
-                {like.post?.content}
-              </p>
-            </div>
-
-            <div className="flex gap-11 mt-3">
-              <div className="flex px-1 gap-2">
-                <Heart
-                  onClick={handleLikeClick}
-                  width={16}
-                  height={16}
-                  className={`transition-colors duration-300 cursor-pointer ${
-                    isLike
-                      ? "fill-red-600 text-red-600"
-                      : "text-[#737373] dark:text-white"
-                  }`}
-                />
-
-                <p
-                  className={`text-sm ${
-                    isLike
-                      ? "text-red-600"
-                      : "text-[#737373] dark:text-white"
-                  }`}
-                >
-                  1
+                <p className="text-sm text-[#737373]">
+                  {getTimeAgo(post.createdAt)}
                 </p>
               </div>
 
-              <div className="flex gap-2">
-                <MessageCircle
-                  onClick={handleCommentClick}
-                  width={16}
-                  height={16}
-                  className={`transition-colors duration-300 cursor-pointer ${
-                    isOpenComment
-                      ? "fill-blue-500 text-blue-500"
-                      : "text-[#737373] dark:text-white"
-                  }`}
-                />
-
-                <p
-                  className={`text-sm ${
-                    isOpenComment
-                      ? "text-blue-500"
-                      : "text-[#737373] dark:text-white"
-                  }`}
-                >
-                  1
-                </p>
+              <div className="mt-3 p-1">
+                <p className="text-sm dark:text-white">{post.content}</p>
               </div>
-            </div>
 
-            {isOpenComment && (
-              <div className="mt-4">
-                <hr />
-
-                <div className="mt-6 flex gap-2">
-                  <div className="shrink-0"><Avatar src={avatar} /></div>
-                  
-
-                  <textarea
-                    name="comment"
-                    placeholder="Write comment..."
-                    className="flex-1 resize-none rounded-lg border-2 border-[#E5E5E5] p-2 text-sm outline-none focus:border-[#737373] dark:border-neutral-700 dark:bg-[#0A0A0A] dark:text-white"
-                  />
-                </div>
-
-                <div className="flex justify-end">
-                  <Button className="mt-3 flex items-center gap-2 rounded-lg bg-[#0A0A0A] px-3 py-1 dark:bg-[#f5f5f5]">
-                    <Send
-                      className="text-white dark:text-black"
+              <div className="mt-3 flex gap-11">
+                <div className="flex gap-2 px-1">
+                  {isLikeingPosts && likingPostId === post.id ? (
+                    <LoaderCircle
                       width={16}
                       height={16}
+                      className="animate-spin text-[#737373] dark:text-white"
                     />
+                  ) : (
+                    <Heart
+                      onClick={() => handleLikeClick(post.id)}
+                      width={16}
+                      height={16}
+                      className={`cursor-pointer transition-colors duration-300 ${
+                        isLiked
+                          ? "fill-red-600 text-red-600"
+                          : "text-[#737373] dark:text-white"
+                      }`}
+                    />
+                  )}
 
-                    <span className="text-[16px] text-white dark:text-black">
-                      Comment
-                    </span>
-                  </Button>
+                  <p
+                    className={`text-sm ${
+                      isLiked
+                        ? "text-red-600"
+                        : "text-[#737373] dark:text-white"
+                    }`}
+                  >
+                    {post._count.likes}
+                  </p>
+                </div>
+
+                <div className="flex gap-2">
+                  <MessageCircle
+                    onClick={() => handleCommentClick(post.id)}
+                    width={16}
+                    height={16}
+                    className={`cursor-pointer transition-colors duration-300 ${
+                      isCommented
+                        ? "fill-blue-500 text-blue-500"
+                        : "text-[#737373] dark:text-white"
+                    }`}
+                  />
+
+                  <p
+                    className={`text-sm ${
+                      isCommented
+                        ? "text-blue-500"
+                        : "text-[#737373] dark:text-white"
+                    }`}
+                  >
+                    {post._count.comments}
+                  </p>
                 </div>
               </div>
-            )}
-          </div>
-        ))
+
+              {isCommented && (
+                <div className="mt-2 overflow-hidden">
+                  <div className="border-t border-[#E5E5E5] pt-5 dark:border-[#262626]">
+                    <div className="flex flex-col gap-5">
+                      {post.comments?.length > 0 ? (
+                        post.comments.map((comment) => (
+                          <div key={comment.id} className="flex w-full gap-3">
+                            <div className="shrink-0">
+                              <Avatar src={avatar} width={34} height={34} />
+                            </div>
+
+                            <div className="min-w-0 flex-1">
+                              <div className="flex flex-wrap items-center gap-x-2 gap-y-1">
+                                <p className="text-sm font-medium text-neutral-900 dark:text-white">
+                                  {comment.author.name}
+                                </p>
+
+                                <p className="break-all text-xs text-[#737373]">
+                                  @{splitUsername(comment.author.email)}
+                                </p>
+
+                                <p className="text-xs text-[#737373]">
+                                  {getTimeAgo(comment.createdAt)}
+                                </p>
+                              </div>
+
+                              <p className="mt-1 text-sm leading-6 text-neutral-700 dark:text-neutral-300">
+                                {comment.content}
+                              </p>
+                            </div>
+                          </div>
+                        ))
+                      ) : (
+                        <p className="py-2 text-sm text-[#737373]">
+                          No comments yet.
+                        </p>
+                      )}
+
+                      <div className="flex w-full gap-3 border-t border-[#E5E5E5] pt-5 dark:border-[#262626]">
+                        <div className="shrink-0">
+                          <Avatar src={avatar} width={34} height={34} />
+                        </div>
+
+                        <div className="min-w-0 flex-1">
+                          <textarea
+                            name={`comment-${post.id}`}
+                            value={commentTexts[post.id] ?? ""}
+                            onChange={(e) =>
+                              setCommentTexts((prev) => ({
+                                ...prev,
+                                [post.id]: e.target.value,
+                              }))
+                            }
+                            placeholder="Write a comment..."
+                            rows={3}
+                            disabled={isCommenting}
+                            className="w-full resize-none rounded-xl border border-[#E5E5E5] bg-transparent p-3 text-sm leading-5 outline-none transition-colors placeholder:text-[#737373] focus:border-[#737373] disabled:cursor-not-allowed disabled:opacity-60 dark:border-[#262626] dark:bg-[#0A0A0A] dark:text-white dark:focus:border-[#525252]"
+                          />
+
+                          <div className="mt-3 flex justify-end">
+                            <Button
+                              type="button"
+                              onClick={() => handleAddComment(post.id)}
+                              disabled={isCommenting || !commentTexts[post.id]?.trim()}
+                              className="flex items-center gap-2 rounded-lg bg-[#f5f5f5] px-3 py-2 text-sm transition-opacity hover:opacity-80 disabled:cursor-not-allowed disabled:opacity-50 dark:bg-[#0A0A0A]"
+                            >
+                              {isCommenting ? (
+                                <LoaderCircle
+                                  width={15}
+                                  height={15}
+                                  className="animate-spin text-black dark:text-white"
+                                />
+                              ) : (
+                                <Send
+                                  width={15}
+                                  height={15}
+                                  className="text-black dark:text-white"
+                                />
+                              )}
+
+                              <span className="text-sm text-black dark:text-white">
+                                {isCommenting ? "Commenting..." : "Comment"}
+                              </span>
+                            </Button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              )}
+            </div>
+          );
+        })
       )}
     </div>
   );
