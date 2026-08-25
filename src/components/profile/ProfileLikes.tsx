@@ -20,7 +20,7 @@ export default function ProfileLikes({ profileId }: ProfileLikesProps) {
     null,
   );
   const [likingPostId, setLikingPostId] = useState<string | null>(null);
-  const [commentTexts, setCommentTexts] = useState<Record<string, string>>({});
+  const [commentText, setCommentText] = useState("");
   const { data, isLoading, isError } = useGetUsersLikedPosts({
     id: profileId,
   });
@@ -34,6 +34,8 @@ export default function ProfileLikes({ profileId }: ProfileLikesProps) {
   const likes = data?.data ?? [];
 
   function handleCommentClick(postId: string) {
+    setCommentText("");
+
     setOpenCommentPostId((prev) => (prev === postId ? null : postId));
   }
 
@@ -51,7 +53,7 @@ export default function ProfileLikes({ profileId }: ProfileLikesProps) {
   }
 
   function handleAddComment(postId: string) {
-    const text = commentTexts[postId]?.trim();
+    const text = commentText.trim();
 
     if (!text) return;
 
@@ -62,10 +64,7 @@ export default function ProfileLikes({ profileId }: ProfileLikesProps) {
       },
       {
         onSuccess: () => {
-          setCommentTexts((prev) => ({
-            ...prev,
-            [postId]: "",
-          }));
+          setCommentText("");
         },
       },
     );
@@ -222,13 +221,8 @@ export default function ProfileLikes({ profileId }: ProfileLikesProps) {
                         <div className="min-w-0 flex-1">
                           <textarea
                             name={`comment-${post.id}`}
-                            value={commentTexts[post.id] ?? ""}
-                            onChange={(e) =>
-                              setCommentTexts((prev) => ({
-                                ...prev,
-                                [post.id]: e.target.value,
-                              }))
-                            }
+                            value={commentText}
+                            onChange={(e) => setCommentText(e.target.value)}
                             placeholder="Write a comment..."
                             rows={3}
                             disabled={isCommenting}
@@ -239,7 +233,7 @@ export default function ProfileLikes({ profileId }: ProfileLikesProps) {
                             <Button
                               type="button"
                               onClick={() => handleAddComment(post.id)}
-                              disabled={isCommenting || !commentTexts[post.id]?.trim()}
+                              disabled={isCommenting || !commentText.trim()}
                               className="flex items-center gap-2 rounded-lg bg-[#f5f5f5] px-3 py-2 text-sm transition-opacity hover:opacity-80 disabled:cursor-not-allowed disabled:opacity-50 dark:bg-[#0A0A0A]"
                             >
                               {isCommenting ? (
