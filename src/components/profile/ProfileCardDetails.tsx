@@ -2,7 +2,7 @@ import { Anchor, Calendar, MapPin, SquarePen, UserPlus } from "lucide-react";
 import avatar from "../../assets/avatar.png";
 import Button from "../Ui/Button";
 import type { UserProfile } from "../../types/ProfileTypes";
-import { useState } from "react";
+import { useId, useState } from "react";
 import ProfileModal from "./ProfileModal";
 import { getTimeAgo } from "../../utils/getTimeAgo";
 import { useGetUserByUserName } from "../../hooks/useGetUserByUserName";
@@ -32,9 +32,6 @@ const ProfileCardDetails = ({
   );
   const { username } = useParams<{ username: string }>();
 
-  const { data } = useGetUserByUserName({ username });
-  const userId = data.id;
-
   const handleFollower = () => {
     setFollowType("followers");
     setFollowModalOpen(true);
@@ -54,6 +51,8 @@ const ProfileCardDetails = ({
   const { data: sessionData } = useSession();
 
   const { data: profileData } = useGetUserByUserName({ username });
+
+  const userId = profileData.data?.id;
 
   const isMyProfile = sessionData?.user?.id === profileData?.data?.id;
 

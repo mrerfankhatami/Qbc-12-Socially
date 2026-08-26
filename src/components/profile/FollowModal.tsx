@@ -15,12 +15,9 @@ export default function FollowModal({
 }: FollowModalProps) {
   const followers = useGetFollowerList(id);
   const following = useGetFollowingList(id);
+  console.log(followers);
 
   const followList = followType === "followers" ? followers : following;
-
-  setTimeout(() => {
-    console.log(followList.data.data);
-  }, 5000);
 
   return (
     <div
@@ -51,9 +48,13 @@ export default function FollowModal({
 
         {followList.isSuccess && (
           <div className="flex flex-col">
-            {followList.data.data?.map((item: any) => (
-              <FollowItem key={item.id} item={item} />
-            ))}
+            {followList.data.data.map((item: any) =>
+              followType === "followers" ? (
+                <FollowItem key={item.follower.id} item={item.follower} />
+              ) : (
+                <FollowItem key={item.following.id} item={item.following} />
+              ),
+            )}
           </div>
         )}
       </div>
