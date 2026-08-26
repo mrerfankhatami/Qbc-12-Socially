@@ -1,29 +1,12 @@
-import React, { useState } from "react";
 import Avatar from "./Ui/Avatar";
 import avatar from "../assets/avatar.png";
 
 import { useAuthStore } from "../store/authStore";
 import { useGetUserByUserName } from "../hooks/useGetUserByUserName";
 import { splitUsername } from "../utils/splitUsername";
-import FollowModal from "./FollowModal";
 
 export const SideProfile: React.FC = () => {
   const { user } = useAuthStore();
-
-  const [followModalOpen, setFollowModalOpen] = useState(false);
-  const [followType, setFollowType] = useState<"followers" | "following">(
-    "followers",
-  );
-
-  const handleFollower = () => {
-    setFollowType("followers");
-    setFollowModalOpen(true);
-  };
-
-  const handleFollowing = () => {
-    setFollowType("following");
-    setFollowModalOpen(true);
-  };
 
   const usernameFallback = splitUsername(user?.email ?? "");
 
@@ -56,7 +39,7 @@ export const SideProfile: React.FC = () => {
       </span>
 
       <div className="w-full flex justify-between items-center  gap-2 mb-6 text-center border-t border-zinc-100 dark:border-zinc-900 pt-4">
-        <div className="flex cursor-pointer flex-col" onClick={handleFollowing}>
+        <div className="flex cursor-pointer flex-col">
           <span className="text-sm font-bold text-zinc-900 dark:text-white">
             {profile._count?.followings ?? 0}
           </span>
@@ -64,7 +47,7 @@ export const SideProfile: React.FC = () => {
             Followings
           </span>
         </div>
-        <div className="flex cursor-pointer flex-col" onClick={handleFollower}>
+        <div className="flex cursor-pointer flex-col">
           <span className="text-sm font-bold text-zinc-900 dark:text-white">
             {profile._count?.followers ?? 0}
           </span>
@@ -114,12 +97,6 @@ export const SideProfile: React.FC = () => {
           <span className="truncate">{profile.website || "No website"}</span>
         </div>
       </div>
-      {followModalOpen && (
-        <FollowModal
-          followType={followType}
-          onClose={() => setFollowModalOpen(false)}
-        />
-      )}
     </div>
   );
 };
