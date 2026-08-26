@@ -34,7 +34,7 @@ export default function LoginPage() {
       },
       onError: (error) => {
         if (axios.isAxiosError(error)) {
-          toast.error(error.response?.data?.error ?? "Login failed");
+          toast.error("Invalid email or password");
         } else {
           toast.error("Something went wrong");
         }

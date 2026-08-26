@@ -6,7 +6,7 @@ export type createCommentType = {
 }
 
 
-export const createNewCommment = async ({ id, content }) => {
+export const createNewCommment = async ({ id, content }:createCommentType) => {
   const res = await api.post(`/posts/${id}/comment` , { content });  
   return res.data;
 };
