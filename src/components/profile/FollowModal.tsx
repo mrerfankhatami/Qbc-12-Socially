@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { useGetFollowerList } from "../../hooks/useGetFollowerList";
 import { useGetFollowingList } from "../../hooks/useGetFollowingList";
 import FollowItem from "./FollowItem";
@@ -15,7 +16,13 @@ export default function FollowModal({
 }: FollowModalProps) {
   const followers = useGetFollowerList(id);
   const following = useGetFollowingList(id);
-  console.log(followers);
+  useEffect(() => {
+    if (followType === "followers") {
+      followers.refetch();
+    } else {
+      following.refetch();
+    }
+  }, [followType]);
 
   const followList = followType === "followers" ? followers : following;
 

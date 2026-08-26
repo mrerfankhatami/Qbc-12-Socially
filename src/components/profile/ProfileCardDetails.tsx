@@ -62,11 +62,11 @@ const ProfileCardDetails = ({
       <h1 className="pt-2 text-2xl dark:text-white text-justify">{name}</h1>
       <h3 className="text-[#737373]">{email}</h3>
       <h3 className="text-[#737373]">{bio}</h3>
-      <div
-        className="cursor-pointer max-w-125.5 w-full h-21 flex items-center justify-between"
-        onClick={handleFollowing}
-      >
-        <div className="w-16 h-11 flex flex-col items-center">
+      <div className="cursor-pointer max-w-125.5 w-full h-21 flex items-center justify-between">
+        <div
+          className="w-16 h-11 flex flex-col items-center"
+          onClick={handleFollowing}
+        >
           <p className="dark:text-white">{_count.followings}</p>
           <p className="text-[#737373]">Following</p>
         </div>

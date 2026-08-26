@@ -16,7 +16,7 @@ export default function FollowItem({ item }: FollowItemProps) {
   return (
     <div className="flex w-full items-center gap-3 rounded-lg p-2 transition hover:bg-zinc-50 dark:hover:bg-zinc-900">
       <img
-        src={image || avatar}
+        src={avatar}
         alt={name || "User"}
         className="h-10 w-10 shrink-0 rounded-full object-cover"
       />
