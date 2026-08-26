@@ -1,3 +1,4 @@
+import { UsersRound } from "lucide-react";
 import { useGetFollowerList } from "../../hooks/useGetFollowerList";
 import { useGetFollowingList } from "../../hooks/useGetFollowingList";
 import type { FollowerType, FollowingType } from "../../types/ProfileTypes";
@@ -43,9 +44,7 @@ export default function FollowModal({
         </button>
 
         {followList.isLoading && (
-          <p className="text-center text-sm text-zinc-500">
-            Loading...
-          </p>
+          <p className="text-center text-sm text-zinc-500">Loading...</p>
         )}
 
         {followList.isError && (
@@ -55,21 +54,40 @@ export default function FollowModal({
         )}
 
         {followList.isSuccess && (
-          <div className="flex flex-col">
-            {followType === "followers"
-              ? followList.data.data.map((item : FollowerType) => (
-                  <FollowItem
-                    key={item.follower.id}
-                    item={item.follower}
-                  />
-                ))
-              : followList.data.data.map((item : FollowingType) => (
-                  <FollowItem
-                    key={item.following.id}
-                    item={item.following}
-                  />
-                ))}
-          </div>
+          <>
+            {followList.data.data.length === 0 ? (
+              <div className="flex min-h-52 flex-col items-center justify-center gap-2">
+                <div className="flex h-12 w-12 items-center justify-center rounded-full bg-zinc-100 dark:bg-[#171717]">
+                  <span className="text-xl dark:text-white"><UsersRound /></span>
+                </div>
+
+                <p className=" font-medium text-zinc-700 dark:text-zinc-300">
+                  {followType === "followers"
+                    ? "No followers yet"
+                    : "Not following anyone yet"}
+                </p>
+
+                <p className="text-center text-sm text-zinc-500 dark:text-zinc-500">
+                  {followType === "followers"
+                    ? "This user doesn't have any followers yet."
+                    : "This user isn't following anyone yet."}
+                </p>
+              </div>
+            ) : (
+              <div className="flex flex-col">
+                {followType === "followers"
+                  ? followList.data.data.map((item: FollowerType) => (
+                      <FollowItem key={item.follower.id} item={item.follower} />
+                    ))
+                  : followList.data.data.map((item: FollowingType) => (
+                      <FollowItem
+                        key={item.following.id}
+                        item={item.following}
+                      />
+                    ))}
+              </div>
+            )}
+          </>
         )}
       </div>
     </div>
