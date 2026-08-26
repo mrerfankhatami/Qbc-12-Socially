@@ -7,11 +7,11 @@ type User = {
 };
 
 type FollowItemProps = {
-  Item: User;
+  item: User;
 };
 
-export default function FollowItem({ Item }: FollowItemProps) {
-  const { name, email, image } = Item;
+export default function FollowItem({ item }: FollowItemProps) {
+  const { name, email, image } = item;
 
   return (
     <div className="flex w-full items-center gap-3 rounded-lg p-2 transition hover:bg-zinc-50 dark:hover:bg-zinc-900">

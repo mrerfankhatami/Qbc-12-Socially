@@ -30,6 +30,10 @@ const ProfileCardDetails = ({
   const [followType, setFollowType] = useState<"followers" | "following">(
     "followers",
   );
+  const { username } = useParams<{ username: string }>();
+
+  const { data } = useGetUserByUserName({ username });
+  const userId = data.id;
 
   const handleFollower = () => {
     setFollowType("followers");
@@ -46,8 +50,6 @@ const ProfileCardDetails = ({
   }
 
   function handleFollow() {}
-
-  const { username } = useParams<{ username: string }>();
 
   const { data: sessionData } = useSession();
 
@@ -125,9 +127,10 @@ const ProfileCardDetails = ({
           setIsModalOpen={setIsModalOpen}
         />
       )}
-      {followModalOpen && isMyProfile && (
+      {followModalOpen && (
         <FollowModal
           followType={followType}
+          id={userId}
           onClose={() => setFollowModalOpen(false)}
         />
       )}
