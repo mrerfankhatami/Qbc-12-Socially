@@ -1,3 +1,5 @@
+import FollowItem from "./FollowItem";
+
 type FollowModalProps = {
   followType: string;
   onClose: () => void;
@@ -12,7 +14,7 @@ export default function FollowModal(props: FollowModalProps) {
       onClick={onClose}
     >
       <div
-        className="relative min-h-75 w-full max-w-sm rounded-xl bg-white p-6 shadow-xl"
+        className="pt-10 relative min-h-12 w-full max-w-sm rounded-xl bg-white p-6 shadow-xl"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Close button */}
@@ -25,6 +27,8 @@ export default function FollowModal(props: FollowModalProps) {
         </button>
 
         {/* Empty modal content */}
+
+        <FollowItem></FollowItem>
       </div>
     </div>
   );

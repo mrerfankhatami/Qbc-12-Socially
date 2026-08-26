@@ -8,7 +8,7 @@ import { getTimeAgo } from "../../utils/getTimeAgo";
 import { useGetUserByUserName } from "../../hooks/useGetUserByUserName";
 import { useSession } from "../../hooks/UseSession";
 import { useParams } from "react-router";
-import FollowModal from "../FollowModal";
+import FollowModal from "./FollowModal";
 
 const ProfileCardDetails = ({
   name = "Seyed Ali Mousavi",
@@ -125,7 +125,7 @@ const ProfileCardDetails = ({
           setIsModalOpen={setIsModalOpen}
         />
       )}
-      {followModalOpen && (
+      {followModalOpen && isMyProfile && (
         <FollowModal
           followType={followType}
           onClose={() => setFollowModalOpen(false)}
