@@ -6,6 +6,7 @@ import ProfilePage from "../pages/ProfilePage";
 import LoginPage from "../pages/LoginPage";
 import RegisterPage from "../pages/RegisterPage";
 import NotFoundPage from "../pages/NotFoundPage";
+import SearchPage from "../pages/SearchPage";
 
 const router = createBrowserRouter([
   {
@@ -15,6 +16,7 @@ const router = createBrowserRouter([
       { index: true, element: <HomePage /> },
       { path: "notifications", element: <NotificationPage /> },
       { path: "profile/:username", element: <ProfilePage /> },
+      { path: "search", element: <SearchPage /> },
     ],
   },
 
