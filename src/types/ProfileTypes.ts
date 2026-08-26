@@ -97,3 +97,22 @@ export type LikedPost = {
     };
   };
 }
+
+
+// following and followers 
+export interface FollowUser {
+  name: string;
+  email: string;
+  id: string;
+  image: string | null;
+}
+
+export interface FollowerType {
+  createdAt: string;
+  follower: FollowUser;
+}
+
+export interface FollowingType {
+  createdAt: string;
+  following: FollowUser;
+}

@@ -1,6 +1,6 @@
-import { useEffect } from "react";
 import { useGetFollowerList } from "../../hooks/useGetFollowerList";
 import { useGetFollowingList } from "../../hooks/useGetFollowingList";
+import type { FollowerType, FollowingType } from "../../types/ProfileTypes";
 import FollowItem from "./FollowItem";
 
 type FollowModalProps = {
@@ -14,25 +14,24 @@ export default function FollowModal({
   onClose,
   id,
 }: FollowModalProps) {
-  const followers = useGetFollowerList(id);
-  const following = useGetFollowingList(id);
-  useEffect(() => {
-    if (followType === "followers") {
-      followers.refetch();
-    } else {
-      following.refetch();
-    }
-  }, [followType]);
+  const followersQuery = useGetFollowerList(id, {
+    enabled: followType === "followers",
+  });
 
-  const followList = followType === "followers" ? followers : following;
+  const followingQuery = useGetFollowingList(id, {
+    enabled: followType === "following",
+  });
+
+  const followList =
+    followType === "followers" ? followersQuery : followingQuery;
 
   return (
     <div
-      className="fixed inset-0 z-999 flex items-center justify-center bg-black/40 p-4"
+      className="fixed inset-0 z-50 flex items-center justify-center bg-black/30 backdrop-blur-sm"
       onClick={onClose}
     >
       <div
-        className="relative max-h-[80vh] w-full max-w-sm overflow-y-auto rounded-xl bg-white p-6 pt-12 shadow-xl"
+        className="relative max-h-[80vh] w-full max-w-md overflow-y-auto rounded-lg dark:bg-[#0A0A0A] bg-white p-6 dark:border dark:border-[#262626]"
         onClick={(e) => e.stopPropagation()}
       >
         <button
@@ -44,7 +43,9 @@ export default function FollowModal({
         </button>
 
         {followList.isLoading && (
-          <p className="text-center text-sm text-zinc-500">Loading...</p>
+          <p className="text-center text-sm text-zinc-500">
+            Loading...
+          </p>
         )}
 
         {followList.isError && (
@@ -55,13 +56,19 @@ export default function FollowModal({
 
         {followList.isSuccess && (
           <div className="flex flex-col">
-            {followList.data.data.map((item: any) =>
-              followType === "followers" ? (
-                <FollowItem key={item.follower.id} item={item.follower} />
-              ) : (
-                <FollowItem key={item.following.id} item={item.following} />
-              ),
-            )}
+            {followType === "followers"
+              ? followList.data.data.map((item : FollowerType) => (
+                  <FollowItem
+                    key={item.follower.id}
+                    item={item.follower}
+                  />
+                ))
+              : followList.data.data.map((item : FollowingType) => (
+                  <FollowItem
+                    key={item.following.id}
+                    item={item.following}
+                  />
+                ))}
           </div>
         )}
       </div>

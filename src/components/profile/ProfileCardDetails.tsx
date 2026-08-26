@@ -2,7 +2,7 @@ import { Anchor, Calendar, MapPin, SquarePen, UserPlus } from "lucide-react";
 import avatar from "../../assets/avatar.png";
 import Button from "../Ui/Button";
 import type { UserProfile } from "../../types/ProfileTypes";
-import { useId, useState } from "react";
+import { useState } from "react";
 import ProfileModal from "./ProfileModal";
 import { getTimeAgo } from "../../utils/getTimeAgo";
 import { useGetUserByUserName } from "../../hooks/useGetUserByUserName";
@@ -62,22 +62,22 @@ const ProfileCardDetails = ({
       <h1 className="pt-2 text-2xl dark:text-white text-justify">{name}</h1>
       <h3 className="text-[#737373]">{email}</h3>
       <h3 className="text-[#737373]">{bio}</h3>
-      <div className="cursor-pointer max-w-125.5 w-full h-21 flex items-center justify-between">
+      <div className="w-full flex items-center justify-between">
         <div
-          className="w-16 h-11 flex flex-col items-center"
+          className=" flex flex-col items-center cursor-pointer hover:dark:bg-[#1a1a1a] hover:bg-[#ecebeb] p-2 rounded-xl"
           onClick={handleFollowing}
         >
           <p className="dark:text-white">{_count.followings}</p>
           <p className="text-[#737373]">Following</p>
         </div>
         <div
-          className="cursor-pointer w-16 h-11 flex flex-col items-center"
+          className="cursor-pointer flex flex-col items-center hover:dark:bg-[#1a1a1a] hover:bg-[#ecebeb] p-2 rounded-xl"
           onClick={handleFollower}
         >
           <p className="dark:text-white">{_count.followers}</p>
           <p className="text-[#737373]">Followers</p>
         </div>
-        <div className="w-16 h-11 flex flex-col items-center">
+        <div className=" flex flex-col items-center">
           <p className="dark:text-white">{_count.posts}</p>
           <p className="text-[#737373]">Posts</p>
         </div>

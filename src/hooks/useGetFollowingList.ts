@@ -1,10 +1,18 @@
 import { useQuery } from "@tanstack/react-query";
 import { getFollowingList } from "../services/FollowListService";
 
-export const useGetFollowingList = (id: string) => {
+export const useGetFollowingList = (
+  id: string,
+  options?: {
+    enabled?: boolean;
+  },
+) => {
   return useQuery({
     queryKey: ["FollowingList", id],
     queryFn: () => getFollowingList(id),
+
+    enabled: options?.enabled,
+
     retry: false,
     staleTime: 1000 * 60 * 5,
   });
