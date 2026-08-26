@@ -8,6 +8,7 @@ import { getTimeAgo } from "../../utils/getTimeAgo";
 import { useGetUserByUserName } from "../../hooks/useGetUserByUserName";
 import { useSession } from "../../hooks/UseSession";
 import { useParams } from "react-router";
+import FollowModal from "../FollowModal";
 
 const ProfileCardDetails = ({
   name = "Seyed Ali Mousavi",
@@ -24,6 +25,21 @@ const ProfileCardDetails = ({
   createdAt = "",
 }: UserProfile) => {
   const [isOpenModal, setIsModalOpen] = useState<boolean>(false);
+
+  const [followModalOpen, setFollowModalOpen] = useState(false);
+  const [followType, setFollowType] = useState<"followers" | "following">(
+    "followers",
+  );
+
+  const handleFollower = () => {
+    setFollowType("followers");
+    setFollowModalOpen(true);
+  };
+
+  const handleFollowing = () => {
+    setFollowType("following");
+    setFollowModalOpen(true);
+  };
 
   function handleClick() {
     setIsModalOpen(true);
@@ -45,12 +61,18 @@ const ProfileCardDetails = ({
       <h1 className="pt-2 text-2xl dark:text-white text-justify">{name}</h1>
       <h3 className="text-[#737373]">{email}</h3>
       <h3 className="text-[#737373]">{bio}</h3>
-      <div className="max-w-125.5 w-full h-21 flex items-center justify-between">
+      <div
+        className="cursor-pointer max-w-125.5 w-full h-21 flex items-center justify-between"
+        onClick={handleFollowing}
+      >
         <div className="w-16 h-11 flex flex-col items-center">
           <p className="dark:text-white">{_count.followings}</p>
           <p className="text-[#737373]">Following</p>
         </div>
-        <div className="w-16 h-11 flex flex-col items-center">
+        <div
+          className="cursor-pointer w-16 h-11 flex flex-col items-center"
+          onClick={handleFollower}
+        >
           <p className="dark:text-white">{_count.followers}</p>
           <p className="text-[#737373]">Followers</p>
         </div>
@@ -101,6 +123,12 @@ const ProfileCardDetails = ({
           prevLocation={location}
           prevWebsite={website}
           setIsModalOpen={setIsModalOpen}
+        />
+      )}
+      {followModalOpen && (
+        <FollowModal
+          followType={followType}
+          onClose={() => setFollowModalOpen(false)}
         />
       )}
     </div>
