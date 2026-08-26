@@ -1,3 +1,5 @@
+import { useGetFollowerList } from "../../hooks/useGetFollowerList";
+import { useGetFollowingList } from "../../hooks/useGetFollowingList";
 import FollowItem from "./FollowItem";
 
 type FollowModalProps = {
@@ -7,6 +9,15 @@ type FollowModalProps = {
 
 export default function FollowModal(props: FollowModalProps) {
   const { followType, onClose } = props;
+
+  let followList;
+  if (followType === "Followers") {
+    followList = useGetFollowerList();
+  } else {
+    followList = useGetFollowingList();
+  }
+
+  console.log(followList);
 
   return (
     <div
@@ -28,7 +39,7 @@ export default function FollowModal(props: FollowModalProps) {
 
         {/* Empty modal content */}
 
-        <FollowItem></FollowItem>
+        <FollowItem item={followList}></FollowItem>
       </div>
     </div>
   );

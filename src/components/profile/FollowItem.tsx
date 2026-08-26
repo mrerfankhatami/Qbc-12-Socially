@@ -1,12 +1,18 @@
 import avatar from "../../assets/avatar.png";
 
-type FollowItemProps = {
-  image?: string | null;
+type User = {
   name?: string | null;
   email?: string | null;
+  image?: string | null;
 };
 
-export default function FollowItem({ image, name, email }: FollowItemProps) {
+type FollowItemProps = {
+  Item: User;
+};
+
+export default function FollowItem({ Item }: FollowItemProps) {
+  const { name, email, image } = Item;
+
   return (
     <div className="flex w-full items-center gap-3 rounded-lg p-2 transition hover:bg-zinc-50 dark:hover:bg-zinc-900">
       <img

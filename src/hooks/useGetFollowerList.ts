@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { getFollowerList } from "../services/FollowListService";
 
-export const useGetAllPosts = () => {
+export const useGetFollowerList = () => {
   const query = useQuery({
     queryKey: ["FollowerList"],
     queryFn: getFollowerList,
@@ -9,5 +9,5 @@ export const useGetAllPosts = () => {
     staleTime: 1000 * 60 * 5,
   });
 
-  return query;
+  return query.data;
 };
