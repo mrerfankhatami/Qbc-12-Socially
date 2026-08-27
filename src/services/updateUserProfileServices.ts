@@ -6,6 +6,7 @@ export interface UserId {
   bio: string;
   location: string;
   website: string;
+  image : string | null;
 }
 
 export const updateUserById = async (data: UserId) => {
@@ -14,6 +15,8 @@ export const updateUserById = async (data: UserId) => {
       bio: data.bio,
       location: data.location,
       website: data.website,
+      image : data.image
+      
     });
 
   return response.data;
