@@ -1,4 +1,5 @@
-import { useState, type ChangeEvent } from "react";
+import { useForm } from "react-hook-form";
+// import { useState, type ChangeEvent } from "react";
 import TextField from "../components/Ui/TextField";
 import Button from "../components/Ui/Button";
 import { useRegisterMutation } from "../hooks/useRegisterMutation";
@@ -7,38 +8,44 @@ import toast from "react-hot-toast";
 import axios from "axios";
 import { UserPlus } from "lucide-react";
 
+
+type RegisterFormInputs = {
+  name: string;
+  email: string;
+  password: string;
+};
+
 export default function RegisterPage() {
-
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-
   const {
-    mutate: registerMutation,
-    isPending,
-    isError,
-  } = useRegisterMutation();
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<RegisterFormInputs>({
+    mode: "onBlur",
+  });
+
+  const { mutate: registerMutation, isPending } = useRegisterMutation();
   const navigate = useNavigate();
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    registerMutation(
-      { name, email, password },
-      {
-        onSuccess: () => {
-          toast.success("Account created successfully!");
-          navigate("/");
-        },
-        onError: (error) => {
-          if (axios.isAxiosError(error)) {
-            toast.error(error.response?.data?.error ?? "Registration failed");
-          } else {
-            toast.error("Something went wrong");
-          }
-        },
-      }
-    );
+  const emailPattern = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
+
+  const onSubmit = (data: RegisterFormInputs) => {
+    registerMutation(data, {
+      onSuccess: () => {
+        toast.success("Account created successfully!");
+        navigate("/");
+      },
+      onError: (error) => {
+        if (axios.isAxiosError(error)) {
+          toast.error(error.response?.data?.error ?? "Registration failed");
+        } else {
+          toast.error("Something went wrong");
+        }
+      },
+    });
   };
+
+
 
   return (
     <div className="min-h-svh flex items-center justify-center bg-secondary-50 dark:bg-[#0a0a0a] px-4 sm:px-6 lg:px-8 py-8 dark:text-white">
@@ -47,7 +54,8 @@ export default function RegisterPage() {
         <div className="w-full grid grid-cols-1 md:grid-cols-2 rounded-xl border border-[#E5E5E5] dark:border-[#2e2e2e] shadow-sm overflow-hidden bg-secondary-0 dark:bg-[#262626]">
           
           <div className="p-6 md:p-8 bg-white dark:bg-[#0a0a0a] flex flex-col justify-center">
-            <form onSubmit={handleSubmit} className="flex flex-col gap-6">
+
+            <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-6">
               <div className="flex flex-col gap-2 items-center text-center">
                 <h1 className="text-2xl font-bold text-secondary-900 dark:text-white">
                   Create your account
@@ -57,48 +65,49 @@ export default function RegisterPage() {
                 </p>
               </div>
 
-              {isError && (
-                <p className="text-sm text-red-500 text-center font-medium">
-                  Registration failed. Please try again.
-                </p>
-              )}
-
               <div className="flex flex-col gap-6">
                 <TextField
                   label="Name"
-                  name="name"
                   type="text"
                   placeholder="Enter your name"
                   dir="ltr"
-                  value={name}
-                  onChange={(e: ChangeEvent<HTMLInputElement>) =>
-                    setName(e.target.value)
-                  }
-                  className="h-9 dark:bg-[#222222] border shadow-sm border-[#E5E5E5] dark:border-[#424141] font-medium mt-2 focus-visible:outline-none focus-visible:border-neutral-500 dark:focus-visible:border-neutral-600 focus-visible:ring-[3px] focus-visible:ring-neutral-500/20 dark:focus-visible:ring-neutral-600/20"
+                  isRequired
+                  error={errors.name?.message}
+                  {...register("name", {
+                    required: "Name is required",
+                  })}
                 />
+
                 <TextField
                   label="Email"
-                  name="email"
                   type="email"
                   placeholder="m@example.com"
                   dir="ltr"
-                  value={email}
-                  onChange={(e: ChangeEvent<HTMLInputElement>) =>
-                    setEmail(e.target.value)
-                  }
-                  className="h-9 dark:bg-[#222222] border shadow-sm border-[#E5E5E5] dark:border-[#424141] font-medium mt-2 focus-visible:outline-none focus-visible:border-neutral-500 dark:focus-visible:border-neutral-600 focus-visible:ring-[3px] focus-visible:ring-neutral-500/20 dark:focus-visible:ring-neutral-600/20"
+                  isRequired
+                  error={errors.email?.message}
+                  {...register("email", {
+                    required: "Email is required",
+                    pattern: {
+                      value: emailPattern,
+                      message: "Invalid email address format",
+                    },
+                  })}
                 />
+
                 <TextField
                   label="Password"
-                  name="password"
                   type="password"
                   placeholder="*********"
                   dir="ltr"
-                  value={password}
-                  onChange={(e: ChangeEvent<HTMLInputElement>) =>
-                    setPassword(e.target.value)
-                  }
-                  className="h-9 dark:bg-[#222222] border shadow-sm border-[#E5E5E5] dark:border-[#424141] font-medium mt-2 focus-visible:outline-none focus-visible:border-neutral-500 dark:focus-visible:border-neutral-600 focus-visible:ring-[3px] focus-visible:ring-neutral-500/20 dark:focus-visible:ring-neutral-600/20"
+                  isRequired
+                  error={errors.password?.message}
+                  {...register("password", {
+                    required: "Password is required",
+                    minLength: {
+                      value: 6,
+                      message: "Password must be at least 6 characters",
+                    },
+                  })}
                 />
               </div>
 
