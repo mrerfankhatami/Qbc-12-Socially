@@ -1,5 +1,5 @@
 import type { NotificationTypes } from "../../types/NotificationTypes";
-import avatar from "../../assets/avatar.png";
+import Avatar from "../Ui/Avatar";
 import NotificationContent from "./NotificationContent";
 import { getTimeAgo } from "../../utils/getTimeAgo";
 import { useMarkOneNotificationAsRead } from "../../hooks/useMarkOneNotificationAsRead";
@@ -26,10 +26,11 @@ const NotificationCard = (notification: NotificationTypes) => {
       className={`relative flex gap-3 rounded-xl border p-4 transition-colors ${cardTheme} ${pendingTheme}`}
       onClick={handleReadOneNotification}
     >
-      <img
-        src={avatar}
+      <Avatar
+        src={notification.creator.image}
+        width={40}
+        height={40}
         alt={`${notification.creator.name} avatar`}
-        className="h-10 w-10 shrink-0 rounded-full object-cover"
       />
 
       <div className="min-w-0 flex-1">

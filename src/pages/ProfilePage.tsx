@@ -25,6 +25,7 @@ export default function ProfilePage() {
           name={data?.data.name}
           email={splitUsername(data?.data.email)}
           bio={data?.data.bio}
+          image={data?.data.image}
           location={!data?.data.location ? "No locatin" : data?.data.location}
           website={!data?.data.website ? "No website" : data?.data.website} 
           createdAt={data?.data.createdAt}

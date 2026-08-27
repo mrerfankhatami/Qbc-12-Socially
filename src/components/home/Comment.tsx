@@ -1,8 +1,9 @@
 import { useState } from "react";
 import { Send } from "lucide-react";
-import avatar from "../../assets/avatar.png";
+import Avatar from "../Ui/Avatar";
 import { useAddNewCommentMutation } from "../../hooks/useCreateNewCommentMutation";
 import type { PostType } from "../../types/AllPostsTypes";
+import { useAuthStore } from "../../store/authStore";
 
 type CommentProps = {
   post: PostType;
@@ -10,6 +11,8 @@ type CommentProps = {
 
 export default function Comment({ post }: CommentProps) {
   const [text, setText] = useState("");
+
+  const { user } = useAuthStore();
 
   const { mutate: addNewCommentMutation } = useAddNewCommentMutation();
 
@@ -34,9 +37,10 @@ export default function Comment({ post }: CommentProps) {
       {post.comments?.map((comment) => (
         <div key={comment.id} className="flex flex-col mb-7">
           <div className="flex items-center gap-5">
-            <img
-              className="w-10 h-10 rounded-full object-cover"
-              src={comment.author.image || avatar}
+            <Avatar
+              src={comment.author.image}
+              width={40}
+              height={40}
               alt={`${comment.author.name}'s profile`}
             />
 
@@ -65,11 +69,7 @@ export default function Comment({ post }: CommentProps) {
 
       <div className="flex items-start gap-4">
         <div className="flex size-10 shrink-0 items-center justify-center overflow-hidden rounded-full">
-          <img
-            src={avatar}
-            alt="User avatar"
-            className="size-10 rounded-full"
-          />
+          <Avatar src={user?.image} width={40} height={40} />
         </div>
 
         <div className="flex-1">

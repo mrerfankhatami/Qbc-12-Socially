@@ -1,13 +1,14 @@
 import React, { useState } from "react";
 import { Send } from "lucide-react";
-import avatar from "../../assets/avatar.png";
+import Avatar from "../Ui/Avatar";
 import { useAddNewPostMutation } from "../../hooks/useAddNewPostMutation";
+import { useAuthStore } from "../../store/authStore";
 
 export default function SendPost() {
   const [text, setText] = useState("");
+  const { user } = useAuthStore();
 
   const { mutate: addNewPostMutation } = useAddNewPostMutation();
-
 
   const handleSubmit = (e: React.SubmitEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -15,7 +16,7 @@ export default function SendPost() {
     if (!text.trim()) return;
 
     addNewPostMutation({
-      content: text.trim()
+      content: text.trim(),
     });
 
     setText("");
@@ -28,7 +29,7 @@ export default function SendPost() {
     >
       <div className="flex items-start gap-4.5">
         <div className="relative flex size-12.5 shrink-0 items-center justify-center overflow-hidden rounded-full">
-          <img src={avatar} alt="User avatar" className="w-10 rounded-full" />
+          <Avatar src={user?.image} width={40} height={40} />
         </div>
 
         <textarea

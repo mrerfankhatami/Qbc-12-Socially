@@ -1,5 +1,4 @@
 import Avatar from "./Ui/Avatar";
-import avatar from "../assets/avatar.png";
 
 import { useAuthStore } from "../store/authStore";
 import { useGetUserByUserName } from "../hooks/useGetUserByUserName";
@@ -28,7 +27,7 @@ export const SideProfile: React.FC = () => {
   return (
     <div className="bg-white dark:bg-[#0A0A0A] border border-zinc-200 dark:border-zinc-800 rounded-2xl p-6 shadow-sm flex flex-col items-center text-center w-full max-w-84">
       <div className="mb-4 ">
-        <Avatar src={profile.image || avatar} height={60} width={60} />
+        <Avatar src={profile.image} height={60} width={60} />
       </div>
 
       <h3 className="text-base font-bold text-zinc-900 dark:text-white mb-0.5">

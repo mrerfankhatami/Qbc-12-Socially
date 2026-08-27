@@ -1,5 +1,5 @@
 import { Anchor, Calendar, MapPin, SquarePen, UserPlus } from "lucide-react";
-import avatar from "../../assets/avatar.png";
+import Avatar from "../Ui/Avatar";
 import Button from "../Ui/Button";
 import type { UserProfile } from "../../types/ProfileTypes";
 import { useState } from "react";
@@ -14,7 +14,7 @@ const ProfileCardDetails = ({
   name = "Seyed Ali Mousavi",
   email = "@samb.1376",
   bio = "nenfnnnfn",
-  image = avatar,
+  image = "",
   location = "No location",
   website = "No website",
   _count = {
@@ -58,7 +58,7 @@ const ProfileCardDetails = ({
 
   return (
     <div className="flex flex-col items-center dark:bg-[#0A0A0A] bg-white border border-[#E5E5E5] dark:border-[#262626] shadow-[0px_1px_2px_-1px_#0000001A] max-w-137.5 w-full gap-4 rounded-xl p-6">
-      <img src={image} alt="avatar" className="w-24 h-24 rounded-[9999px]" />
+      <Avatar src={image} width={96} height={96} alt="avatar" />
       <h1 className="pt-2 text-2xl dark:text-white text-justify">{name}</h1>
       <h3 className="text-[#737373]">{email}</h3>
       <h3 className="text-[#737373]">{bio}</h3>

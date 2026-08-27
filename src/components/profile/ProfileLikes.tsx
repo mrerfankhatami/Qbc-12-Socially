@@ -1,5 +1,4 @@
 import Avatar from "../Ui/Avatar";
-import avatar from "../../assets/avatar.png";
 import Button from "../Ui/Button";
 import { Heart, LoaderCircle, MessageCircle, Send } from "lucide-react";
 import { useState } from "react";
@@ -102,7 +101,7 @@ export default function ProfileLikes({ profileId }: ProfileLikesProps) {
               className="mt-4 flex w-[calc(100%-2rem)] max-w-250 flex-col gap-4 rounded-xl border-2 border-[#E5E5E5] p-6 dark:border-[#262626] dark:bg-[#0A0A0A]"
             >
               <div className="flex items-center gap-3">
-                <Avatar src={avatar} width={24} height={24} />
+                <Avatar src={post.author?.image} width={24} height={24} />
 
                 <p className="dark:text-white">{post.author?.name}</p>
 
@@ -183,7 +182,7 @@ export default function ProfileLikes({ profileId }: ProfileLikesProps) {
                         post.comments.map((comment) => (
                           <div key={comment.id} className="flex w-full gap-3">
                             <div className="shrink-0">
-                              <Avatar src={avatar} width={34} height={34} />
+                              <Avatar src={comment.author.image} width={34} height={34} />
                             </div>
 
                             <div className="min-w-0 flex-1">
@@ -215,7 +214,7 @@ export default function ProfileLikes({ profileId }: ProfileLikesProps) {
 
                       <div className="flex w-full gap-3 border-t border-[#E5E5E5] pt-5 dark:border-[#262626]">
                         <div className="shrink-0">
-                          <Avatar src={avatar} width={34} height={34} />
+                          <Avatar src={user?.image} width={34} height={34} />
                         </div>
 
                         <div className="min-w-0 flex-1">
