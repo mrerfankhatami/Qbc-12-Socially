@@ -8,6 +8,7 @@ import { useQueryClient } from "@tanstack/react-query";
 import { logoutRequest } from "../services/authServices";
 import { splitUsername } from "../utils/splitUsername";
 import { useTheme } from "../hooks/useTheme";
+import UserSearch from "./Ui/UserSearch";
 
 export default function Header() {
   const { toggleTheme } = useTheme();
@@ -49,6 +50,8 @@ export default function Header() {
           <p className="text-[#171717] text-[20px] font-bold dark:text-[#FAFAFA] ">
             Socially
           </p>
+
+          <UserSearch />
 
           <nav className="mib-w-150 flex items-center gap-2 md:gap-10">
             <div
