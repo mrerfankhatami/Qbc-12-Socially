@@ -1,12 +1,10 @@
 import { Search } from "lucide-react";
 import { useState } from "react";
-import { useSearchUsers } from "../../hooks/useSearch";
+import { useNavigate } from "react-router";
 
 export default function UserSearch() {
   const [query, setQuery] = useState("");
-  const [searchQuery, setSearchQuery] = useState("");
-
-  const { data, isLoading, isError } = useSearchUsers(searchQuery);
+  const navigate = useNavigate();
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -15,11 +13,8 @@ export default function UserSearch() {
 
     if (!value) return;
 
-    // This triggers the React Query request
-    setSearchQuery(value);
+    navigate(`/search?q=${encodeURIComponent(value)}`);
   };
-
-  console.log("Search response:", data);
 
   return (
     <form
@@ -81,10 +76,6 @@ export default function UserSearch() {
           <Search className="h-3.5 w-3.5" />
         </button>
       </div>
-
-      {isLoading && <p className="mt-1 text-xs text-zinc-400">Searching...</p>}
-
-      {isError && <p className="mt-1 text-xs text-red-500">Search failed.</p>}
     </form>
   );
 }

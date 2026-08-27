@@ -51,11 +51,7 @@ export default function Header() {
             Socially
           </p>
 
-          <UserSearch
-            onSearch={(query) => {
-              console.log("Searching for:", query);
-            }}
-          />
+          <UserSearch />
 
           <nav className="mib-w-150 flex items-center gap-2 md:gap-10">
             <div
