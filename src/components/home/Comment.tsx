@@ -1,8 +1,8 @@
 import { useState } from "react";
-import { Send , Trash2 } from "lucide-react";
+import { Send, Trash2 } from "lucide-react";
 import { useAddNewCommentMutation } from "../../hooks/useCreateNewCommentMutation";
 import type { PostType } from "../../types/AllPostsTypes";
-import { useAuthStore } from "../../store/authStore"; 
+import { useAuthStore } from "../../store/authStore";
 import DeleteCommentModal from "../profile/DeleteCommentModal";
 import Avatar from "../Ui/Avatar";
 
@@ -13,7 +13,7 @@ type CommentProps = {
 export default function Comment({ post }: CommentProps) {
   const [text, setText] = useState("");
 
-  const { user } = useAuthStore(); 
+  const { user } = useAuthStore();
   const [isOpenDeleteCommentModal, setIsOpenDeleteCommentModal] = useState(false);
   const [selectedCommentId, setSelectedCommentId] = useState<string | null>(null);
 
@@ -67,9 +67,13 @@ export default function Comment({ post }: CommentProps) {
                       setSelectedCommentId(comment.id);
                       setIsOpenDeleteCommentModal(true);
                     }}
-                    className="text-[#737373] hover:text-red-500 transition-colors ml-auto"
+                    className="ml-auto text-[#737373] hover:text-red-500 transition-colors"
                   >
-                    <Trash2 size={18} strokeWidth={1.8} />
+                    <Trash2
+                      size={18}
+                      strokeWidth={1.8}
+                      className="text-[#737373] transition-colors hover:text-red-500 dark:text-[#A3A3A3] dark:hover:text-red-400"
+                    />
                   </button>
                 )}
               </div>
@@ -113,6 +117,7 @@ export default function Comment({ post }: CommentProps) {
           </div>
         </div>
       </div>
+      
       <DeleteCommentModal
         isOpen={isOpenDeleteCommentModal}
         onClose={() => {
