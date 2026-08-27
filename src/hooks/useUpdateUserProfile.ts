@@ -15,6 +15,10 @@ export const useUpdateUserProfile = () => {
       queryClient.invalidateQueries({
         queryKey: ["get-by-userName"],
       });
+
+      queryClient.invalidateQueries({
+        queryKey: ["session"],
+      });
     },
   });
 };

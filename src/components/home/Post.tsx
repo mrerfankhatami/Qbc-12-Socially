@@ -1,4 +1,4 @@
-import avatar from "../../assets/avatar.png";
+import Avatar from "../Ui/Avatar";
 import { Heart, MessageCircle, Trash2 } from "lucide-react";
 import { useState } from "react";
 import Comment from "./Comment";
@@ -50,7 +50,6 @@ export default function Post({ post }: PostProps) {
   };
 
   const handleConfirmDelete = () => {
-
     toggleDeletedPostMutation(post.id, {
       onSuccess: () => {
         setIsDeleteModalOpen(false);
@@ -62,9 +61,10 @@ export default function Post({ post }: PostProps) {
     <div className="my-5 min-h-40 rounded-2xl border border-[#E5E5E5] p-6 shadow-sm dark:border-[#262626] dark:bg-[#0A0A0A]">
       {/* Author */}
       <div className="flex w-full items-center gap-5">
-        <img
-          className="h-10 w-10 shrink-0 rounded-full object-cover"
-          src={post.author.image || avatar}
+        <Avatar
+          src={post.author.image}
+          width={40}
+          height={40}
           alt={`${post.author.name}'s profile`}
         />
 
