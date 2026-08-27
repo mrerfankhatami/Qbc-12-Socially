@@ -1,12 +1,12 @@
 import { Search } from "lucide-react";
 import { useState } from "react";
+import { useSearchUsers } from "../../hooks/useSearch";
 
-type UserSearchProps = {
-  onSearch?: (query: string) => void;
-};
-
-export default function UserSearch({ onSearch }: UserSearchProps) {
+export default function UserSearch() {
   const [query, setQuery] = useState("");
+  const [searchQuery, setSearchQuery] = useState("");
+
+  const { data, isLoading, isError } = useSearchUsers(searchQuery);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -15,8 +15,11 @@ export default function UserSearch({ onSearch }: UserSearchProps) {
 
     if (!value) return;
 
-    onSearch?.(value);
+    // This triggers the React Query request
+    setSearchQuery(value);
   };
+
+  console.log("Search response:", data);
 
   return (
     <form
@@ -78,6 +81,10 @@ export default function UserSearch({ onSearch }: UserSearchProps) {
           <Search className="h-3.5 w-3.5" />
         </button>
       </div>
+
+      {isLoading && <p className="mt-1 text-xs text-zinc-400">Searching...</p>}
+
+      {isError && <p className="mt-1 text-xs text-red-500">Search failed.</p>}
     </form>
   );
 }
