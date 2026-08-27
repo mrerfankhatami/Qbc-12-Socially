@@ -8,6 +8,6 @@ export const useGetUsersPosts = ({ id }: GetUsersPostsData) => {
     queryFn: () => getUsersPostsById({ id }),
     retry: false,
     refetchOnWindowFocus: false,
-    staleTime: 1000 * 60 * 5,
+    refetchOnMount : true,
   });
 };

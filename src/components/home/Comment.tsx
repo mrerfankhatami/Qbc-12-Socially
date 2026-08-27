@@ -5,6 +5,8 @@ import type { PostType } from "../../types/AllPostsTypes";
 import { useAuthStore } from "../../store/authStore";
 import DeleteCommentModal from "../profile/DeleteCommentModal";
 import Avatar from "../Ui/Avatar";
+import { Link } from "react-router";
+import { splitUsername } from "../../utils/splitUsername";
 
 type CommentProps = {
   post: PostType;
@@ -49,9 +51,9 @@ export default function Comment({ post }: CommentProps) {
 
             <div>
               <div className="flex justify-start items-center gap-5">
-                <p className="font-bold text-[#171717] dark:text-[#FAFAFA]">
+                <Link to={`/profile/${splitUsername(comment.author.email)}`} className="font-bold text-[#171717] dark:text-[#FAFAFA]">
                   {comment.author.name}
-                </p>
+                </Link>
 
                 <p className="text-[#737373] dark:text-[#A3A3A3] text-[14px] font-light">
                   @{comment.author.name.toLowerCase().replace(/\s+/g, "")}

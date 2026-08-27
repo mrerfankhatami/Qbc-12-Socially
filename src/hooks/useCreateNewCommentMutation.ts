@@ -21,16 +21,18 @@ export const useAddNewCommentMutation = () => {
   >({
     mutationFn: (commentType) => createNewCommment(commentType),
 
-    onSuccess: (data) => {
+    onSuccess: async (data) => {
       toast.success(data.message);
 
-      queryClient.invalidateQueries({
+      await queryClient.invalidateQueries({
         queryKey: ["allPosts"],
       });
-      queryClient.invalidateQueries({
+
+      await queryClient.invalidateQueries({
         queryKey: ["get-users-posts"],
       });
-      queryClient.invalidateQueries({
+
+      await queryClient.invalidateQueries({
         queryKey: ["get-users-liked-posts"],
       });
     },
