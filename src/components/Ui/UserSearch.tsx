@@ -1,10 +1,12 @@
 import { Search } from "lucide-react";
 import { useState } from "react";
-import { useNavigate } from "react-router";
+import { useNavigate, useSearchParams } from "react-router";
 
 export default function UserSearch() {
-  const [query, setQuery] = useState("");
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+
+  const [query, setQuery] = useState(searchParams.get("q") || "");
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();

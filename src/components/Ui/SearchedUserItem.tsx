@@ -1,20 +1,11 @@
 import { Anchor, MapPin } from "lucide-react";
 import { useNavigate } from "react-router";
-import avatar from "../../assets/avatar.png";
 import { splitUsername } from "../../utils/splitUsername";
-
-type SearchUser = {
-  id: string;
-  name: string;
-  email: string;
-  image?: string | null;
-  bio?: string | null;
-  location?: string | null;
-  website?: string | null;
-};
+import type { SearchUserType } from "../../types/SearchUser";
+import Avatar from "./Avatar";
 
 type SearchUserItemProps = {
-  user: SearchUser;
+  user: SearchUserType;
 };
 
 export default function SearchUserItem({ user }: SearchUserItemProps) {
@@ -31,7 +22,7 @@ export default function SearchUserItem({ user }: SearchUserItemProps) {
       type="button"
       onClick={handleClick}
       className="
-        group flex w-full items-start gap-4
+        group flex w-full gap-4 items-center
         rounded-xl
         border border-transparent
         p-4
@@ -43,9 +34,11 @@ export default function SearchUserItem({ user }: SearchUserItemProps) {
         dark:hover:bg-zinc-900/70
       "
     >
-      <img
-        src={user.image || avatar}
-        alt={user.name || "User"}
+
+      <Avatar
+        src={user?.image}
+        width={60}
+        height={60}
         className="
           h-12 w-12 shrink-0 rounded-full
           border border-zinc-200 object-cover
@@ -54,16 +47,16 @@ export default function SearchUserItem({ user }: SearchUserItemProps) {
       />
 
       <div className="min-w-0 flex-1">
-        <p className="truncate text-sm font-semibold text-zinc-900 dark:text-white">
+        <p className="truncate font-semibold text-zinc-900 dark:text-white flex items-center gap-5.5">
           {user.name || "Unknown user"}
-        </p>
 
-        <p className="mt-0.5 truncate text-xs text-zinc-500 dark:text-zinc-400">
-          {user.email || "No email"}
+          <span className="truncate text-sm text-zinc-500 dark:text-zinc-400">
+            {user.email || "No email"}
+          </span>
         </p>
 
         {user.bio && (
-          <p className="mt-2 line-clamp-2 text-xs leading-5 text-zinc-600 dark:text-zinc-400">
+          <p className="mt-2 line-clamp-2 text-sm leading-5 text-zinc-600 dark:text-zinc-400">
             {user.bio}
           </p>
         )}

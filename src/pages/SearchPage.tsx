@@ -1,6 +1,7 @@
 import SearchUserItem from "../components/Ui/SearchedUserItem";
 import { useSearchUsers } from "../hooks/useSearch";
 import { useSearchParams } from "react-router";
+import type { SearchUserType } from "../types/SearchUser";
 
 export default function SearchPage() {
   const [searchParams] = useSearchParams();
@@ -11,9 +12,6 @@ export default function SearchPage() {
 
   return (
     <div className="w-full px-4 py-6 sm:px-6 lg:px-8">
-      <h1 className="mb-5 text-xl font-semibold text-zinc-900 dark:text-white">
-        Search results
-      </h1>
 
       {isLoading && (
         <p className="text-sm text-zinc-500 dark:text-zinc-400">Searching...</p>
@@ -25,7 +23,7 @@ export default function SearchPage() {
 
       {!isLoading && !isError && (
         <div className="flex w-full flex-col gap-1">
-          {data?.data?.map((user: any) => (
+          {data?.data?.map((user: SearchUserType) => (
             <SearchUserItem key={user.id} user={user} />
           ))}
         </div>
