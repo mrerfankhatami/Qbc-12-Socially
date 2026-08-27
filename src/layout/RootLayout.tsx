@@ -1,29 +1,23 @@
-import { Outlet, useLocation, useNavigate } from "react-router";
+import { Outlet, useLocation } from "react-router";
 import Header from "../components/Header";
 import SideSignIn from "../components/SideSignIn";
 import SideRecommendedUsers from "../components/SideRecommendedUsers";
 import SideProfile from "../components/SideProfile";
 import { useSession } from "../hooks/UseSession";
-import { useEffect } from "react";
 import { useAuthStore } from "../store/authStore";
 
 export default function RootLayout() {
 
   const location = useLocation();
-  const navigate = useNavigate();
 
-  const { isLoading, isError } = useSession();
+  const { isLoading } = useSession();
   const { isAuthenticated } = useAuthStore()
 
   
   
   const isHomePage = location.pathname === "/";
 
-  useEffect(() => {
-    if (isError) {
-      navigate("/login", { replace: true });
-    }
-  }, [isError, navigate]);
+
 
 
   if (isLoading) {
