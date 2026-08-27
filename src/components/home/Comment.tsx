@@ -1,8 +1,10 @@
 import { useState } from "react";
-import { Send } from "lucide-react";
+import { Send , Trash2 } from "lucide-react";
 import avatar from "../../assets/avatar.png";
 import { useAddNewCommentMutation } from "../../hooks/useCreateNewCommentMutation";
 import type { PostType } from "../../types/AllPostsTypes";
+import { useAuthStore } from "../../store/authStore"; 
+import DeleteCommentModal from "../profile/DeleteCommentModal";
 
 type CommentProps = {
   post: PostType;
@@ -10,6 +12,10 @@ type CommentProps = {
 
 export default function Comment({ post }: CommentProps) {
   const [text, setText] = useState("");
+
+  const { user } = useAuthStore(); 
+  const [isOpenDeleteCommentModal, setIsOpenDeleteCommentModal] = useState(false);
+  const [selectedCommentId, setSelectedCommentId] = useState<string | null>(null);
 
   const { mutate: addNewCommentMutation } = useAddNewCommentMutation();
 
@@ -53,6 +59,18 @@ export default function Comment({ post }: CommentProps) {
                 <p className="text-[#737373] dark:text-[#A3A3A3] text-[14px] font-light hidden md:block">
                   . {new Date(comment.createdAt).toLocaleDateString()}
                 </p>
+                {user?.email && user.email === comment.author.email && (
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setSelectedCommentId(comment.id);
+                      setIsOpenDeleteCommentModal(true);
+                    }}
+                    className="text-[#737373] hover:text-red-500 transition-colors ml-auto"
+                  >
+                    <Trash2 size={18} strokeWidth={1.8} />
+                  </button>
+                )}
               </div>
 
               <p className="mt-2 text-[#171717] dark:text-[#FAFAFA]">
@@ -98,6 +116,15 @@ export default function Comment({ post }: CommentProps) {
           </div>
         </div>
       </div>
+      <DeleteCommentModal
+        isOpen={isOpenDeleteCommentModal}
+        onClose={() => {
+          setIsOpenDeleteCommentModal(false);
+          setSelectedCommentId(null);
+        }}
+        postId={post.id}
+        commentId={selectedCommentId}
+      />
     </form>
   );
 }
