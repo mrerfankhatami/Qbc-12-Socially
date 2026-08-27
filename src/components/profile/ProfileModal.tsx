@@ -5,6 +5,7 @@ import { useUpdateUserProfile } from "../../hooks/useUpdateUserProfile";
 import { useAuthStore } from "../../store/authStore";
 import { useUploadProfileImage } from "../../hooks/useUploadProfileImage";
 import Avatar from "../Ui/Avatar";
+import toast from "react-hot-toast";
 
 type ProfileModalProp = {
   setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
@@ -69,6 +70,7 @@ const ProfileModal = ({
           });
 
           setIsModalOpen(false);
+          toast.success("profile updated successfully")
         },
       });
 
