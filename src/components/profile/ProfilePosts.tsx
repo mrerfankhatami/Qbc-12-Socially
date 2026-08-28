@@ -139,12 +139,14 @@ export default function ProfilePosts({ profileId }: ProfilePostsProps) {
                 </div>
 
                 <div>
-                  <Trash2
-                    onClick={() => handleDeletePost(post.id)}
-                    width={17}
-                    height={17}
-                    className="ml-auto cursor-pointer text-[#737373] transition-colors hover:text-red-600"
-                  />
+                  {user?.id === post.authorId && (
+                    <Trash2
+                      onClick={() => handleDeletePost(post.id)}
+                      width={17}
+                      height={17}
+                      className="ml-auto cursor-pointer text-[#737373] transition-colors hover:text-red-600"
+                    />
+                  )}
                 </div>
               </div>
 

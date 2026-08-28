@@ -7,7 +7,6 @@ import LoginPage from "../pages/LoginPage";
 import RegisterPage from "../pages/RegisterPage";
 import NotFoundPage from "../pages/NotFoundPage";
 import SearchPage from "../pages/SearchPage";
-import ProtectedRoute from "../layout/ProtectedRoute";
 
 const router = createBrowserRouter([
   {
@@ -16,14 +15,9 @@ const router = createBrowserRouter([
     children: [
       { index: true, element: <HomePage /> },
       { path: "search", element: <SearchPage /> },
+      { path: "notifications", element: <NotificationPage /> },
+      { path: "profile/:username", element: <ProfilePage /> },
       
-      {
-        element: <ProtectedRoute />,
-        children: [
-          { path: "notifications", element: <NotificationPage /> },
-          { path: "profile/:username", element: <ProfilePage /> },
-        ],
-      },
     ],
   },
 
