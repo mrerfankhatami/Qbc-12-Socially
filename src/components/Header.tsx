@@ -13,9 +13,8 @@ import UserSearch from "./Ui/UserSearch";
 export default function Header() {
   const { toggleTheme } = useTheme();
 
-  const [isLoggesIn] = useState(true);
 
-  const { logout: logoutStore } = useAuthStore();
+  const { logout: logoutStore , isAuthenticated } = useAuthStore();
 
   const navigate = useNavigate();
   const queryClient = useQueryClient();
@@ -62,7 +61,7 @@ export default function Header() {
               <Moon size={20} className="hidden dark:block dark:text-white" />
             </div>
 
-            {isLoggesIn ? (
+            {isAuthenticated ? (
               <div className=" items-center justify-around gap-10 h-9 hidden md:flex">
                 <NavLink
                   to={"/"}
