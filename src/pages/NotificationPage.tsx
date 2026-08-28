@@ -5,6 +5,8 @@ import { useMarkNotificationsAsRead } from "../hooks/usemarkNotificationsAsRead"
 import type { NotificationTypes } from "../types/NotificationTypes";
 
 export default function NotificationPage() {
+
+
   const { data: notifications = [], isLoading: isLoadingNotifications, isError} =
     useGetAllNotifications();
 

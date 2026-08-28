@@ -4,7 +4,6 @@ import { useQuery } from "@tanstack/react-query";
 import { getSession } from "../services/SessionServices";
 
 export const useSession = () => {
-
   const { setUser, setSession, logout } = useAuthStore();
 
   const query = useQuery({
@@ -13,7 +12,9 @@ export const useSession = () => {
       const response = await getSession();
       return response.data;
     },
-    retry: false, 
+    retry: false,
+    staleTime: 1000 * 60 * 5,
+    refetchOnWindowFocus: false,
   });
 
   useEffect(() => {
@@ -21,7 +22,6 @@ export const useSession = () => {
       setUser(query.data.user);
       setSession(query.data.session);
     } else if (query.isError) {
-      console.log("Session invalid or expired. Clearing store.");
       logout();
     }
   }, [query.isSuccess, query.isError, query.data, setUser, setSession, logout]);
