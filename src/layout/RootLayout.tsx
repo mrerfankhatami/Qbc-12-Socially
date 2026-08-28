@@ -18,8 +18,7 @@ export default function RootLayout() {
 
   const isHomePage = location.pathname === "/";
   const isProtectedRoute = 
-    location.pathname === "/notifications" || 
-    location.pathname.startsWith("/profile");
+    location.pathname === "/notifications" 
 
   if (isLoading) {
     return (
