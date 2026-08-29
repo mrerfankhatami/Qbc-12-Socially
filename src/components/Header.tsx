@@ -14,14 +14,13 @@ export default function Header() {
   const { toggleTheme } = useTheme();
 
 
-  const { logout: logoutStore , isAuthenticated } = useAuthStore();
+  const { logout: logoutStore , isAuthenticated , user } = useAuthStore();
 
   const navigate = useNavigate();
   const queryClient = useQueryClient();
 
   const [isOpen, setIsOpen] = useState(false);
 
-  const { user } = useAuthStore();
 
   const handleToggleSidebar = () => {
     setIsOpen(!isOpen);
@@ -50,7 +49,7 @@ export default function Header() {
             Socially
           </p>
 
-          <UserSearch />
+          { isAuthenticated &&  <UserSearch />}
 
           <nav className="mib-w-150 flex items-center gap-2 md:gap-10">
             <div
