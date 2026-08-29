@@ -1,5 +1,7 @@
 import { Heart, MessageCircle, UserRoundPlus } from "lucide-react";
 import type { NotificationTypes } from "../../types/NotificationTypes";
+import { Link } from "react-router";
+import { splitUsername } from "../../utils/splitUsername";
 
 const NotificationContent = ( notification: NotificationTypes) => {
   switch (notification.type) {
@@ -9,9 +11,9 @@ const NotificationContent = ( notification: NotificationTypes) => {
           <button className="flex flex-wrap items-center gap-2 text-sm">
             <Heart size={20} className="shrink-0 text-red-500" stroke="red" />
 
-            <span className="font-semibold text-gray-900 dark:text-white">
+            <Link to={`/profile/${splitUsername(notification.creator.email)}`} className="font-semibold text-gray-900 dark:text-white">
               {notification.creator.name}
-            </span>
+            </Link>
 
             <span className="text-gray-500 dark:text-gray-400">
               liked your post
@@ -31,9 +33,9 @@ const NotificationContent = ( notification: NotificationTypes) => {
           <button className="flex flex-wrap items-center gap-2 text-sm">
             <MessageCircle size={20} className="shrink-0 text-blue-500" />
 
-            <span className="font-semibold text-gray-900 dark:text-white">
+            <Link to={`/profile/${splitUsername(notification.creator.email)}`} className="font-semibold text-gray-900 dark:text-white">
               {notification.creator.name}
-            </span>
+            </Link>
 
             <span className="text-gray-500 dark:text-gray-400">
               commented on your post
@@ -60,9 +62,9 @@ const NotificationContent = ( notification: NotificationTypes) => {
           <button className="flex flex-wrap items-center gap-2 text-sm">
             <UserRoundPlus size={20} className="shrink-0 text-green-500" />
 
-            <span className="font-semibold text-gray-900 dark:text-white">
+            <Link to={`/profile/${splitUsername(notification.creator.email)}`} className="font-semibold text-gray-900 dark:text-white">
               {notification.creator.name}
-            </span>
+            </Link>
 
             <span className="text-gray-500 dark:text-gray-400">
               started following you

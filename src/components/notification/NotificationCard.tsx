@@ -3,8 +3,6 @@ import Avatar from "../Ui/Avatar";
 import NotificationContent from "./NotificationContent";
 import { getTimeAgo } from "../../utils/getTimeAgo";
 import { useMarkOneNotificationAsRead } from "../../hooks/useMarkOneNotificationAsRead";
-import { Link } from "react-router";
-import { splitUsername } from "../../utils/splitUsername";
 
 const NotificationCard = (notification: NotificationTypes) => {
   const cardTheme = notification.read
@@ -24,8 +22,8 @@ const NotificationCard = (notification: NotificationTypes) => {
   };
 
   return (
-    <Link
-      to={`/profile/${splitUsername(notification.creator.email)}`}
+    <li
+      
       className={`relative flex gap-3 rounded-xl border p-4 transition-colors ${cardTheme} ${pendingTheme}`}
       onClick={handleReadOneNotification}
     >
@@ -47,7 +45,7 @@ const NotificationCard = (notification: NotificationTypes) => {
       {!notification.read && (
         <span className="absolute right-4 top-4 h-2.5 w-2.5 rounded-full bg-blue-500" />
       )}
-    </Link>
+    </li>
   );
 };
 

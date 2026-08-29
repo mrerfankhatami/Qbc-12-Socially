@@ -11,7 +11,8 @@ export default function RootLayout() {
   
   const { data, isLoading } = useSession();
   
-  const isAuthenticated = !!data?.user;
+  
+  const isAuthenticated = !!data?.user;  
   
   const { user } = useAuthStore(); 
   const isUserLoggedInInUI = isAuthenticated || !!user;
