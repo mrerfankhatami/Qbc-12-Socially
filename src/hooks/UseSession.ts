@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useEffect } from "react";
 import { useAuthStore } from "../store/authStore";
 import { useQuery } from "@tanstack/react-query";
@@ -8,41 +9,23 @@ export const useSession = () => {
 
   const query = useQuery({
     queryKey: ["session"],
-    queryFn: async () => {
-      try {
-        const response = await getSession();
-        return response?.data ?? { user: null, session: null };
-      } catch (error: unknown) {
-        const status = (error as { response?: { status?: number } })?.response
-          ?.status;
-
-        if (status === 401) {
-          return { user: null, session: null };
-        }
-
-        throw error;
-      }
-    },
+    queryFn: getSession,
+    retry: false,
     staleTime: 1000 * 60 * 5,
-    refetchOnWindowFocus: false,
   });
 
   useEffect(() => {
-    if (query.isSuccess && query.data?.user) {
-      setUser(query.data.user);
-      setSession(query.data.session);
-      return;
+    if (query.isSuccess && query.data?.data?.user) {
+      setUser(query.data.data.user);
+      setSession(query.data.data.session || { token: query.data.data });
+    } 
+    else if (query.isError) {
+      const status = (query.error as any)?.response?.status;
+      if (status === 401) {
+        logout();
+      }
     }
-
-    if (query.isSuccess && !query.data?.user) {
-      logout();
-      return;
-    }
-
-    if (query.isError) {
-      logout();
-    }
-  }, [query.isSuccess, query.isError, query.data, setUser, setSession, logout]);
+  }, [query.isSuccess, query.isError, query.data, query.error, setUser, setSession, logout]);
 
   return query;
 };

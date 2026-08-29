@@ -4,6 +4,7 @@ import type {
   InternalAxiosRequestConfig,
   AxiosResponse,
 } from "axios";
+
 export interface ApiRequestConfig extends InternalAxiosRequestConfig {
   requiresAuth?: boolean;
 }
@@ -17,37 +18,19 @@ const api: AxiosInstance = axios.create({
 });
 
 api.interceptors.request.use(
-  (config: ApiRequestConfig) => {
-    return config;
-  },
-  (error) => Promise.reject(error),
+  (config: ApiRequestConfig) => config,
+  (error) => Promise.reject(error)
 );
 
 api.interceptors.response.use(
   (response: AxiosResponse) => response,
   (error) => {
-    const isSessionRequest =
-      typeof error?.config?.url === "string" &&
-      error.config.url.includes("/authentication/session");
-
-    if (error.response?.status === 401 && isSessionRequest) {
-      return Promise.resolve({
-        data: {
-          message: "No active session",
-          success: false,
-          data: {
-            user: null,
-            session: null,
-          },
-        },
-      } as AxiosResponse);
-    }
-
     if (error.response?.status === 401) {
-      console.warn("⚠️ Unauthorized - redirecting to login");
+      console.warn("⚠️ Unauthorized request (Guest user or expired session)");
     }
+    
     return Promise.reject(error);
-  },
+  }
 );
 
 export default api;

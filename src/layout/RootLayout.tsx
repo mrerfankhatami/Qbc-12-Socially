@@ -4,26 +4,23 @@ import SideSignIn from "../components/SideSignIn";
 import SideRecommendedUsers from "../components/SideRecommendedUsers";
 import SideProfile from "../components/SideProfile";
 import { useSession } from "../hooks/UseSession";
-import { useAuthStore } from "../store/authStore";
 
 export default function RootLayout() {
   const location = useLocation();
-
+  
   const { data, isLoading } = useSession();
-
-  const isAuthenticated = !!data?.user;
-
-  const { user } = useAuthStore();
-  const isUserLoggedInInUI = isAuthenticated || !!user;
+  
+  const isAuthenticated = !!data?.data?.user;
 
   const isHomePage = location.pathname === "/";
+  
   const isProtectedRoute = location.pathname === "/notifications";
 
   if (isProtectedRoute && isLoading) {
     return (
       <div className="flex items-center justify-center min-h-screen bg-secondary-50 dark:bg-[#262626]">
         <div className="text-center">
-          <div className="spinner"></div>
+          <div className="spinner border-t-4 border-blue-500 rounded-full w-10 h-10 animate-spin mx-auto mb-4"></div>
           <p className="text-lg font-medium text-gray-700 dark:text-gray-300">
             در حال بارگزاری...
           </p>
@@ -31,6 +28,7 @@ export default function RootLayout() {
       </div>
     );
   }
+
   if (isProtectedRoute && !isAuthenticated) {
     return <Navigate to="/login" replace state={{ from: location }} />;
   }
@@ -40,17 +38,13 @@ export default function RootLayout() {
       <header className="sticky top-0 z-10">
         <Header />
       </header>
-
+      
       <div className="flex mx-auto w-[80%] md:w-[80%] mt-24 md:gap-5">
-        <aside
-          className={`${!isUserLoggedInInUI ? "hidden md:block" : "hidden"} w-full max-w-84`}
-        >
+        <aside className={`${!isAuthenticated ? "hidden md:block" : "hidden"} w-full max-w-84`}>
           <SideSignIn />
         </aside>
 
-        <aside
-          className={`${isUserLoggedInInUI ? "hidden md:block" : "hidden"} w-full max-w-84`}
-        >
+        <aside className={`${isAuthenticated ? "hidden md:block" : "hidden"} w-full max-w-84`}>
           <SideProfile />
         </aside>
 
@@ -58,9 +52,7 @@ export default function RootLayout() {
           <Outlet />
         </main>
 
-        <aside
-          className={`${isUserLoggedInInUI && isHomePage ? "hidden lg:block" : "hidden"} w-full max-w-84`}
-        >
+        <aside className={`${isAuthenticated && isHomePage ? "hidden lg:block" : "hidden"} w-full max-w-84`}>
           <SideRecommendedUsers />
         </aside>
       </div>
