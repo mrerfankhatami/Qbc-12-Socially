@@ -115,6 +115,15 @@ export default function ProfileLikes({ profileId }: ProfileLikesProps) {
               </div>
 
               <div className="mt-3 p-1">
+                <div className="mt-5 overflow-hidden rounded-2xl">
+                  {post.image && (
+                    <img
+                      src={`https://79gcelddzk.ucarecd.net/${post.image}/`}
+                      alt="Post image"
+                      className="max-h-96 w-full object-contain"
+                    />
+                  )}
+                </div>
                 <p className="text-sm dark:text-white">{post.content}</p>
               </div>
 
@@ -182,7 +191,11 @@ export default function ProfileLikes({ profileId }: ProfileLikesProps) {
                         post.comments.map((comment) => (
                           <div key={comment.id} className="flex w-full gap-3">
                             <div className="shrink-0">
-                              <Avatar src={comment.author.image} width={34} height={34} />
+                              <Avatar
+                                src={comment.author.image}
+                                width={34}
+                                height={34}
+                              />
                             </div>
 
                             <div className="min-w-0 flex-1">
