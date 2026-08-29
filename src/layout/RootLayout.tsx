@@ -8,20 +8,18 @@ import { useAuthStore } from "../store/authStore";
 
 export default function RootLayout() {
   const location = useLocation();
-  
+
   const { data, isLoading } = useSession();
-  
-  
-  const isAuthenticated = !!data?.user;  
-  
-  const { user } = useAuthStore(); 
+
+  const isAuthenticated = !!data?.user;
+
+  const { user } = useAuthStore();
   const isUserLoggedInInUI = isAuthenticated || !!user;
 
   const isHomePage = location.pathname === "/";
-  const isProtectedRoute = 
-    location.pathname === "/notifications" 
+  const isProtectedRoute = location.pathname === "/notifications";
 
-  if (isLoading) {
+  if (isProtectedRoute && isLoading) {
     return (
       <div className="flex items-center justify-center min-h-screen bg-secondary-50 dark:bg-[#262626]">
         <div className="text-center">
@@ -42,13 +40,17 @@ export default function RootLayout() {
       <header className="sticky top-0 z-10">
         <Header />
       </header>
-      
+
       <div className="flex mx-auto w-[80%] md:w-[80%] mt-24 md:gap-5">
-        <aside className={`${!isUserLoggedInInUI ? "hidden md:block" : "hidden"} w-full max-w-84`}>
+        <aside
+          className={`${!isUserLoggedInInUI ? "hidden md:block" : "hidden"} w-full max-w-84`}
+        >
           <SideSignIn />
         </aside>
 
-        <aside className={`${isUserLoggedInInUI ? "hidden md:block" : "hidden"} w-full max-w-84`}>
+        <aside
+          className={`${isUserLoggedInInUI ? "hidden md:block" : "hidden"} w-full max-w-84`}
+        >
           <SideProfile />
         </aside>
 
@@ -56,7 +58,9 @@ export default function RootLayout() {
           <Outlet />
         </main>
 
-        <aside className={`${isUserLoggedInInUI && isHomePage ? "hidden lg:block" : "hidden"} w-full max-w-84`}>
+        <aside
+          className={`${isUserLoggedInInUI && isHomePage ? "hidden lg:block" : "hidden"} w-full max-w-84`}
+        >
           <SideRecommendedUsers />
         </aside>
       </div>

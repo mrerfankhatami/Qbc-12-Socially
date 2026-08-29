@@ -4,15 +4,25 @@ import { useQuery } from "@tanstack/react-query";
 import { getSession } from "../services/SessionServices";
 
 export const useSession = () => {
-  const { setUser, setSession, logout  } = useAuthStore();
+  const { setUser, setSession, logout } = useAuthStore();
 
   const query = useQuery({
     queryKey: ["session"],
     queryFn: async () => {
-      const response = await getSession();
-      return response.data;
+      try {
+        const response = await getSession();
+        return response?.data ?? { user: null, session: null };
+      } catch (error: unknown) {
+        const status = (error as { response?: { status?: number } })?.response
+          ?.status;
+
+        if (status === 401) {
+          return { user: null, session: null };
+        }
+
+        throw error;
+      }
     },
-    retry: false,
     staleTime: 1000 * 60 * 5,
     refetchOnWindowFocus: false,
   });
@@ -21,7 +31,15 @@ export const useSession = () => {
     if (query.isSuccess && query.data?.user) {
       setUser(query.data.user);
       setSession(query.data.session);
-    } else if (query.isError) {
+      return;
+    }
+
+    if (query.isSuccess && !query.data?.user) {
+      logout();
+      return;
+    }
+
+    if (query.isError) {
       logout();
     }
   }, [query.isSuccess, query.isError, query.data, setUser, setSession, logout]);
