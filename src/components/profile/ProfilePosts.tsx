@@ -160,7 +160,7 @@ export default function ProfilePosts({ profileId }: ProfilePostsProps) {
                     />
                   )}
                 </div>
-                <p className="text-sm dark:text-white">{post.content}</p>
+                <p className="text-sm dark:text-white mt-6">{post.content}</p>
               </div>
 
               <div className="mt-3 flex gap-11">
