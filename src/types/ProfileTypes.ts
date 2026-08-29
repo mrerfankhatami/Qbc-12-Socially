@@ -25,6 +25,7 @@ export type Post = {
   content: string;
   createdAt: string;
   updatedAt: string;
+  image ?: string
 
   author: {
     id: string;
@@ -67,6 +68,7 @@ export type LikedPost = {
     content: string;
     createdAt: string;
     updatedAt: string;
+    image : string | null;
 
     author: {
       id: string;
