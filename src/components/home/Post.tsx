@@ -110,6 +110,11 @@ export default function Post({ post }: PostProps) {
         )}
       </div>
 
+      {/* post img */}
+      <div className="mt-5 whitespace-pre-line ">
+        { post.image && <img src={`https://79gcelddzk.ucarecd.net/${post.image}/`} alt="" /> }
+      </div>
+
       {/* Content */}
       <p className="mt-5 whitespace-pre-line dark:text-[#FAFAFA]">
         {post.content}

@@ -21,6 +21,7 @@ export type PostType = {
   content: string;
   createdAt: string;
   updatedAt: string;
+  image?: string;
   author: User;
   likes: Like[];
   comments: Comment[];

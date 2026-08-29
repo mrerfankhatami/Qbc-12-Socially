@@ -5,7 +5,7 @@ import Post from "./Post";
 import SendPost from "./SendPost";
 
 export default function AllPosts() {
-  const { data, isLoading } = useGetAllPosts();
+  const { data, isLoading } = useGetAllPosts();  
 
   if (isLoading) {
     return <Spinner></Spinner>;
