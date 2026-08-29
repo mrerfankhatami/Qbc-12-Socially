@@ -2,6 +2,7 @@ import api from "./axiosConfig";
 
 export type createPostPayloadType = {
     content : string
+    image? : string
 }
 
 
