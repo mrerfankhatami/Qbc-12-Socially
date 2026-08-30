@@ -366,7 +366,7 @@ export default function ProfilePosts({ profileId }: ProfilePostsProps) {
               postId: selectedPost.id,
               payload: {
                 title: data.text,
-                image: data.imageid ?? undefined,
+                image: selectedPost.image ?? undefined,
               },
             });
           }}
