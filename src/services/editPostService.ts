@@ -16,7 +16,7 @@ export const editPostRequest = async ({
 }: EditPostRequestType) => {
   const res = await api.put(`/posts/${postId}`, {
     image: payload.image,
-    title: payload.content,
+    content: payload.content,
   });
 
   return res.data;
