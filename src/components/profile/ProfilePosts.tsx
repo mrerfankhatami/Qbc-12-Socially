@@ -9,6 +9,7 @@ import {
   Trash2,
 } from "lucide-react";
 import { useState } from "react";
+import toast from "react-hot-toast";
 import { useGetUsersPosts } from "../../hooks/useGetUsersPosts";
 import { splitUsername } from "../../utils/splitUsername";
 import { getTimeAgo } from "../../utils/getTimeAgo";
@@ -42,7 +43,9 @@ export default function ProfilePosts({ profileId }: ProfilePostsProps) {
     useToggleLikedPostsMutation();
   const { mutate: addComment, isPending: isCommenting } =
     useAddNewCommentMutation();
-  const { data, isLoading, isError } = useGetUsersPosts({ id: profileId });
+  const { data, isLoading, isError, refetch } = useGetUsersPosts({
+    id: profileId,
+  });
   const { user } = useAuthStore();
 
   const posts = data?.data ?? [];
@@ -362,13 +365,28 @@ export default function ProfilePosts({ profileId }: ProfilePostsProps) {
             setSelectedPostId(null);
           }}
           onSave={(data) => {
-            editPostMutation.mutate({
-              postId: selectedPost.id,
-              payload: {
-                title: data.text,
-                image: selectedPost.image ?? undefined,
+            editPostMutation.mutate(
+              {
+                postId: selectedPost.id,
+                payload: {
+                  title: data.text,
+                  image: selectedPost.image ?? undefined,
+                },
               },
-            });
+              {
+                onSuccess: () => {
+                  toast.success("Post updated successfully");
+
+                  refetch();
+                  setIsEditModalOpen(false);
+                  setSelectedPostId(null);
+                },
+
+                onError: () => {
+                  toast.error("Failed to update post");
+                },
+              },
+            );
           }}
         />
       )}
