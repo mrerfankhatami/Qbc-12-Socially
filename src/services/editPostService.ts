@@ -1,8 +1,8 @@
 import api from "./axiosConfig";
 
 export type EditPostPayloadType = {
-  title?: string;
   image?: string;
+  title?: string;
 };
 
 type EditPostRequestType = {
@@ -14,6 +14,10 @@ export const editPostRequest = async ({
   postId,
   payload,
 }: EditPostRequestType) => {
-  const res = await api.put(`/posts/${postId}`, payload);
+  const res = await api.put(`/posts/${postId}`, {
+    image: payload.image,
+    title: payload.title,
+  });
+
   return res.data;
 };

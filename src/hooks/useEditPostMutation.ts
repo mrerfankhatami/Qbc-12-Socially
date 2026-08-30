@@ -14,7 +14,10 @@ export const useEditPost = () => {
     mutationFn: ({ postId, payload }: EditPostMutationData) =>
       editPostRequest({
         postId,
-        payload,
+        payload: {
+          image: payload.image,
+          title: payload.title,
+        },
       }),
   });
 };
