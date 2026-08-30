@@ -1,5 +1,6 @@
 import { ImagePlus, X } from "lucide-react";
 import { useEffect, useState } from "react";
+import { useUploadProfileImage } from "../../hooks/useUploadProfileImage";
 
 type EditPostModalProps = {
   text: string;
@@ -7,7 +8,8 @@ type EditPostModalProps = {
   onClose: () => void;
   onSave: (data: {
     text: string;
-    image: File | null;
+    image: string | null | undefined;
+    imageId?: string | null | undefined;
     removeImage: boolean;
   }) => void;
 };
@@ -24,6 +26,8 @@ export default function EditPostModal({
     image ? `https://79gcelddzk.ucarecd.net/${image}/` : null,
   );
   const [removeImage, setRemoveImage] = useState(false);
+
+  const uploadImage = useUploadProfileImage();
 
   useEffect(() => {
     return () => {
@@ -57,10 +61,30 @@ export default function EditPostModal({
     setRemoveImage(true);
   };
 
-  const handleSave = () => {
+  const handleSave = async () => {
+    if (imageFile) {
+      try {
+        const response = await uploadImage.mutateAsync(imageFile);
+
+        const newImageId = response.file;
+
+        onSave({
+          text: postText,
+          image: newImageId,
+          imageId: newImageId,
+          removeImage: false,
+        });
+      } catch {
+        return;
+      }
+
+      return;
+    }
+
     onSave({
       text: postText,
-      image: imageFile,
+      image: removeImage ? null : (image ?? null),
+      imageId: removeImage ? null : (image ?? null),
       removeImage,
     });
   };
@@ -82,6 +106,7 @@ export default function EditPostModal({
           <button
             type="button"
             onClick={onClose}
+            disabled={uploadImage.isPending}
             className="flex h-8 w-8 items-center justify-center rounded-full text-zinc-500 transition hover:bg-zinc-100 hover:text-zinc-900 dark:hover:bg-zinc-800 dark:hover:text-white"
             aria-label="Close"
           >
@@ -94,6 +119,7 @@ export default function EditPostModal({
           onChange={(e) => setPostText(e.target.value)}
           placeholder="What's on your mind?"
           rows={5}
+          disabled={uploadImage.isPending}
           className="mb-4 w-full resize-none rounded-xl border border-zinc-200 bg-zinc-50 p-3 text-sm text-zinc-900 outline-none transition placeholder:text-zinc-400 focus:border-zinc-400 focus:ring-2 focus:ring-zinc-200 dark:border-zinc-800 dark:bg-zinc-900 dark:text-white dark:placeholder:text-zinc-500 dark:focus:border-zinc-700 dark:focus:ring-zinc-800"
         />
 
@@ -108,6 +134,7 @@ export default function EditPostModal({
             <button
               type="button"
               onClick={handleRemoveImage}
+              disabled={uploadImage.isPending}
               className="absolute right-2 top-2 flex h-8 w-8 items-center justify-center rounded-full bg-black/60 text-white backdrop-blur-sm transition hover:bg-black/80"
               aria-label="Remove image"
             >
@@ -129,6 +156,7 @@ export default function EditPostModal({
               accept="image/png,image/jpeg,image/webp"
               onChange={handleImageChange}
               className="hidden"
+              disabled={uploadImage.isPending}
             />
           </label>
         )}
@@ -137,6 +165,7 @@ export default function EditPostModal({
           <button
             type="button"
             onClick={onClose}
+            disabled={uploadImage.isPending}
             className="rounded-lg border border-zinc-200 px-4 py-2 text-sm font-medium text-zinc-600 transition hover:bg-zinc-100 dark:border-zinc-800 dark:text-zinc-300 dark:hover:bg-zinc-900"
           >
             Cancel
@@ -145,9 +174,10 @@ export default function EditPostModal({
           <button
             type="button"
             onClick={handleSave}
-            className="rounded-lg bg-zinc-900 px-4 py-2 text-sm font-medium text-white transition hover:bg-zinc-800 dark:bg-white dark:text-black dark:hover:bg-zinc-200"
+            disabled={uploadImage.isPending}
+            className="rounded-lg bg-zinc-900 px-4 py-2 text-sm font-medium text-white transition hover:bg-zinc-800 disabled:cursor-not-allowed disabled:opacity-50 dark:bg-white dark:text-black dark:hover:bg-zinc-200"
           >
-            Save changes
+            {uploadImage.isPending ? "Uploading..." : "Save changes"}
           </button>
         </div>
       </div>
