@@ -1,6 +1,13 @@
 import Avatar from "../Ui/Avatar";
 import Button from "../Ui/Button";
-import { Heart, LoaderCircle, MessageCircle, Send, Trash2 } from "lucide-react";
+import {
+  Edit,
+  Heart,
+  LoaderCircle,
+  MessageCircle,
+  Send,
+  Trash2,
+} from "lucide-react";
 import { useState } from "react";
 import { useGetUsersPosts } from "../../hooks/useGetUsersPosts";
 import { splitUsername } from "../../utils/splitUsername";
@@ -11,6 +18,7 @@ import type { Post } from "../../types/ProfileTypes";
 import { useToggleLikedPostsMutation } from "../../hooks/useToggleLikedPostsMutation";
 import { useAuthStore } from "../../store/authStore";
 import { useAddNewCommentMutation } from "../../hooks/useCreateNewCommentMutation";
+import EditPostModal from "./EditPostModal";
 
 type ProfilePostsProps = {
   profileId: string;
@@ -19,6 +27,7 @@ type ProfilePostsProps = {
 export default function ProfilePosts({ profileId }: ProfilePostsProps) {
   const [likingPostId, setLikingPostId] = useState<string | null>(null);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [selectedPostId, setSelectedPostId] = useState<string | null>(null);
   const [openCommentPostId, setOpenCommentPostId] = useState<string | null>(
     null,
@@ -63,6 +72,12 @@ export default function ProfilePosts({ profileId }: ProfilePostsProps) {
     setSelectedPostId(postId);
     setIsDeleteModalOpen(true);
   }
+
+  function handleEditPost(postId: string) {
+    setSelectedPostId(postId);
+    setIsEditModalOpen(true);
+  }
+  const selectedPost = posts.find((post: any) => post.id === selectedPostId);
 
   function handleConfirmDelete() {
     if (!selectedPostId) return;
@@ -138,15 +153,28 @@ export default function ProfilePosts({ profileId }: ProfilePostsProps) {
                   </p>
                 </div>
 
-                <div>
-                  {user?.id === post.authorId && (
-                    <Trash2
-                      onClick={() => handleDeletePost(post.id)}
-                      width={17}
-                      height={17}
-                      className="ml-auto cursor-pointer text-[#737373] transition-colors hover:text-red-600"
-                    />
-                  )}
+                <div className="flex gap-5">
+                  <div>
+                    {user?.id === post.authorId && (
+                      <Edit
+                        onClick={() => handleEditPost(post.id)}
+                        width={17}
+                        height={17}
+                        className="ml-auto cursor-pointer text-[#737373] transition-colors hover:text-green-600"
+                      />
+                    )}
+                  </div>
+
+                  <div>
+                    {user?.id === post.authorId && (
+                      <Trash2
+                        onClick={() => handleDeletePost(post.id)}
+                        width={17}
+                        height={17}
+                        className="ml-auto cursor-pointer text-[#737373] transition-colors hover:text-red-600"
+                      />
+                    )}
+                  </div>
                 </div>
               </div>
 
@@ -318,6 +346,19 @@ export default function ProfilePosts({ profileId }: ProfilePostsProps) {
         onConfirm={handleConfirmDelete}
         isDeleting={isDeleting}
       />
+      {isEditModalOpen && selectedPost && (
+        <EditPostModal
+          text={selectedPost.content}
+          image={selectedPost.image}
+          onClose={() => {
+            setIsEditModalOpen(false);
+            setSelectedPostId(null);
+          }}
+          onSave={(data) => {
+            console.log(data);
+          }}
+        />
+      )}
     </div>
   );
 }
