@@ -16,7 +16,7 @@ export const useEditPost = () => {
         postId,
         payload: {
           image: payload.image,
-          title: payload.title,
+          content: payload.content,
         },
       }),
   });
