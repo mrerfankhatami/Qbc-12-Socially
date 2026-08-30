@@ -19,6 +19,7 @@ import { useToggleLikedPostsMutation } from "../../hooks/useToggleLikedPostsMuta
 import { useAuthStore } from "../../store/authStore";
 import { useAddNewCommentMutation } from "../../hooks/useCreateNewCommentMutation";
 import EditPostModal from "./EditPostModal";
+import { useEditPost } from "../../hooks/useEditPostMutation";
 
 type ProfilePostsProps = {
   profileId: string;
@@ -33,6 +34,8 @@ export default function ProfilePosts({ profileId }: ProfilePostsProps) {
     null,
   );
   const [commentText, setCommentText] = useState("");
+
+  const editPostMutation = useEditPost();
 
   const { mutate: deletePost, isPending: isDeleting } = useDeletePost();
   const { mutate: LikedPosts, isPending: isLikeingPosts } =
@@ -349,13 +352,23 @@ export default function ProfilePosts({ profileId }: ProfilePostsProps) {
       {isEditModalOpen && selectedPost && (
         <EditPostModal
           text={selectedPost.content}
-          image={selectedPost.image}
+          image={
+            selectedPost.image
+              ? `https://79gcelddzk.ucarecd.net/${selectedPost.image}/`
+              : null
+          }
           onClose={() => {
             setIsEditModalOpen(false);
             setSelectedPostId(null);
           }}
           onSave={(data) => {
-            console.log(data);
+            editPostMutation.mutate({
+              postId: selectedPost.id,
+              payload: {
+                title: data.title,
+                image: data.image ?? undefined,
+              },
+            });
           }}
         />
       )}
