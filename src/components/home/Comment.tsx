@@ -1,9 +1,10 @@
 import { useState } from "react";
-import { Send, Trash2 } from "lucide-react";
+import { Send, Trash2, Pencil } from "lucide-react";
 import { useAddNewCommentMutation } from "../../hooks/useCreateNewCommentMutation";
 import type { PostType } from "../../types/AllPostsTypes";
 import { useAuthStore } from "../../store/authStore";
 import DeleteCommentModal from "../profile/DeleteCommentModal";
+import UpdateCommentModal from "../profile/UpdateCommentModal";
 import Avatar from "../Ui/Avatar";
 import { Link } from "react-router";
 import { splitUsername } from "../../utils/splitUsername";
@@ -19,6 +20,9 @@ export default function Comment({ post }: CommentProps) {
   const [isOpenDeleteCommentModal, setIsOpenDeleteCommentModal] = useState(false);
   const [selectedCommentId, setSelectedCommentId] = useState<string | null>(null);
 
+  const [isShowEditCommentModal, setIsShowEditCommentModal] = useState(false);
+  const [selectedEditCommentId, setSelectedEditCommentId] = useState<string | null>(null);
+  const [selectedEditCommentContent, setSelectedEditCommentContent] = useState<string>("");
   const { mutate: addNewCommentMutation } = useAddNewCommentMutation();
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -63,20 +67,38 @@ export default function Comment({ post }: CommentProps) {
                   . {new Date(comment.createdAt).toLocaleDateString()}
                 </p>
                 {user?.email && user.email === comment.author.email && (
-                  <button
-                    type="button"
-                    onClick={() => {
-                      setSelectedCommentId(comment.id);
-                      setIsOpenDeleteCommentModal(true);
-                    }}
-                    className="ml-auto text-[#737373] hover:text-red-500 transition-colors"
-                  >
-                    <Trash2
-                      size={18}
-                      strokeWidth={1.8}
-                      className="text-[#737373] transition-colors hover:text-red-500 dark:text-[#A3A3A3] dark:hover:text-red-400"
-                    />
-                  </button>
+                  <div className="ml-auto flex items-center gap-3">
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setSelectedEditCommentId(comment.id);
+                        setSelectedEditCommentContent(comment.content);
+                        setIsShowEditCommentModal(true);
+                      }}
+                      className="text-[#737373] hover:text-[#3B82F6] transition-colors"
+                    >
+                      <Pencil
+                        size={18}
+                        strokeWidth={1.8}
+                        className="text-[#737373] transition-colors hover:text-[#3B82F6] dark:text-[#A3A3A3] dark:hover:text-[#3B82F6]"
+                      />
+                    </button>
+
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setSelectedCommentId(comment.id);
+                        setIsOpenDeleteCommentModal(true);
+                      }}
+                      className="text-[#737373] hover:text-red-500 transition-colors"
+                    >
+                      <Trash2
+                        size={18}
+                        strokeWidth={1.8}
+                        className="text-[#737373] transition-colors hover:text-red-500 dark:text-[#A3A3A3] dark:hover:text-red-400"
+                      />
+                    </button>
+                  </div>
                 )}
               </div>
 
@@ -129,6 +151,19 @@ export default function Comment({ post }: CommentProps) {
         postId={post.id}
         commentId={selectedCommentId}
       />
+      {selectedEditCommentId && (
+        <UpdateCommentModal
+          isOpen={isShowEditCommentModal}
+          onClose={() => {
+            setIsShowEditCommentModal(false);
+            setSelectedEditCommentId(null);
+            setSelectedEditCommentContent("");
+          }}
+          postId={post.id}
+          commentId={selectedEditCommentId}
+          initialContent={selectedEditCommentContent}
+        />
+      )}
     </form>
   );
 }
