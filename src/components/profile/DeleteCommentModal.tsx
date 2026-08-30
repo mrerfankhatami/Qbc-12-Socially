@@ -7,23 +7,30 @@ interface DeleteCommentModalProps {
   onClose: () => void;
   postId: string;
   commentId: string | null;
+  onSuccess?: () => void | Promise<void>;
 }
 
 export default function DeleteCommentModal({
   isOpen,
   onClose,
   postId,
-  commentId
+  commentId,
+  onSuccess,
 }: DeleteCommentModalProps) {
   const { mutate: deleteComment, isPending } = useDeleteComment();
 
   const handleConfirm = () => {
-    if (postId && commentId) {
-      deleteComment(
-        { postId, commentId },
-        { onSuccess: () => onClose() }
-      );
-    }
+    if (!postId || !commentId) return;
+
+    deleteComment(
+      { postId, commentId },
+      {
+        onSuccess: async () => {
+          await onSuccess?.();
+          onClose();
+        },
+      },
+    );
   };
 
   if (!isOpen) return null;
@@ -34,7 +41,7 @@ export default function DeleteCommentModal({
       onClick={onClose}
     >
       <div
-        className="relative w-full max-w-md rounded-xl bg-white p-6 shadow-xl dark:bg-[#0a0a0a] dark:border border-gray-700"
+        className="relative w-full max-w-md rounded-xl bg-white p-6 shadow-xl dark:border dark:border-gray-700 dark:bg-[#0a0a0a]"
         onClick={(e) => e.stopPropagation()}
       >
         <button
@@ -54,13 +61,15 @@ export default function DeleteCommentModal({
         </h2>
 
         <p className="mt-2 text-sm text-[#737373]">
-          Are you sure you want to delete this comment? This action cannot be undone.
+          Are you sure you want to delete this comment? This action cannot be
+          undone.
         </p>
 
         <div className="mt-6 flex justify-end gap-3">
           <Button
             type="button"
             onClick={onClose}
+            disabled={isPending}
             className="rounded-lg border border-[#E5E5E5] bg-white px-4 py-2 text-sm text-black dark:border-[#262626] dark:bg-[#0A0A0A] dark:text-white"
           >
             Cancel
@@ -69,7 +78,8 @@ export default function DeleteCommentModal({
           <Button
             type="button"
             onClick={handleConfirm}
-            className="rounded-lg bg-red-600 px-4 py-2 text-sm text-white transition-colors hover:bg-red-700"
+            disabled={isPending}
+            className="rounded-lg bg-red-600 px-4 py-2 text-sm text-white transition-colors hover:bg-red-700 disabled:cursor-not-allowed disabled:opacity-50"
           >
             {isPending ? <p className="spinner-mini"></p> : "Delete"}
           </Button>
