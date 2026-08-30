@@ -1,4 +1,4 @@
-import { Anchor, Calendar, MapPin, SquarePen, UserPlus } from "lucide-react";
+import { Anchor, Calendar, LoaderCircle, MapPin, SquarePen, UserPlus } from "lucide-react";
 import Avatar from "../Ui/Avatar";
 import Button from "../Ui/Button";
 import type { FollowingType, UserProfile } from "../../types/ProfileTypes";
@@ -51,7 +51,8 @@ const ProfileCardDetails = ({
   const { user: sessionData } = useAuthStore();
   const { data: profileData } = useGetUserByUserName({ username });
   const { data: followingList } = useGetFollowingList(sessionData?.id);
-  const { mutate: toggleFollowUser } = useToggleFollowUser();
+  const { mutate: toggleFollowUser, isPending: isToggleFollowUser } =
+    useToggleFollowUser();
 
   function handleToggleFollow() {
     if (!profileData?.data?.id) return;
@@ -104,6 +105,7 @@ const ProfileCardDetails = ({
       ) : isFollowing ? (
         <Button
           onClick={handleToggleFollow}
+          disabled={isToggleFollowUser}
           className="
             flex w-[95%] items-center justify-center gap-2
             rounded-md py-2
@@ -113,25 +115,36 @@ const ProfileCardDetails = ({
             transition-all duration-200
           "
         >
-          <span className="text-[#0A0A0A] dark:text-white text-[14px] font-medium">
-            Following
-          </span>
+          {isToggleFollowUser ? (
+            <LoaderCircle className="h-4 w-4 animate-spin text-[#0A0A0A] dark:text-white" />
+          ) : (
+            <span className="text-[#0A0A0A] dark:text-white text-[14px] font-medium">
+              Following
+            </span>
+          )}
         </Button>
       ) : (
         <Button
           onClick={handleToggleFollow}
+          disabled={isToggleFollowUser}
           className="
             flex w-[95%] items-center justify-center gap-2
             rounded-md py-2
             bg-[#0A0A0A] dark:bg-white
             hover:bg-[#262626] dark:hover:bg-gray-200
             transition-all duration-200
-          "
+            " 
         >
-          <UserPlus className="h-4 w-4 shrink-0 text-white dark:text-black" />
-          <span className="text-white dark:text-black text-[14px] font-medium">
-            Follow
-          </span>
+          {isToggleFollowUser ? (
+            <LoaderCircle className="h-4 w-4 animate-spin text-white dark:text-black" />
+          ) : (
+            <>
+              <UserPlus className="h-4 w-4 shrink-0 text-white dark:text-black" />
+              <span className="text-white dark:text-black text-[14px] font-medium">
+                Follow
+              </span>
+            </>
+          )}
         </Button>
       )}
 
