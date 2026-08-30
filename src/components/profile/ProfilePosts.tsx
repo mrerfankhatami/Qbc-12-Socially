@@ -365,8 +365,8 @@ export default function ProfilePosts({ profileId }: ProfilePostsProps) {
             editPostMutation.mutate({
               postId: selectedPost.id,
               payload: {
-                title: data.title,
-                image: data.image ?? undefined,
+                title: data.text,
+                image: data.imageid ?? undefined,
               },
             });
           }}
