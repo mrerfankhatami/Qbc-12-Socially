@@ -21,7 +21,7 @@ export default function EditPostModal({
   const [postText, setPostText] = useState(text);
   const [imageFile, setImageFile] = useState<File | null>(null);
   const [imagePreview, setImagePreview] = useState<string | null>(
-    image || null,
+    image ? `https://79gcelddzk.ucarecd.net/${image}/` : null,
   );
   const [removeImage, setRemoveImage] = useState(false);
 
@@ -38,7 +38,6 @@ export default function EditPostModal({
 
     if (!file) return;
 
-    // Remove old blob URL
     if (imagePreview?.startsWith("blob:")) {
       URL.revokeObjectURL(imagePreview);
     }
@@ -72,19 +71,9 @@ export default function EditPostModal({
       onClick={onClose}
     >
       <div
-        className="
-          relative w-full max-w-lg
-          rounded-2xl
-          border border-zinc-200
-          bg-white
-          p-5
-          shadow-xl
-          dark:border-zinc-800
-          dark:bg-[#0A0A0A]
-        "
+        className="relative w-full max-w-lg rounded-2xl border border-zinc-200 bg-white p-5 shadow-xl dark:border-zinc-800 dark:bg-[#0A0A0A]"
         onClick={(e) => e.stopPropagation()}
       >
-        {/* Header */}
         <div className="mb-5 flex items-center justify-between">
           <h2 className="text-lg font-semibold text-zinc-900 dark:text-white">
             Edit post
@@ -93,51 +82,21 @@ export default function EditPostModal({
           <button
             type="button"
             onClick={onClose}
-            className="
-              flex h-8 w-8 items-center justify-center
-              rounded-full
-              text-zinc-500
-              transition
-              hover:bg-zinc-100
-              hover:text-zinc-900
-              dark:hover:bg-zinc-800
-              dark:hover:text-white
-            "
+            className="flex h-8 w-8 items-center justify-center rounded-full text-zinc-500 transition hover:bg-zinc-100 hover:text-zinc-900 dark:hover:bg-zinc-800 dark:hover:text-white"
             aria-label="Close"
           >
             <X className="h-4 w-4" />
           </button>
         </div>
 
-        {/* Text */}
         <textarea
           value={postText}
           onChange={(e) => setPostText(e.target.value)}
           placeholder="What's on your mind?"
           rows={5}
-          className="
-            mb-4 w-full resize-none rounded-xl
-            border border-zinc-200
-            bg-zinc-50
-            p-3
-            text-sm
-            text-zinc-900
-            outline-none
-            transition
-            placeholder:text-zinc-400
-            focus:border-zinc-400
-            focus:ring-2
-            focus:ring-zinc-200
-            dark:border-zinc-800
-            dark:bg-zinc-900
-            dark:text-white
-            dark:placeholder:text-zinc-500
-            dark:focus:border-zinc-700
-            dark:focus:ring-zinc-800
-          "
+          className="mb-4 w-full resize-none rounded-xl border border-zinc-200 bg-zinc-50 p-3 text-sm text-zinc-900 outline-none transition placeholder:text-zinc-400 focus:border-zinc-400 focus:ring-2 focus:ring-zinc-200 dark:border-zinc-800 dark:bg-zinc-900 dark:text-white dark:placeholder:text-zinc-500 dark:focus:border-zinc-700 dark:focus:ring-zinc-800"
         />
 
-        {/* Image */}
         {imagePreview ? (
           <div className="relative mb-4 overflow-hidden rounded-xl border border-zinc-200 dark:border-zinc-800">
             <img
@@ -149,41 +108,14 @@ export default function EditPostModal({
             <button
               type="button"
               onClick={handleRemoveImage}
-              className="
-                absolute right-2 top-2
-                flex h-8 w-8 items-center justify-center
-                rounded-full
-                bg-black/60
-                text-white
-                backdrop-blur-sm
-                transition
-                hover:bg-black/80
-              "
+              className="absolute right-2 top-2 flex h-8 w-8 items-center justify-center rounded-full bg-black/60 text-white backdrop-blur-sm transition hover:bg-black/80"
               aria-label="Remove image"
             >
               <X className="h-4 w-4" />
             </button>
           </div>
         ) : (
-          <label
-            className="
-              mb-4 flex cursor-pointer flex-col
-              items-center justify-center
-              rounded-xl
-              border border-dashed
-              border-zinc-300
-              bg-zinc-50
-              px-4 py-8
-              text-center
-              transition
-              hover:border-zinc-400
-              hover:bg-zinc-100
-              dark:border-zinc-700
-              dark:bg-zinc-900/50
-              dark:hover:border-zinc-600
-              dark:hover:bg-zinc-900
-            "
-          >
+          <label className="mb-4 flex cursor-pointer flex-col items-center justify-center rounded-xl border border-dashed border-zinc-300 bg-zinc-50 px-4 py-8 text-center transition hover:border-zinc-400 hover:bg-zinc-100 dark:border-zinc-700 dark:bg-zinc-900/50 dark:hover:border-zinc-600 dark:hover:bg-zinc-900">
             <ImagePlus className="mb-2 h-7 w-7 text-zinc-400" />
 
             <span className="text-sm font-medium text-zinc-600 dark:text-zinc-300">
@@ -201,23 +133,11 @@ export default function EditPostModal({
           </label>
         )}
 
-        {/* Actions */}
         <div className="flex justify-end gap-2">
           <button
             type="button"
             onClick={onClose}
-            className="
-              rounded-lg
-              border border-zinc-200
-              px-4 py-2
-              text-sm font-medium
-              text-zinc-600
-              transition
-              hover:bg-zinc-100
-              dark:border-zinc-800
-              dark:text-zinc-300
-              dark:hover:bg-zinc-900
-            "
+            className="rounded-lg border border-zinc-200 px-4 py-2 text-sm font-medium text-zinc-600 transition hover:bg-zinc-100 dark:border-zinc-800 dark:text-zinc-300 dark:hover:bg-zinc-900"
           >
             Cancel
           </button>
@@ -225,18 +145,7 @@ export default function EditPostModal({
           <button
             type="button"
             onClick={handleSave}
-            className="
-              rounded-lg
-              bg-zinc-900
-              px-4 py-2
-              text-sm font-medium
-              text-white
-              transition
-              hover:bg-zinc-800
-              dark:bg-white
-              dark:text-black
-              dark:hover:bg-zinc-200
-            "
+            className="rounded-lg bg-zinc-900 px-4 py-2 text-sm font-medium text-white transition hover:bg-zinc-800 dark:bg-white dark:text-black dark:hover:bg-zinc-200"
           >
             Save changes
           </button>
