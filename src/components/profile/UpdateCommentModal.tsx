@@ -53,7 +53,7 @@ const UpdateCommentModal = ({
                         dark:border-[#404040] dark:text-[#FAFAFA] dark:placeholder:text-[#A3A3A3] dark:focus:border-[#3B82F6]"/>
         </div>
 
-        <div className="mt-4 flex justify-end gap-3">
+        <div className="mt-4 flex items-center justify-end gap-3">
           <button
             onClick={onClose}
             disabled={isPending}
@@ -64,7 +64,7 @@ const UpdateCommentModal = ({
           <button
             onClick={handleUpdate}
             disabled={isPending || !text.trim() || text === initialContent}
-            className="rounded-lg bg-[#3B82F6] px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-blue-600 disabled:opacity-50"
+            className="rounded-lg bg-[#7eaffd] px-4 py-2 text-sm font-medium text-black dark:text-white transition-colors hover:bg-blue-600 disabled:opacity-90"
           >
             {isPending ? "Updating..." : "Update"}
           </button>
