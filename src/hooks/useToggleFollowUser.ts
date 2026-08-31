@@ -18,6 +18,7 @@ export const useToggleFollowUser = () => {
     onSuccess: (res) => {
       queryClient.invalidateQueries({ queryKey: ["recommendedUsers"] });
       queryClient.invalidateQueries({ queryKey: ["get-by-userName" , splitUsername(user?.email || "")] });
+      queryClient.invalidateQueries({queryKey: ["FollowingList"]});
       toast.success(res.message);
     },
 
