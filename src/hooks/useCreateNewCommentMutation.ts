@@ -23,8 +23,12 @@ export const useAddNewCommentMutation = () => {
 
     onSuccess: async (data) => {
       toast.success(data.message);
+    },
 
-      await queryClient.invalidateQueries({
+    onSettled: async () => {
+      await new Promise((resolve) => setTimeout(resolve, 300));
+
+      await queryClient.refetchQueries({
         queryKey: ["allPosts"],
       });
 
