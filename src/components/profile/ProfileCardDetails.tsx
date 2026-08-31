@@ -1,14 +1,16 @@
-import { Anchor, Calendar, MapPin, SquarePen, UserPlus } from "lucide-react";
+import { Anchor, Calendar, LoaderCircle, MapPin, SquarePen, UserPlus } from "lucide-react";
 import Avatar from "../Ui/Avatar";
 import Button from "../Ui/Button";
-import type { UserProfile } from "../../types/ProfileTypes";
+import type { FollowingType, UserProfile } from "../../types/ProfileTypes";
 import { useState } from "react";
 import ProfileModal from "./ProfileModal";
 import { getTimeAgo } from "../../utils/getTimeAgo";
 import { useGetUserByUserName } from "../../hooks/useGetUserByUserName";
-import { useSession } from "../../hooks/UseSession";
 import { useParams } from "react-router";
 import FollowModal from "./FollowModal";
+import { useAuthStore } from "../../store/authStore";
+import { useToggleFollowUser } from "../../hooks/useToggleFollowUser";
+import { useGetFollowingList } from "../../hooks/useGetFollowingList";
 
 const ProfileCardDetails = ({
   name = "Seyed Ali Mousavi",
@@ -46,15 +48,23 @@ const ProfileCardDetails = ({
     setIsModalOpen(true);
   }
 
-  function handleFollow() {}
-
-  const { data: sessionData } = useSession();
-
+  const { user: sessionData } = useAuthStore();
   const { data: profileData } = useGetUserByUserName({ username });
+  const { data: followingList } = useGetFollowingList(sessionData?.id);
+  const { mutate: toggleFollowUser, isPending: isToggleFollowUser } =
+    useToggleFollowUser();
 
-  const userId = profileData.data?.id;
+  function handleToggleFollow() {
+    if (!profileData?.data?.id) return;
+    toggleFollowUser(profileData.data.id);
+  }
 
-  const isMyProfile = sessionData?.user?.id === profileData?.data?.id;
+  const userId = profileData?.data?.id;
+  const isMyProfile = sessionData?.id === profileData?.data?.id;
+
+  const isFollowing = followingList?.data?.some(
+    (item: FollowingType) => item.following.id === userId,
+  );
 
   return (
     <div className="flex flex-col items-center dark:bg-[#0A0A0A] bg-white border border-[#E5E5E5] dark:border-[#262626] shadow-[0px_1px_2px_-1px_#0000001A] max-w-137.5 w-full gap-4 rounded-xl p-6">
@@ -92,13 +102,49 @@ const ProfileCardDetails = ({
             Edit Profile
           </span>
         </Button>
+      ) : isFollowing ? (
+        <Button
+          onClick={handleToggleFollow}
+          disabled={isToggleFollowUser}
+          className="
+            flex w-[95%] items-center justify-center gap-2
+            rounded-md py-2
+            border border-[#D4D4D4] dark:border-[#404040]
+            bg-white dark:bg-[#0A0A0A]
+            hover:bg-gray-100 dark:hover:bg-[#1A1A1A]
+            transition-all duration-200
+          "
+        >
+          {isToggleFollowUser ? (
+            <LoaderCircle className="h-4 w-4 animate-spin text-[#0A0A0A] dark:text-white" />
+          ) : (
+            <span className="text-[#0A0A0A] dark:text-white text-[14px] font-medium">
+              Following
+            </span>
+          )}
+        </Button>
       ) : (
         <Button
-          onClick={handleFollow}
-          className="flex w-[95%] hover:bg-emerald-950 dark:hover:bg-gray-200 items-center dark:bg-[#FAFAFA] justify-center gap-2 bg-[#0A0A0A] rounded-md py-2"
+          onClick={handleToggleFollow}
+          disabled={isToggleFollowUser}
+          className="
+            flex w-[95%] items-center justify-center gap-2
+            rounded-md py-2
+            bg-[#0A0A0A] dark:bg-white
+            hover:bg-[#262626] dark:hover:bg-gray-200
+            transition-all duration-200
+            " 
         >
-          <UserPlus className="h-4 w-4 shrink-0 text-white dark:text-black" />
-          <span className="text-white text-[14px] dark:text-black">Follow</span>
+          {isToggleFollowUser ? (
+            <LoaderCircle className="h-4 w-4 animate-spin text-white dark:text-black" />
+          ) : (
+            <>
+              <UserPlus className="h-4 w-4 shrink-0 text-white dark:text-black" />
+              <span className="text-white dark:text-black text-[14px] font-medium">
+                Follow
+              </span>
+            </>
+          )}
         </Button>
       )}
 
