@@ -3,6 +3,7 @@ import Avatar from "./Ui/Avatar";
 import { useAuthStore } from "../store/authStore";
 import { useGetUserByUserName } from "../hooks/useGetUserByUserName";
 import { splitUsername } from "../utils/splitUsername";
+import { Link } from "react-router";
 
 export const SideProfile: React.FC = () => {
   const { user } = useAuthStore();
@@ -25,17 +26,17 @@ export const SideProfile: React.FC = () => {
   }
 
   return (
-    <div className="bg-white dark:bg-[#0A0A0A] border border-zinc-200 dark:border-zinc-800 rounded-2xl p-6 shadow-sm flex flex-col items-center text-center w-full max-w-84">
+    <div className="bg-white dark:bg-[#0A0A0A] border border-zinc-200 sticky top-40 dark:border-zinc-800 rounded-2xl p-6 shadow-sm flex flex-col items-center text-center w-full max-w-84">
       <div className="mb-4 ">
-        <Avatar src={profile.image} height={60} width={60} />
+        <Avatar src={profile.image} height={80} width={80} />
       </div>
 
       <h3 className="text-base font-bold text-zinc-900 dark:text-white mb-0.5">
         {profile.name}
       </h3>
-      <span className="text-xs text-zinc-500 dark:text-zinc-400 mb-6">
+      <Link to={`/profile/${splitUsername(profile.email ?? "")}`} className="text-xs text-zinc-500 dark:text-zinc-400 mb-6">
         {splitUsername(profile.email ?? "")}
-      </span>
+      </Link>
 
       <div className="w-full flex justify-between items-center  gap-2 mb-6 text-center border-t border-zinc-100 dark:border-zinc-900 pt-4">
         <div className="flex cursor-pointer flex-col">
