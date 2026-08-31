@@ -15,7 +15,7 @@ export default function AllPosts() {
     <div className="">
       <SendPost />
 
-      {data.data?.map((post: PostType) => (
+      {data?.data?.map((post: PostType) => (
         <Post key={post.id} post={post} />
       ))}
     </div>
