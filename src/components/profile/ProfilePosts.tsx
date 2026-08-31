@@ -1,7 +1,16 @@
 import Avatar from "../Ui/Avatar";
 import Button from "../Ui/Button";
-import { Heart, LoaderCircle, MessageCircle, Send, Trash2 } from "lucide-react";
+import {
+  Edit,
+  Heart,
+  LoaderCircle,
+  MessageCircle,
+  Pencil,
+  Send,
+  Trash2,
+} from "lucide-react";
 import { useState } from "react";
+import toast from "react-hot-toast";
 import { useGetUsersPosts } from "../../hooks/useGetUsersPosts";
 import { splitUsername } from "../../utils/splitUsername";
 import { getTimeAgo } from "../../utils/getTimeAgo";
@@ -11,26 +20,60 @@ import type { Post } from "../../types/ProfileTypes";
 import { useToggleLikedPostsMutation } from "../../hooks/useToggleLikedPostsMutation";
 import { useAuthStore } from "../../store/authStore";
 import { useAddNewCommentMutation } from "../../hooks/useCreateNewCommentMutation";
+import EditPostModal from "./EditPostModal";
+import { useEditPost } from "../../hooks/useEditPostMutation";
+import UpdateCommentModal from "../profile/UpdateCommentModal";
+import DeleteCommentModal from "../profile/DeleteCommentModal";
 
 type ProfilePostsProps = {
   profileId: string;
 };
 
 export default function ProfilePosts({ profileId }: ProfilePostsProps) {
+  const [isShowEditCommentModal, setIsShowEditCommentModal] = useState(false);
+  const [selectedEditCommentId, setSelectedEditCommentId] = useState<
+    string | null
+  >(null);
+
+  const [selectedEditCommentContent, setSelectedEditCommentContent] =
+    useState<string>("");
+
+  const [isOpenDeleteCommentModal, setIsOpenDeleteCommentModal] =
+    useState(false);
+
+  const [selectedCommentId, setSelectedCommentId] = useState<string | null>(
+    null,
+  );
+
+  const [selectedCommentPostId, setSelectedCommentPostId] = useState<
+    string | null
+  >(null);
+
   const [likingPostId, setLikingPostId] = useState<string | null>(null);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [selectedPostId, setSelectedPostId] = useState<string | null>(null);
+
   const [openCommentPostId, setOpenCommentPostId] = useState<string | null>(
     null,
   );
+
   const [commentText, setCommentText] = useState("");
 
+  const editPostMutation = useEditPost();
+
   const { mutate: deletePost, isPending: isDeleting } = useDeletePost();
+
   const { mutate: LikedPosts, isPending: isLikeingPosts } =
     useToggleLikedPostsMutation();
+
   const { mutate: addComment, isPending: isCommenting } =
     useAddNewCommentMutation();
-  const { data, isLoading, isError } = useGetUsersPosts({ id: profileId });
+
+  const { data, isLoading, isError, refetch } = useGetUsersPosts({
+    id: profileId,
+  });
+
   const { user } = useAuthStore();
 
   const posts = data?.data ?? [];
@@ -52,8 +95,12 @@ export default function ProfilePosts({ profileId }: ProfilePostsProps) {
         content: text,
       },
       {
-        onSuccess: () => {
+        onSuccess: async () => {
           setCommentText("");
+          await refetch();
+        },
+        onError: () => {
+          toast.error("Failed to add comment");
         },
       },
     );
@@ -64,13 +111,27 @@ export default function ProfilePosts({ profileId }: ProfilePostsProps) {
     setIsDeleteModalOpen(true);
   }
 
+  function handleEditPost(postId: string) {
+    setSelectedPostId(postId);
+    setIsEditModalOpen(true);
+  }
+
+  const selectedPost = posts.find((post: Post) => post.id === selectedPostId);
+
   function handleConfirmDelete() {
     if (!selectedPostId) return;
 
     deletePost(selectedPostId, {
-      onSuccess: () => {
+      onSuccess: async () => {
+        toast.success("Post deleted successfully");
+
         setIsDeleteModalOpen(false);
         setSelectedPostId(null);
+
+        await refetch();
+      },
+      onError: () => {
+        toast.error("Failed to delete post");
       },
     });
   }
@@ -86,8 +147,9 @@ export default function ProfilePosts({ profileId }: ProfilePostsProps) {
     LikedPosts(
       { id },
       {
-        onSettled: () => {
+        onSettled: async () => {
           setLikingPostId(null);
+          await refetch();
         },
       },
     );
@@ -116,6 +178,7 @@ export default function ProfilePosts({ profileId }: ProfilePostsProps) {
       ) : (
         posts.map((post: Post) => {
           const isLiked = post.likes.some((like) => like.userId === user?.id);
+
           const isCommented = post.id === openCommentPostId;
 
           return (
@@ -138,14 +201,23 @@ export default function ProfilePosts({ profileId }: ProfilePostsProps) {
                   </p>
                 </div>
 
-                <div>
+                <div className="flex gap-5">
                   {user?.id === post.authorId && (
-                    <Trash2
-                      onClick={() => handleDeletePost(post.id)}
-                      width={17}
-                      height={17}
-                      className="ml-auto cursor-pointer text-[#737373] transition-colors hover:text-red-600"
-                    />
+                    <>
+                      <Edit
+                        onClick={() => handleEditPost(post.id)}
+                        width={17}
+                        height={17}
+                        className="ml-auto cursor-pointer text-[#737373] transition-colors hover:text-green-600"
+                      />
+
+                      <Trash2
+                        onClick={() => handleDeletePost(post.id)}
+                        width={17}
+                        height={17}
+                        className="ml-auto cursor-pointer text-[#737373] transition-colors hover:text-red-600"
+                      />
+                    </>
                   )}
                 </div>
               </div>
@@ -160,7 +232,8 @@ export default function ProfilePosts({ profileId }: ProfilePostsProps) {
                     />
                   )}
                 </div>
-                <p className="text-sm dark:text-white mt-6">{post.content}</p>
+
+                <p className="mt-6 text-sm dark:text-white">{post.content}</p>
               </div>
 
               <div className="mt-3 flex gap-11">
@@ -243,9 +316,49 @@ export default function ProfilePosts({ profileId }: ProfilePostsProps) {
                                 <p className="break-all text-xs text-[#737373]">
                                   @{splitUsername(comment.author.email)}
                                 </p>
+
                                 <p className="text-xs text-[#737373]">
                                   {getTimeAgo(comment.createdAt)}
                                 </p>
+
+                                {user?.email === comment.author.email && (
+                                  <div className="ml-auto flex items-center gap-3">
+                                    <button
+                                      type="button"
+                                      onClick={() => {
+                                        setSelectedEditCommentId(comment.id);
+                                        setSelectedEditCommentContent(
+                                          comment.content,
+                                        );
+                                        setSelectedCommentPostId(post.id);
+                                        setIsShowEditCommentModal(true);
+                                      }}
+                                      className="text-[#737373] transition-colors hover:text-[#3B82F6]"
+                                    >
+                                      <Pencil
+                                        size={18}
+                                        strokeWidth={1.8}
+                                        className="text-[#737373] transition-colors hover:text-[#3B82F6] dark:text-[#A3A3A3] dark:hover:text-[#3B82F6]"
+                                      />
+                                    </button>
+
+                                    <button
+                                      type="button"
+                                      onClick={() => {
+                                        setSelectedCommentId(comment.id);
+                                        setSelectedCommentPostId(post.id);
+                                        setIsOpenDeleteCommentModal(true);
+                                      }}
+                                      className="text-[#737373] transition-colors hover:text-red-500"
+                                    >
+                                      <Trash2
+                                        size={18}
+                                        strokeWidth={1.8}
+                                        className="text-[#737373] transition-colors hover:text-red-500 dark:text-[#A3A3A3] dark:hover:text-red-400"
+                                      />
+                                    </button>
+                                  </div>
+                                )}
                               </div>
 
                               <p className="mt-1 text-sm leading-6 text-neutral-700 dark:text-neutral-300">
@@ -312,12 +425,84 @@ export default function ProfilePosts({ profileId }: ProfilePostsProps) {
           );
         })
       )}
+
       <DeleteModal
         isOpen={isDeleteModalOpen}
         onClose={handleCloseDeleteModal}
         onConfirm={handleConfirmDelete}
         isDeleting={isDeleting}
       />
+
+      {isEditModalOpen && selectedPost && (
+        <EditPostModal
+          text={selectedPost.content}
+          image={selectedPost.image}
+          onClose={() => {
+            setIsEditModalOpen(false);
+            setSelectedPostId(null);
+          }}
+          onSave={(data) => {
+            editPostMutation.mutate(
+              {
+                postId: selectedPost.id,
+                payload: {
+                  image: data.imageId,
+                  content: data.text,
+                },
+              },
+              {
+                onSuccess: async () => {
+                  toast.success("Post updated successfully");
+
+                  setIsEditModalOpen(false);
+                  setSelectedPostId(null);
+
+                  await refetch();
+                },
+
+                onError: () => {
+                  toast.error("Failed to update post");
+                },
+              },
+            );
+          }}
+        />
+      )}
+
+      {selectedEditCommentId && selectedCommentPostId && (
+        <UpdateCommentModal
+          isOpen={isShowEditCommentModal}
+          onClose={() => {
+            setIsShowEditCommentModal(false);
+            setSelectedEditCommentId(null);
+            setSelectedEditCommentContent("");
+            setSelectedCommentPostId(null);
+          }}
+          postId={selectedCommentPostId}
+          commentId={selectedEditCommentId}
+          initialContent={selectedEditCommentContent}
+          onSuccess={async () => {
+            await refetch();
+          }}
+        />
+      )}
+
+      {selectedCommentId && selectedCommentPostId && (
+        <DeleteCommentModal
+          isOpen={isOpenDeleteCommentModal}
+          onClose={() => {
+            setIsOpenDeleteCommentModal(false);
+            setSelectedCommentId(null);
+            setSelectedCommentPostId(null);
+          }}
+          postId={selectedCommentPostId}
+          commentId={selectedCommentId}
+          onSuccess={async () => {
+            toast.success("Comment deleted successfully");
+            await refetch();
+          }}
+        />
+      )}
     </div>
   );
 }

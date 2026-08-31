@@ -74,7 +74,7 @@ export default function FollowModal({
                 </p>
               </div>
             ) : (
-              <div className="flex flex-col">
+              <div className="flex flex-col p-3 gap-2">
                 {followType === "followers"
                   ? followList.data.data.map((item: FollowerType) => (
                       <FollowItem key={item.follower.id} item={item.follower} />

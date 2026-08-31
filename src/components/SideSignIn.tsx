@@ -3,7 +3,7 @@ import { NavLink } from 'react-router';
 
 export const SideSignIn: React.FC = () => {
   return (
-    <div className="bg-white dark:bg-[#0A0A0A] border border-zinc-200 dark:border-zinc-800 rounded-2xl p-6 shadow-sm flex flex-col items-center text-center transition-colors duration-300 w-full">
+    <div className="bg-white dark:bg-[#0A0A0A] border border-zinc-200 dark:border-zinc-800 rounded-2xl p-6 shadow-sm flex flex-col items-center sticky top-40 text-center transition-colors duration-300 w-full">
       <h3 className="text-xl font-bold text-zinc-900 dark:text-white mb-3">
         Welcome Back!
       </h3>
