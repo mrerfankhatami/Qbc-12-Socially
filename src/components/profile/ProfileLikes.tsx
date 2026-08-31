@@ -80,12 +80,12 @@ export default function ProfileLikes({ profileId }: ProfileLikesProps) {
   return (
     <div className="flex flex-col">
       {likes.length === 0 ? (
-        <div className="mt-4 w-[calc(100%-2rem)] max-w-250 rounded-lg p-3 dark:border-[#262626] dark:bg-[#FAFAFA]">
-          <h2 className="text-lg text-white dark:text-black">
+        <div className="mt-4 w-[calc(100%-2rem)] max-w-250 rounded-lg p-3 dark:border-[#262626] bg-gray-300 dark:bg-gray-900  text-black dark:text-white">
+          <h2 className="text-lg ">
             There is no like
           </h2>
 
-          <p className="text-[14px] text-white dark:text-black">
+          <p className="text-[14px]  text-black dark:text-white" >
             This user hasn't liked anything
           </p>
         </div>
