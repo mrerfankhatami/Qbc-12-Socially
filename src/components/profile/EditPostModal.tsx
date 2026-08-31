@@ -23,7 +23,7 @@ export default function EditPostModal({
   const [postText, setPostText] = useState(text);
   const [imageFile, setImageFile] = useState<File | null>(null);
   const [imagePreview, setImagePreview] = useState<string | null>(
-    image ? `https://79gcelddzk.ucarecd.net/${image}/` : null,
+    image ? `https://1p5nep1spk.ucarecd.net/${image}/` : null,
   );
   const [removeImage, setRemoveImage] = useState(false);
 

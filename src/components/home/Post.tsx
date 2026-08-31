@@ -112,7 +112,7 @@ export default function Post({ post }: PostProps) {
 
       {/* post img */}
       <div className="mt-5 whitespace-pre-line md:w-4/5 mx-auto ">
-        { post.image && <img src={`https://79gcelddzk.ucarecd.net/${post.image}/`} className="rounded-xl" alt="post-img" /> }
+        { post.image && <img src={`https://1p5nep1spk.ucarecd.net/${post.image}/`} className="rounded-xl" alt="post-img" /> }
       </div>
 
       {/* Content */}

@@ -115,12 +115,12 @@ export default function ProfileLikes({ profileId }: ProfileLikesProps) {
               </div>
 
               <div className="mt-3 p-1">
-                <div className="mt-5 overflow-hidden rounded-2xl">
+                <div className="mt-5 whitespace-pre-line md:w-4/5 mx-auto">
                   {post.image && (
                     <img
-                      src={`https://79gcelddzk.ucarecd.net/${post.image}/`}
-                      alt="Post image"
-                      className="max-h-96 w-full object-contain"
+                      src={`https://1p5nep1spk.ucarecd.net/${post.image}/`}
+                      className="w-[60%] mx-auto rounded-xl"
+                      alt="post-img"
                     />
                   )}
                 </div>
