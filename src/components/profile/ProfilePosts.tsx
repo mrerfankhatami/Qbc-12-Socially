@@ -60,7 +60,7 @@ export default function ProfilePosts({ profileId }: ProfilePostsProps) {
 
   const [commentText, setCommentText] = useState("");
 
-  const editPostMutation = useEditPost();
+  const { mutate : editPostMutation, isPending: isEditingPost } = useEditPost();
 
   const { mutate: deletePost, isPending: isDeleting } = useDeletePost();
 
@@ -167,9 +167,7 @@ export default function ProfilePosts({ profileId }: ProfilePostsProps) {
     <div className="flex flex-col">
       {posts.length === 0 ? (
         <div className="mt-4 w-[calc(100%-2rem)] max-w-250 rounded-lg p-3 dark:border-[#262626] bg-gray-300 dark:bg-gray-900 text-black dark:text-white">
-          <h2 className="text-lg ">
-            There is no post
-          </h2>
+          <h2 className="text-lg ">There is no post</h2>
 
           <p className="text-[14px]  text-black dark:text-white">
             This user hasn't posted anything
@@ -223,16 +221,15 @@ export default function ProfilePosts({ profileId }: ProfilePostsProps) {
               </div>
 
               <div className="mt-3 p-1">
-                <div className="mt-5 overflow-hidden rounded-xl">
+                <div className="mt-5 whitespace-pre-line md:w-full mx-auto">
                   {post.image && (
                     <img
-                      src={`https://79gcelddzk.ucarecd.net/${post.image}/`}
-                      alt="Post image"
-                      className="max-h-96 w-full object-contain"
+                      src={`https://1p5nep1spk.ucarecd.net/${post.image}/`}
+                      className="w-full md:w-4/5 mx-auto rounded-xl"
+                      alt="post-img"
                     />
                   )}
                 </div>
-
                 <p className="mt-6 text-sm dark:text-white">{post.content}</p>
               </div>
 
@@ -441,8 +438,9 @@ export default function ProfilePosts({ profileId }: ProfilePostsProps) {
             setIsEditModalOpen(false);
             setSelectedPostId(null);
           }}
+          isSaving={isEditingPost}
           onSave={(data) => {
-            editPostMutation.mutate(
+            editPostMutation(
               {
                 postId: selectedPost.id,
                 payload: {

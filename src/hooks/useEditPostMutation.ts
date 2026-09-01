@@ -1,4 +1,4 @@
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import {
   editPostRequest,
   type EditPostPayloadType,
@@ -10,6 +10,9 @@ type EditPostMutationData = {
 };
 
 export const useEditPost = () => {
+
+  const queryClient = useQueryClient();
+
   return useMutation({
     mutationFn: ({ postId, payload }: EditPostMutationData) =>
       editPostRequest({
@@ -19,5 +22,10 @@ export const useEditPost = () => {
           content: payload.content,
         },
       }),
+       onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ["allPosts"],
+      });
+    },
   });
 };

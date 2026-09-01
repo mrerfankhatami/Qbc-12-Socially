@@ -1,4 +1,4 @@
-import { Bell, House, LogOut, Menu, Moon, Sun, UsersRound } from "lucide-react";
+import {Bell,House,LoaderCircle,LogOut,Menu,Moon,Sun,UsersRound} from "lucide-react";
 import { useState } from "react";
 import MobileSidebar from "./MobileSidebar";
 import { NavLink, useNavigate } from "react-router";
@@ -13,29 +13,32 @@ import UserSearch from "./Ui/UserSearch";
 export default function Header() {
   const { toggleTheme } = useTheme();
 
-
-  const { logout: logoutStore , isAuthenticated , user } = useAuthStore();
+  const { logout: logoutStore, isAuthenticated, user } = useAuthStore();
+  const [isLoggingOut, setIsLoggingOut] = useState(false);
 
   const navigate = useNavigate();
   const queryClient = useQueryClient();
 
   const [isOpen, setIsOpen] = useState(false);
 
-
   const handleToggleSidebar = () => {
     setIsOpen(!isOpen);
   };
 
   const handleLogout = async () => {
+    if (isLoggingOut) return;
+
     try {
+      setIsLoggingOut(true);
       await logoutRequest();
       logoutStore();
       queryClient.removeQueries({ queryKey: ["session"] });
-      navigate("login");
       toast.success("Logout successfully");
+      navigate("login");
     } catch (err) {
       toast.error("logout failed...");
       console.log(err);
+      setIsLoggingOut(false);
     }
   };
 
@@ -49,7 +52,7 @@ export default function Header() {
             Socially
           </p>
 
-          { isAuthenticated &&  <UserSearch />}
+          {isAuthenticated && <UserSearch />}
 
           <nav className="mib-w-150 flex items-center gap-2 md:gap-10">
             <div
@@ -100,7 +103,14 @@ export default function Header() {
                   onClick={handleLogout}
                   className="w-9 h-9 items-center justify-center cursor-pointer hover:bg-[#eeeeee] rounded-md dark:hover:bg-[#262626] hidden md:flex"
                 >
-                  <LogOut size={16} className="dark:text-[#FAFAFA]" />
+                  {isLoggingOut ? (
+                    <LoaderCircle
+                      size={16}
+                      className="animate-spin dark:text-[#FAFAFA]"
+                    />
+                  ) : (
+                    <LogOut size={16} className="dark:text-[#FAFAFA]" />
+                  )}
                 </div>
               </div>
             ) : (

@@ -1,7 +1,7 @@
 import api from "./axiosConfig";
 
 export type EditPostPayloadType = {
-  image?: string;
+  image?: string | null;
   content?: string;
 };
 

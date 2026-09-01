@@ -39,7 +39,7 @@ export const SideProfile: React.FC = () => {
       </Link>
 
       <div className="w-full flex justify-between items-center  gap-2 mb-6 text-center border-t border-zinc-100 dark:border-zinc-900 pt-4">
-        <div className="flex cursor-pointer flex-col">
+        <div className="flex flex-col">
           <span className="text-sm font-bold text-zinc-900 dark:text-white">
             {profile._count?.followings ?? 0}
           </span>
@@ -47,7 +47,7 @@ export const SideProfile: React.FC = () => {
             Followings
           </span>
         </div>
-        <div className="flex cursor-pointer flex-col">
+        <div className="flex flex-col">
           <span className="text-sm font-bold text-zinc-900 dark:text-white">
             {profile._count?.followers ?? 0}
           </span>
