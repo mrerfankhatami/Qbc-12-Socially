@@ -221,11 +221,11 @@ export default function ProfilePosts({ profileId }: ProfilePostsProps) {
               </div>
 
               <div className="mt-3 p-1">
-                <div className="mt-5 whitespace-pre-line md:w-4/5 mx-auto">
+                <div className="mt-5 whitespace-pre-line md:w-full mx-auto">
                   {post.image && (
                     <img
                       src={`https://1p5nep1spk.ucarecd.net/${post.image}/`}
-                      className="w-[60%] mx-auto rounded-xl"
+                      className="w-full md:w-4/5 mx-auto rounded-xl"
                       alt="post-img"
                     />
                   )}
