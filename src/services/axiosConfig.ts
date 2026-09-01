@@ -1,0 +1,37 @@
+import axios from "axios";
+import type {
+  AxiosInstance,
+  InternalAxiosRequestConfig,
+  AxiosResponse,
+} from "axios";
+
+export interface ApiRequestConfig extends InternalAxiosRequestConfig {
+  requiresAuth?: boolean;
+}
+
+const api: AxiosInstance = axios.create({
+  // baseURL: "https://socially-nextjs-six.vercel.app/api",
+  baseURL: "http://localhost:3000/api",
+  withCredentials: true,
+  headers: {
+    "Content-Type": "application/json",
+  },
+});
+
+api.interceptors.request.use(
+  (config: ApiRequestConfig) => config,
+  (error) => Promise.reject(error)
+);
+
+api.interceptors.response.use(
+  (response: AxiosResponse) => response,
+  (error) => {
+    if (error.response?.status === 401) {
+      console.warn("⚠️ Unauthorized request (Guest user or expired session)");
+    }
+    
+    return Promise.reject(error);
+  }
+);
+
+export default api;
