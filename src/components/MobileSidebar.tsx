@@ -1,4 +1,4 @@
-import { Bell, House, LogOut, UsersRound, X } from "lucide-react";
+import { Bell, BookPlus, House, LogIn, LogOut, UsersRound, X } from "lucide-react";
 import { logoutRequest } from "../services/authServices";
 import { NavLink, useNavigate } from "react-router";
 import { useQueryClient } from "@tanstack/react-query";
@@ -12,6 +12,8 @@ interface sidebarProps {
 
 export default function MobileSidebar(props: sidebarProps) {
   const { isOpen, setIsOpen } = props;
+
+  const { isAuthenticated } = useAuthStore();
 
   const handleToggleSidebar = () => {
     setIsOpen(!isOpen);
@@ -51,51 +53,88 @@ export default function MobileSidebar(props: sidebarProps) {
         </div>
 
         <div className=" w-full flex flex-col items-center justify-center bg-white dark:bg-transparent">
-          <div className=" w-full flex flex-col items-center justify-around gap-10 h-9 bg-transparent dark:bg-transparent">
-            <NavLink
-              to={"/"}
-              className="w-3/4 h-9 flex items-center justify-center gap-2 cursor-pointer hover:bg-[#eeeeee] rounded-md px-3 py-2  dark:bg-[#3f3f3f] dark:hover:bg-[#262626]"
-            >
-              <p className="text-[14px] text-[#171717] dark:text-[#FAFAFA]">
-                Home
-              </p>
-              <House size={16} className="dark:text-[#FAFAFA]" />
-            </NavLink>
+          {isAuthenticated ? (
+            <div className=" w-full flex flex-col items-center justify-around gap-10 h-9 bg-transparent dark:bg-transparent">
+              <NavLink
+                to={"/"}
+                className="w-3/4 h-9 flex items-center justify-center gap-2 cursor-pointer hover:bg-[#eeeeee] rounded-md px-3 py-2  dark:bg-[#3f3f3f] dark:hover:bg-[#262626]"
+              >
+                <p className="text-[14px] text-[#171717] dark:text-[#FAFAFA]">
+                  Home
+                </p>
+                <House size={16} className="dark:text-[#FAFAFA]" />
+              </NavLink>
 
-            <NavLink
-              to={"/notifications"}
-              className="w-3/4 h-9 flex items-center justify-center gap-2 cursor-pointer hover:bg-[#eeeeee] rounded-md px-3 py-2  dark:bg-[#3f3f3f] dark:hover:bg-[#262626]"
-            >
-              <p className="text-[14px] text-[#171717] dark:text-[#FAFAFA]">
-                Notification
-              </p>
-              <Bell size={16} className="dark:text-[#FAFAFA]" />
-            </NavLink>
+              <NavLink
+                to={"/notifications"}
+                className="w-3/4 h-9 flex items-center justify-center gap-2 cursor-pointer hover:bg-[#eeeeee] rounded-md px-3 py-2  dark:bg-[#3f3f3f] dark:hover:bg-[#262626]"
+              >
+                <p className="text-[14px] text-[#171717] dark:text-[#FAFAFA]">
+                  Notification
+                </p>
+                <Bell size={16} className="dark:text-[#FAFAFA]" />
+              </NavLink>
 
-            <NavLink
-              to={"/profile/1"}
-              className="w-3/4 h-9 flex items-center justify-center gap-2 cursor-pointer hover:bg-[#eeeeee] rounded-md px-3 py-2 dark:bg-[#3f3f3f] dark:hover:bg-[#262626]"
-            >
-              <p className="text-[14px] text-[#171717] dark:text-[#FAFAFA]">
-                Profile
-              </p>
-              <UsersRound
-                size={16}
-                strokeWidth={1.75}
-                className="dark:text-[#FAFAFA]"
-              />
-            </NavLink>
+              <NavLink
+                to={"/profile/1"}
+                className="w-3/4 h-9 flex items-center justify-center gap-2 cursor-pointer hover:bg-[#eeeeee] rounded-md px-3 py-2 dark:bg-[#3f3f3f] dark:hover:bg-[#262626]"
+              >
+                <p className="text-[14px] text-[#171717] dark:text-[#FAFAFA]">
+                  Profile
+                </p>
+                <UsersRound
+                  size={16}
+                  strokeWidth={1.75}
+                  className="dark:text-[#FAFAFA]"
+                />
+              </NavLink>
 
-            <div
-              onClick={handleLogout}
-              className="w-full h-9 items-center justify-center gap-2 cursor-pointer hover:bg-[#eeeeee] rounded-md py-2  dark:hover:bg-[#262626] flex"
-            >
-              <p className="text-[14px] text-[#171717] dark:text-[#FAFAFA]">
-                Logout
-              </p>
-              <LogOut size={16} className="dark:text-[#FAFAFA]" />
+              <div
+                onClick={handleLogout}
+                className="w-full h-9 items-center justify-center gap-2 cursor-pointer hover:bg-[#eeeeee] rounded-md py-2  dark:hover:bg-[#262626] flex"
+              >
+                <p className="text-[14px] text-[#171717] dark:text-[#FAFAFA]">
+                  Logout
+                </p>
+                <LogOut size={16} className="dark:text-[#FAFAFA]" />
+              </div>
             </div>
-          </div>
+          ) : (
+            <div className=" w-full flex flex-col items-center justify-around gap-5 pt-3 h-9 bg-transparent dark:bg-transparent">
+              <NavLink
+                to={"/"}
+                className="w-3/4 h-9 flex items-center justify-center gap-2 cursor-pointer hover:bg-[#eeeeee] rounded-md px-3 py-2  dark:bg-[#3f3f3f] dark:hover:bg-[#262626]"
+              >
+                <p className="text-[14px] text-[#171717] dark:text-[#FAFAFA]">
+                  Home
+                </p>
+                <House size={16} className="dark:text-[#FAFAFA]" />
+              </NavLink>
+
+              <NavLink
+                to={"/login"}
+                className="w-3/4 h-9 flex items-center justify-center gap-2 cursor-pointer hover:bg-[#eeeeee] rounded-md px-3 py-2  dark:bg-[#3f3f3f] dark:hover:bg-[#262626]"
+              >
+                <p className="text-[14px] text-[#171717] dark:text-[#FAFAFA]">
+                  Sign In
+                </p>
+                <LogIn size={16} className="dark:text-[#FAFAFA]" />
+              </NavLink>
+
+              <NavLink
+                to={"/register"}
+                className="w-3/4 h-9 flex items-center justify-center gap-2 cursor-pointer hover:bg-[#eeeeee] rounded-md px-3 py-2  dark:bg-[#3f3f3f] dark:hover:bg-[#262626]"
+              >
+                <p className="text-[14px] text-[#171717] dark:text-[#FAFAFA]">
+                  Sign Up
+                </p>
+                <BookPlus size={16} className="dark:text-[#FAFAFA]" />
+              </NavLink>
+
+
+
+            </div>
+          )}
         </div>
       </div>
     </>

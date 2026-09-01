@@ -9,7 +9,7 @@ import toast from "react-hot-toast";
 
 export default function SendPost() {
   const [text, setText] = useState("");
-  const { user } = useAuthStore();
+  const { user , isAuthenticated } = useAuthStore();
 
   const { mutate: addNewPostMutation, isPending: isAddingPost } =
     useAddNewPostMutation();
@@ -49,6 +49,11 @@ export default function SendPost() {
     e.preventDefault();
 
     if (!text.trim()) return;
+
+    if(!isAuthenticated){
+      toast.error("you must be login to send post")
+      return
+    }
 
     const createPost = (image?: string) => {
       const postData: createPostPayloadType = {
