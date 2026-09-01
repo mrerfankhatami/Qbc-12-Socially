@@ -1,5 +1,5 @@
 import Avatar from "../Ui/Avatar";
-import { Heart, MessageCircle, Trash2 } from "lucide-react";
+import { Edit, Heart, MessageCircle, Trash2 } from "lucide-react";
 import { useState } from "react";
 import Comment from "./Comment";
 import type { PostType } from "../../types/AllPostsTypes";
@@ -9,6 +9,9 @@ import { Link } from "react-router";
 import { splitUsername } from "../../utils/splitUsername";
 import { useDeletePost } from "../../hooks/useDeletePost";
 import DeleteModal from "../profile/DeleteModal";
+import EditPostModal from "../profile/EditPostModal";
+import toast from "react-hot-toast";
+import { useEditPost } from "../../hooks/useEditPostMutation";
 
 type PostProps = {
   post: PostType;
@@ -17,6 +20,7 @@ type PostProps = {
 export default function Post({ post }: PostProps) {
   const [isCommentOpen, setIsCommentOpen] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
 
   const { user } = useAuthStore();
 
@@ -30,6 +34,8 @@ export default function Post({ post }: PostProps) {
     mutate: toggleDeletedPostMutation,
     isPending: isPendingToggleDelete,
   } = useDeletePost();
+
+  const { mutate: editPostMutation, isPending: isEditingPost } = useEditPost();
 
   const toggleComment = () => {
     setIsCommentOpen((prev) => !prev);
@@ -56,6 +62,10 @@ export default function Post({ post }: PostProps) {
       },
     });
   };
+
+  function handleEditPost() {
+    setIsEditModalOpen(true);
+  }
 
   return (
     <div className="my-5 min-h-40 rounded-2xl border border-[#E5E5E5] p-6 shadow-sm dark:border-[#262626] dark:bg-[#0A0A0A]">
@@ -87,11 +97,22 @@ export default function Post({ post }: PostProps) {
           </div>
         </div>
         {canDelete && (
-          <>
+          <div className="ml-auto flex items-center gap-4">
             <button
               type="button"
-              className="ml-auto shrink-0"
+              onClick={() => handleEditPost()}
+              className="shrink-0"
+            >
+              <Edit
+                width={17}
+                height={17}
+                className="cursor-pointer text-[#737373] transition-colors hover:text-green-600 dark:text-[#A3A3A3]"
+              />
+            </button>
+            <button
+              type="button"
               onClick={handleOpenDeleteModal}
+              className="shrink-0"
             >
               <Trash2
                 width={17}
@@ -99,20 +120,19 @@ export default function Post({ post }: PostProps) {
                 className="cursor-pointer text-[#737373] transition-all duration-200 hover:scale-110 hover:text-red-600 dark:text-[#A3A3A3] dark:hover:text-red-400"
               />
             </button>
-
-            <DeleteModal
-              isOpen={isDeleteModalOpen}
-              onClose={handleCloseDeleteModal}
-              onConfirm={handleConfirmDelete}
-              isDeleting={isPendingToggleDelete}
-            />
-          </>
+          </div>
         )}
       </div>
 
       {/* post img */}
       <div className="mt-5 whitespace-pre-line md:w-4/5 mx-auto ">
-        { post.image && <img src={`https://1p5nep1spk.ucarecd.net/${post.image}/`} className="rounded-xl" alt="post-img" /> }
+        {post.image && (
+          <img
+            src={`https://1p5nep1spk.ucarecd.net/${post.image}/`}
+            className="rounded-xl"
+            alt="post-img"
+          />
+        )}
       </div>
 
       {/* Content */}
@@ -186,6 +206,44 @@ export default function Post({ post }: PostProps) {
 
       {/* Comments */}
       {isCommentOpen && <Comment post={post} />}
+
+      {isEditModalOpen && (
+        <EditPostModal
+          text={post.content}
+          image={post.image}
+          isSaving={isEditingPost}
+          onClose={() => {
+            setIsEditModalOpen(false);
+          }}
+          onSave={(data) => {
+            editPostMutation(
+              {
+                postId: post.id,
+                payload: {
+                  image: data.imageId,
+                  content: data.text,
+                },
+              },
+              {
+                onSuccess: async () => {
+                  toast.success("Post updated successfully");
+                  setIsEditModalOpen(false);
+                },
+
+                onError: () => {
+                  toast.error("Failed to update post");
+                },
+              },
+            );
+          }}
+        />
+      )}
+      <DeleteModal
+        isOpen={isDeleteModalOpen}
+        onClose={handleCloseDeleteModal}
+        onConfirm={handleConfirmDelete}
+        isDeleting={isPendingToggleDelete}
+      />
     </div>
   );
 }

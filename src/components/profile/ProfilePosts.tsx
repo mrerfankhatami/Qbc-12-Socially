@@ -60,7 +60,7 @@ export default function ProfilePosts({ profileId }: ProfilePostsProps) {
 
   const [commentText, setCommentText] = useState("");
 
-  const editPostMutation = useEditPost();
+  const { mutate : editPostMutation, isPending: isEditingPost } = useEditPost();
 
   const { mutate: deletePost, isPending: isDeleting } = useDeletePost();
 
@@ -438,8 +438,9 @@ export default function ProfilePosts({ profileId }: ProfilePostsProps) {
             setIsEditModalOpen(false);
             setSelectedPostId(null);
           }}
+          isSaving={isEditingPost}
           onSave={(data) => {
-            editPostMutation.mutate(
+            editPostMutation(
               {
                 postId: selectedPost.id,
                 payload: {
