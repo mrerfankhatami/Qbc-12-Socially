@@ -12,6 +12,7 @@ import DeleteModal from "../profile/DeleteModal";
 import EditPostModal from "../profile/EditPostModal";
 import toast from "react-hot-toast";
 import { useEditPost } from "../../hooks/useEditPostMutation";
+import { getTimeAgo } from "../../utils/getTimeAgo";
 
 type PostProps = {
   post: PostType;
@@ -92,7 +93,7 @@ export default function Post({ post }: PostProps) {
             </p>
 
             <p className="hidden text-[14px] font-light text-[#737373] dark:text-[#A3A3A3] md:block">
-              . {new Date(post.createdAt).toLocaleDateString()}
+              . {getTimeAgo(post.createdAt)}
             </p>
           </div>
         </div>
